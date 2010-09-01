@@ -1,4 +1,5 @@
 package com.depp.work;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,8 +21,22 @@ import com.lowagie.text.pdf.PdfWriter;
 public class TelNumDemo {
 	public static void main(String[] args) throws Exception {
 
+		String str = null;
+		//输入路径不能为中文 
+		InputStreamReader stdin = new InputStreamReader(System.in);//键盘输入  
+		BufferedReader bufin = new BufferedReader(stdin);
+		try {
+			System.out.print("请输入字符：   ");
+			str = bufin.readLine();
+		} catch (IOException E) {
+			System.out.println("发生I/O错误!!!");
+		}
 		long long1 = System.currentTimeMillis();
-		final String path = "g:/My Documents/Tencent Files/65286983/FileRecv/手机报-数据报告/";
+		String path = str.replace("\\", "/");
+		System.out.println(path);
+		if (path == null || path.length() == 0) {
+			throw new Exception("path is null");
+		}
 		final String pathNew = path + "newFile/";
 		if (new File(pathNew).mkdir()) {
 			new File(pathNew).mkdir();
@@ -30,7 +45,7 @@ public class TelNumDemo {
 		for (File file : listFiles) {
 			final String name = file.getName();
 			if (name.endsWith(".log")) {
-				pringFileToPdf(file, pathNew);
+				printFileToPdf(file, pathNew);
 			}
 		}
 		long long2 = System.currentTimeMillis();
@@ -39,7 +54,16 @@ public class TelNumDemo {
 		System.out.println(long2 - long1);
 	}
 
-	public static void pringFileToPdf(File file, String pathNew) throws UnsupportedEncodingException,
+	/**
+	 * 读取文本文件,输出pdf
+	 * @param file
+	 * @param pathNew
+	 * @throws UnsupportedEncodingException
+	 * @throws FileNotFoundException
+	 * @throws IOException
+	 * @throws DocumentException
+	 */
+	public static void printFileToPdf(File file, String pathNew) throws UnsupportedEncodingException,
 			FileNotFoundException, IOException, DocumentException {
 
 		Document doc = getDocument(pathNew + file.getName() + ".pdf");
