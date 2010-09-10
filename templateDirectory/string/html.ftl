@@ -1,0 +1,1 @@
+<input type=text name=user value="${"<td><img src=\"http://file.ibic"?html}"> 
