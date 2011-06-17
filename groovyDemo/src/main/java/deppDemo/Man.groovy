@@ -13,4 +13,8 @@ public class Man {
     {
         return "I'm $name"
     }
+
+    public static void main(String[] args) {
+        print"123"
+    }
 }

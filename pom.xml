@@ -5,7 +5,10 @@
   <groupId>deppDemo</groupId>
   <artifactId>deppDemo</artifactId>
   <version>1.0</version>
-  <packaging>jar</packaging>
+    <modules>
+        <module>groovyDemo</module>
+    </modules>
+    <packaging>pom</packaging>
 
   <name>deppDemo</name>
   <url>http://maven.apache.org</url>
