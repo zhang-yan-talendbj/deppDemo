@@ -4,10 +4,12 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import java.io.ObjectStreamException;
+
 /**
  * Unit test for simple App.
  */
-public class AppTest 
+public abstract class AppTest
     extends TestCase
 {
     /**
@@ -19,6 +21,7 @@ public class AppTest
     {
         super( testName );
     }
+               public abstract void metod();
 
     /**
      * @return the suite of tests being tested

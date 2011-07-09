@@ -7,6 +7,8 @@
   <version>1.0</version>
     <modules>
         <module>groovyDemo</module>
+        <module>algorithm</module>
+        <module>core</module>
     </modules>
     <packaging>pom</packaging>
 
