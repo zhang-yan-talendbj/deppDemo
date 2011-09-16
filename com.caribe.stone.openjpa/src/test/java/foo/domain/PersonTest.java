@@ -35,6 +35,14 @@ public class PersonTest extends TestCase {
 		em.close();
 		factory.close();
 	}
+	public void testNamedQuery() {
+		EntityManagerFactory factory = Persistence
+				.createEntityManagerFactory("h2_jpa");
+		EntityManager em = factory.createEntityManager();
+		System.out.println(em.createNamedQuery("findAll").getResultList());
+		em.close();
+		factory.close();
+	}
 	public void testAddress(){
 		EntityManagerFactory factory = Persistence
 				.createEntityManagerFactory("h2_jpa");

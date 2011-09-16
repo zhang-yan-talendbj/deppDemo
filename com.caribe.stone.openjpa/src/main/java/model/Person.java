@@ -4,15 +4,16 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
+@NamedQuery(name="findAll",
+query="select e from Person e") 
 public class Person extends BaseObject {
 
 	
@@ -24,6 +25,12 @@ public class Person extends BaseObject {
 	
 	@Column(length = 20, nullable = false)
 	private String name;
+
+	@Override
+	public String toString() {
+		return "Person [id=" + id + ", name=" + name + ", birthday=" + birthday
+				+ "]";
+	}
 
 	@Temporal(TemporalType.DATE)
 	@Column(nullable = false)
