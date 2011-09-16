@@ -16,4 +16,5 @@
 **.zip
 *.bak
 .metadata/
+*.class
 
