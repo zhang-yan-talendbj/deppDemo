@@ -6,6 +6,9 @@
 # *~
 #
 /.idea/*
+.klive/
+*.classpath
+*.project
 *.iml
-*/target/*
-/target/*
+**target/
+**.settings/
