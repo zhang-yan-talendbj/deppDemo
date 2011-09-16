@@ -12,3 +12,9 @@
 *.iml
 **target/
 **.settings/
+
+**.zip
+*.bak
+.metadata/
+*.class
+
