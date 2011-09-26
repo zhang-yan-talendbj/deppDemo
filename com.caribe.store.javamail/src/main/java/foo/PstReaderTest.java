@@ -16,5 +16,8 @@ public class PstReaderTest {
 	assertEquals(1, list.size());
 	assertEquals("test1", list.get(0).getSubject());
 	assertEquals(2, list.get(0).getNumberOfAttachments());
+	
+	
+	
 	}
 }
