@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -17,7 +18,9 @@ import org.slf4j.LoggerFactory;
 public class PDFReader {
 	private PDFReader() {
 	}
+
 	private static Logger log = LoggerFactory.getLogger(PDFReader.class);
+
 	public static List<Map<String, String>> readPdfFolder(InputStream input) {
 
 		List<Map<String, String>> emailList = null;
@@ -27,7 +30,7 @@ public class PDFReader {
 			pdfDocument = PDDocument.load(input);
 			String s = ts.getText(pdfDocument);
 
-			emailList=analyPdf(s);
+			emailList = analyPdf(s);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -39,7 +42,7 @@ public class PDFReader {
 					cos.close();
 					pdfDocument.close();
 				} catch (IOException e) {
-					log.warn("IOException",e);
+					log.warn("IOException", e);
 					e.printStackTrace();
 				}
 			}
@@ -51,38 +54,37 @@ public class PDFReader {
 	private static List<Map<String, String>> analyPdf(String s) {
 		List<Map<String, String>> emailList = new ArrayList<Map<String, String>>();
 		String[] split = s.split("\r\n");
-		Map<String, String> map = new HashMap<String, String>();
 		StringBuffer content = new StringBuffer();
+		Map<String, String> map = null;
+		boolean isInfo=false;
 		for (String str : split) {
 			if (str != null) {
 				String trim = str.trim();
 				if (trim.startsWith("ID")) {
-					if (map.containsKey("ID")&&map.containsKey("Rule:")) {
+					isInfo=true;
+					if (map != null && map.containsKey("ID")) {
 						map.put("content", content.toString());
-						emailList.add(map);
 						content.setLength(0);
+						emailList.add(map);
+						map=null;
 					}
+					map=new HashMap<String, String>();
 					map.put("ID", trim.substring(trim.indexOf(":") + 1).trim());
-					content.append(str).append("\r\n");
 				} else if (trim.startsWith("Email address")) {
-					map.put("Email address",
-							trim.substring(trim.indexOf(":") + 1).trim());
-					content.append(str).append("\r\n");
-					//filter Rule:
-				}else if(trim.contains("Rule:")){
-					map.put("Rule:", trim.substring(trim.indexOf(":") + 1).trim());
-					content.append(str).append("\r\n");
-				} else if (!trim.equals("space")) {
+					map.put("Email address", trim.substring(trim.indexOf(":") + 1)
+							.trim());
+				} 
+				if (!trim.equals("space")&&isInfo) {
 					content.append(str).append("\r\n");
 				}
 			}
 		}
 
-		if (map.containsKey("ID")&&map.containsKey("Rule:")) {
+		if (map!=null&&map.containsKey("ID")) {
 			map.put("content", content.toString());
 			emailList.add(map);
+			map=null;
 		}
 		return emailList;
 	}
-
 }
