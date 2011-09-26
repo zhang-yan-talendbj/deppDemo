@@ -26,7 +26,6 @@ public class PDFReaderTest {
 		assertEquals("10223", map.get("ID"));
 		assertEquals("10160", list.get(5).get("ID"));
 		assertTrue(map.containsKey("Email address"));
-		assertTrue(map.containsKey("Rule"));
 		assertTrue(map.containsKey("content"));
 	}
 
