@@ -18,7 +18,5 @@ public class TestUserService extends TestCase {
 	
 	public void testDemo() throws Exception {
 		System.out.println(99);
-		
 	}
-
 }
