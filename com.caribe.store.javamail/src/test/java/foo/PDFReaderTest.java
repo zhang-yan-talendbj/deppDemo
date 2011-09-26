@@ -37,7 +37,6 @@ public class PDFReaderTest {
 		Source: Jlondon@wstrain.com
 		Ignored Incident: Exclude Ignored Incidents Date Range: Yesterday*/
 		for (Map<String, String> info : list) {
-			System.out.println(info.get("content"));
 			assertTrue(info.get("content").startsWith("ID"));
 		}
 
