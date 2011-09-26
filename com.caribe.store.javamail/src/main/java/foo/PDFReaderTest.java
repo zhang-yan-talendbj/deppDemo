@@ -22,9 +22,12 @@ public class PDFReaderTest {
 		InputStream io=new FileInputStream(pdfFile);
 		List<Map<String, String>> list = PDFReader.readPdfFolder(io);
 		assertEquals(6, list.size());
-		System.out.println(list.get(0).get("ID"));
-		System.out.println(list.get(1).get("ID"));
-		System.out.println(list.get(1).get("ID"));
+		Map<String, String> map = list.get(0);
+		assertEquals("10223", map.get("ID"));
+		assertEquals("10160", list.get(5).get("ID"));
+		assertTrue(map.containsKey("Email address"));
+		assertTrue(map.containsKey("Rule"));
+		assertTrue(map.containsKey("content"));
 	}
 
 }
