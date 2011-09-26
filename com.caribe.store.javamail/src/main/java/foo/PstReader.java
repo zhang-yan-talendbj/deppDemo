@@ -35,9 +35,9 @@ public class PstReader {
 		return list;
 	}
 
-	public static void setLastTime() {
+	public static void setLastTime(long date) {
 		File flagFile = new File("emailFlag/emailFlag.tmp");
-		flagFile.setLastModified(System.currentTimeMillis());
+		flagFile.setLastModified(date);
 	}
 
 	private static long getLastTime() {
