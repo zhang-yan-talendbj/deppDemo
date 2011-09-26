@@ -25,6 +25,7 @@
 
 	<!-- 插件配置 -->
 	<build>
+		<finalName>emailDemo</finalName>
 		<plugins>
 			<!-- compiler插件, 设定JDK版本 -->
 			<plugin>
@@ -114,29 +115,48 @@
 				</configuration>
 			</plugin>
 
+
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<!-- not append assembly id in release file name -->
-					<!-- appendAssemblyId属性控制是否在生成的打包文件的文件名中包含assembly id。 -->
-					<appendAssemblyId>false</appendAssemblyId>
-					<!-- descriptor属性指定maven-assembly-plugin的配置文件，当然我设置的是src/main/assemble/package.xml. 
-						容许使用多个，功能强大当然用法也复杂，对于简单情况一个足矣。 -->
-					<descriptors>
-						<descriptor>src/main/assembly/package.xml</descriptor>
-					</descriptors>
-				</configuration>
 				<executions>
 					<execution>
-						<id>make-assembly </id>
+						<id>make-jar</id><!-- 随便一个名字 -->
+						<phase>package</phase><!-- 绑定到package生命周期阶段上 -->
+						<goals>
+							<goal>single</goal><!-- 只运行一次 -->
+						</goals>
+						<configuration>
+						<!-- not append assembly id in release file name -->
+						<!-- appendAssemblyId属性控制是否在生成的打包文件的文件名中包含assembly id。 -->
+							<skipAssembly>false</skipAssembly><!-- 跳过这个执行器 -->
+							<!-- 自定义输出目录（finalName为最终项目构建名称） -->
+							<!--
+								<outputDirectory>
+								${project.build.directory}/${project.build.finalName}/WEB-INF/lib
+								</outputDirectory>
+							-->
+							<!-- 描述符文件 -->
+							<descriptors>
+								<descriptor>src/main/assembly/jar.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+					<execution>
+						<id>make-zip</id>
 						<phase>package</phase>
 						<goals>
 							<goal>single</goal>
 						</goals>
+						<configuration>
+							<skipAssembly>false</skipAssembly>
+							<descriptors>
+								<descriptor>src/main/assembly/zip.xml</descriptor>
+							</descriptors>
+						</configuration>
 					</execution>
+
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 </project>
