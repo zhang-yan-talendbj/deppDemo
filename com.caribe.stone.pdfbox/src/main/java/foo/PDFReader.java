@@ -12,14 +12,14 @@ import org.apache.pdfbox.util.PDFTextStripper;
 public class PDFReader {
 	public static void main(String[] args) throws Exception {
 		FileInputStream fis = new FileInputStream(
-				"e:/bruce/aia/depp/maven/caribe/pdfbox/email.pdf");
+				"e:/bruce/aia/depp/maven/caribe/caribe/com.caribe.store.javamail/attchments/email.pdf");
 		BufferedWriter writer = new BufferedWriter(new FileWriter(
-				"e:/bruce/aia/depp/maven/caribe/pdfbox/email.txt"));
+				"e:/bruce/aia/depp/maven/caribe/caribe/com.caribe.store.javamail/attchments/email.txt"));
 		PDFParser p = new PDFParser(fis);
 		p.parse();
-		PDFText2HTML htmlParser=new PDFText2HTML("utf-8");
-		String html = htmlParser.getText(p.getPDDocument());
-		System.out.println(html);
+//		PDFText2HTML htmlParser=new PDFText2HTML("utf-8");
+//		String html = htmlParser.getText(p.getPDDocument());
+//		System.out.println(html);
 		
 //		PDFHighlighter hl=new PDFHighlighter();
 //		String hstring = hl.getText(p.getPDDocument());
