@@ -1,4 +1,4 @@
-package foo;
+package foo.util;
 
 import static junit.framework.Assert.*;
 
@@ -12,25 +12,16 @@ import javax.mail.PasswordAuthentication;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import foo.PDFReaderTest;
+import foo.PstReaderTest;
+
+
+
 public class AllTest {
 	@BeforeClass
 	public static void setUp() {
 		PropertiesUtils
 				.loadProperties("src/test/resource/test-config.properties");
-	}
-
-	@Test
-	public void testReadAttchmentPST() {
-		PstUtils.readAttchmentPST(PropertiesUtils.getProperty("pstPath"));
-		File testFile = new File(PropertiesUtils.getProperty("attchmentFolder"));
-		File file = testFile.listFiles()[0];
-		assertEquals(115696754688L, file.getTotalSpace());
-		
-//		List<Map<String, String>> list = PDFReader
-//				.readPdfFolder(PropertiesUtils.getProperty("attchmentFolder"));
-//		assertEquals(6, list.size());
-//		assertTrue(list.get(1).containsKey("content"));
-//		assertEquals("dssdemo@gmail.com", list.get(1).get("Email address"));
 	}
 
 	@Test
@@ -59,6 +50,6 @@ public class AllTest {
 	}
 
 	public static void main(String[] args) {
-		org.junit.runner.JUnitCore.runClasses(AllTest.class);
+		org.junit.runner.JUnitCore.runClasses(AllTest.class,PDFReaderTest.class,PstReaderTest.class);
 	}
 }

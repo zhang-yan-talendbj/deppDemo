@@ -1,14 +1,17 @@
-package foo;
+package foo.util;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class PropertiesUtils {
 	private PropertiesUtils() {
 	}
-
+	private static Logger log = LoggerFactory.getLogger(PropertiesUtils.class);
 	private static Properties pro = null;
 	public static void loadProperties(String config) {
 		try {
@@ -17,8 +20,10 @@ public class PropertiesUtils {
 			}
 			pro.load(new FileInputStream(config));
 		} catch (FileNotFoundException e) {
+			log.warn("IOException", e);
 			e.printStackTrace();
 		} catch (IOException e) {
+			log.warn("IOException", e);
 			e.printStackTrace();
 		}
 	}
@@ -34,7 +39,4 @@ public class PropertiesUtils {
 		return pro;
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(Thread.currentThread().getContextClassLoader().getResource(""));
-	}
 }

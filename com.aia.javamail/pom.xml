@@ -3,8 +3,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.caribe.stone</groupId>
-	<artifactId>com.caribe.store.javamail</artifactId>
+	<groupId>com.aia</groupId>
+	<artifactId>com.aia.javamail</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
@@ -61,6 +61,47 @@
 			<artifactId>commons-lang</artifactId>
 			<version>2.6</version>
 		</dependency>
+		
+		<!-- logging begin -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.1</version>
+		</dependency>
+			<dependency>
+				<groupId>log4j</groupId>
+				<artifactId>log4j</artifactId>
+				<version>1.2.16</version>
+				<exclusions>
+					<exclusion>
+						<groupId>javax.mail</groupId>
+						<artifactId>mail</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>javax.jms</groupId>
+						<artifactId>jms</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.jdmk</groupId>
+						<artifactId>jmxtools</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.jmx</groupId>
+						<artifactId>jmxri</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>oro</groupId>
+						<artifactId>oro</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+		<!-- logging end -->
+		
 	</dependencies>
 
 	<!-- 插件配置 -->
@@ -152,6 +193,48 @@
 					</sourceExcludes>
 					<downloadSources>true</downloadSources>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>make-jar</id><!-- 随便一个名字 -->
+						<phase>package</phase><!-- 绑定到package生命周期阶段上 -->
+						<goals>
+							<goal>single</goal><!-- 只运行一次 -->
+						</goals>
+						<configuration>
+						<!-- not append assembly id in release file name -->
+						<!-- appendAssemblyId属性控制是否在生成的打包文件的文件名中包含assembly id。 -->
+							<skipAssembly>false</skipAssembly><!-- 跳过这个执行器 -->
+							<!-- 自定义输出目录（finalName为最终项目构建名称） -->
+							<!--
+								<outputDirectory>
+								${project.build.directory}/${project.build.finalName}/WEB-INF/lib
+								</outputDirectory>
+							-->
+							<!-- 描述符文件 -->
+							<descriptors>
+								<descriptor>src/main/assembly/jar.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+					<execution>
+						<id>make-zip</id>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+						<configuration>
+							<skipAssembly>false</skipAssembly>
+							<descriptors>
+								<descriptor>src/main/assembly/zip.xml</descriptor>
+							</descriptors>
+						</configuration>
+					</execution>
+
+				</executions>
 			</plugin>
 
 		</plugins>
