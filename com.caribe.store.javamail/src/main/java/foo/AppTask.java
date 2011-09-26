@@ -23,6 +23,7 @@ import foo.util.PropertiesUtils;
 public class AppTask extends TimerTask {
 	private static Logger log = LoggerFactory.getLogger(AppTask.class);
 	public void run() {
+		long date = System.currentTimeMillis();
 		PropertiesUtils.loadProperties("src/main/resource/config.properties");
 		String pstPath = PropertiesUtils.getProperty("pstPath");
 		String username = PropertiesUtils.getProperty("mail.username");
@@ -77,7 +78,7 @@ public class AppTask extends TimerTask {
 				e.printStackTrace();
 			}
 			if (!messageList.isEmpty()) {
-				PstReader.setLastTime();
+				PstReader.setLastTime(date);
 			}
 		}
 	}
