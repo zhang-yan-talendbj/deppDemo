@@ -37,5 +37,9 @@
   <module>../com.caribe.store.javamail</module>
   <module>../groovyDemo</module>
   <module>../utils</module>
+  <module>../com.aia.javamail</module>
+  <module>../com.caribe.megalith.core</module>
+  <module>../com.caribe.stone.io</module>
+  <module>../com.caribe.stone.maven.assembly</module>
   </modules>
 </project>
