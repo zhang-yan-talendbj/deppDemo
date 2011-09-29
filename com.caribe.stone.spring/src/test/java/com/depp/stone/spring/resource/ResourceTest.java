@@ -1,9 +1,11 @@
 package com.depp.stone.spring.resource;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
@@ -27,5 +29,9 @@ public class ResourceTest extends AbstractJUnit4SpringContextTests {
 		assertEquals(
 				"com.depp.stone.spring.bean.resource.ResourceTest-context.xml",
 				getResourceBean().getResource().getFilename());
+	}
+	@Test
+	public void testClasspathApplicationContext() throws Exception {
+		ApplicationContext ac=new ClassPathXmlApplicationContext(new String[]{"ResourceTest-context.xml"},ResourceTest.class);
 	}
 }
