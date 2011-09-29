@@ -100,7 +100,4 @@
 	</bean>
 	<bean id="initBean" class="com.depp.stone.spring.bean.instantiation.InitBean"
 		init-method="init" />
-	<bean id="resourceBean" class="com.depp.stone.spring.bean.instantiation.ResourceBean">
-		<property name="resource" value="classpath:com.depp.stone.spring.bean.instantiation.InstantiatingBeanTest-context.xml" ></property>
-	</bean>
 </beans>

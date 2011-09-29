@@ -1,0 +1,31 @@
+package com.depp.stone.spring.resource;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+
+import com.depp.stone.spring.bean.instantiation.ResourceBean;
+
+@ContextConfiguration
+public class ResourceTest extends AbstractJUnit4SpringContextTests {
+	@Autowired
+	private ResourceBean resourceBean;
+
+	public ResourceBean getResourceBean() {
+		return resourceBean;
+	}
+
+	public void setResourceBean(ResourceBean resource) {
+		this.resourceBean = resource;
+	}
+
+	@Test
+	public void testSimpleResource() throws Exception {
+		assertEquals(
+				"com.depp.stone.spring.bean.resource.ResourceTest-context.xml",
+				getResourceBean().getResource().getFilename());
+	}
+}

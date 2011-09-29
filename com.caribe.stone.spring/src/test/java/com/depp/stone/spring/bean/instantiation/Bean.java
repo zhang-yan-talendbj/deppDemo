@@ -1,5 +1,10 @@
 package com.depp.stone.spring.bean.instantiation;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+
+
 public class Bean {
 	public Bean() {
 	}
@@ -37,6 +42,7 @@ public class Bean {
 	public void setBar(Bar bar) {
 		this.bar = bar;
 	}
+
 }
 
 class Foo {
