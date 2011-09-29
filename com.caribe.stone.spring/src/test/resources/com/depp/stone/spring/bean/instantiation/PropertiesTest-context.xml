@@ -22,7 +22,7 @@
 	<constructor-arg value="${name}" ></constructor-arg>
 	</bean>
 	<bean id="address" class="java.lang.String">
-	<constructor-arg value="${Analyzed by}" ></constructor-arg>
+	<constructor-arg value="${Analyzed}" ></constructor-arg>
 	</bean>
 	
 	

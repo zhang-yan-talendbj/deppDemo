@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 public class PropertiesTest extends AbstractJUnit4SpringContextTests {
 	@Autowired
 	private String name;
+
 	public String getName() {
 		return name;
 	}
@@ -33,11 +34,6 @@ public class PropertiesTest extends AbstractJUnit4SpringContextTests {
 
 	@Test
 	public void testname() throws Exception {
-
-		
-		org.springframework.beans.factory.config.PropertyPlaceholderConfigurer p=new PropertyPlaceholderConfigurer();
-		p.setValueSeparator("");
-		fail();
-		System.out.println(getAddress());
+		assertEquals("bruce", getName());
 	}
 }
