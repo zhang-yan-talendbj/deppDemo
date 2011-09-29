@@ -4,11 +4,20 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 @ContextConfiguration
 public class InstantiatingBeanTest extends AbstractJUnit4SpringContextTests {
+
+	public ResourceBean getResourceBean() {
+		return resourceBean;
+	}
+
+	public void setResourceBean(ResourceBean resource) {
+		this.resourceBean = resource;
+	}
 
 	@Autowired
 	private ConstructorBean constructorBean3;
@@ -36,6 +45,9 @@ public class InstantiatingBeanTest extends AbstractJUnit4SpringContextTests {
 	private LookupBean lookupBean;
 	@Autowired
 	private InitBean initBean;
+	
+	@Autowired
+	private ResourceBean resourceBean;
 
 	public InitBean getInitBean() {
 		return initBean;
@@ -164,7 +176,12 @@ public class InstantiatingBeanTest extends AbstractJUnit4SpringContextTests {
 		assertEquals("have been initialed", getInitBean().getInitMsg());
 		// TODO Collection merging
 		// TODO Custom scope
-
+	}
+	@Test
+	public void testResourceBean() throws Exception {
+		assertEquals(
+				"com.depp.stone.spring.bean.instantiation.InstantiatingBeanTest-context.xml",
+				getResourceBean().getResource().getFilename());
 	}
 
 }
