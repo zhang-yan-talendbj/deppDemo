@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
@@ -17,8 +18,10 @@ import org.slf4j.LoggerFactory;
 public class PDFReaderTest {
 	private static Logger log = LoggerFactory.getLogger(PDFReaderTest.class);
 	@Test
-	public void testReadPdfFolder() throws FileNotFoundException {
-		File pdfFile=new File("src/test/resource/email.pdf");
+	public void testReadEmailPdfFolder() throws IOException {
+		System.out.println();
+		File pdfFile=new File("src/test/resources/email.pdf");
+		pdfFile.createNewFile();
 		InputStream io=new FileInputStream(pdfFile);
 		List<Map<String, String>> list = PDFReader.readPdfFolder(io);
 		assertEquals(6, list.size());
@@ -40,6 +43,14 @@ public class PDFReaderTest {
 			assertTrue(info.get("content").startsWith("ID"));
 		}
 
+	}
+	@Test
+	public void testReadEmptyPdfFolder() throws FileNotFoundException {
+		File pdfFile=new File("src/test/resources/emptyEmail.pdf");
+		InputStream io=new FileInputStream(pdfFile);
+		List<Map<String, String>> list = PDFReader.readPdfFolder(io);
+		assertEquals(0, list.size());
+		
 	}
 
 }

@@ -11,7 +11,7 @@
 	<fileSets>
 		<fileSet>
 			<directory>src/main/resource</directory>
-			<outputDirectory>src/main/resource</outputDirectory>
+			<outputDirectory>/src/main/resource</outputDirectory>
 		</fileSet>
 		<fileSet>
 			<directory>emailFlag</directory>
