@@ -1,4 +1,4 @@
-package com.depp.stone.spring.bean.instantiation;
+package com.depp.stone.spring.properties;
 
 import static org.junit.Assert.*;
 

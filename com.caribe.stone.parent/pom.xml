@@ -28,7 +28,7 @@
   	../archetype.template/com.caribe.stone.archetype.domain
   </module>
   <module>../archetype.template/com.caribe.stone.archetype.web</module>
-  <module>../com.caribe.stone.core</module>
+  
   <module>../com.caribe.stone.cs</module>
   <module>../com.caribe.stone.openjpa</module>
   <module>../com.caribe.stone.pdfbox</module>
