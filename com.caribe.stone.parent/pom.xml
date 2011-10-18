@@ -41,5 +41,6 @@
   <module>../com.caribe.megalith.core</module>
   <module>../com.caribe.stone.io</module>
   <module>../com.caribe.stone.maven.assembly</module>
+  <module>../com.caribe.stone.spring-openjpa</module>
   </modules>
 </project>

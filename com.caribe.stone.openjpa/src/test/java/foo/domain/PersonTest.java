@@ -59,6 +59,5 @@ public class PersonTest extends AbstractTest {
 		em.getTransaction().commit();
 		em.close();
 		factory.close();
-
 	}
 }
