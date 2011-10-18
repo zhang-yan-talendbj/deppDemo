@@ -1,0 +1,17 @@
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/!svn/ver/128/trunk/tutorial-jsf/src/main/java/org/appfuse/tutorial/webapp/listener
+END
+UserCounterListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 112
+/svn/!svn/ver/128/trunk/tutorial-jsf/src/main/java/org/appfuse/tutorial/webapp/listener/UserCounterListener.java
+END
+StartupListener.java
+K 25
+svn:wc:ra_dav:version-url
+V 108
+/svn/!svn/ver/128/trunk/tutorial-jsf/src/main/java/org/appfuse/tutorial/webapp/listener/StartupListener.java
+END

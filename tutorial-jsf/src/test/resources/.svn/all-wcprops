@@ -1,0 +1,35 @@
+K 25
+svn:wc:ra_dav:version-url
+V 55
+/svn/!svn/ver/129/trunk/tutorial-jsf/src/test/resources
+END
+sample-data.xml
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/128/trunk/tutorial-jsf/src/test/resources/sample-data.xml
+END
+config.xmlf
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svn/!svn/ver/128/trunk/tutorial-jsf/src/test/resources/config.xmlf
+END
+web-tests.xml
+K 25
+svn:wc:ra_dav:version-url
+V 69
+/svn/!svn/ver/129/trunk/tutorial-jsf/src/test/resources/web-tests.xml
+END
+login.xmlf
+K 25
+svn:wc:ra_dav:version-url
+V 66
+/svn/!svn/ver/128/trunk/tutorial-jsf/src/test/resources/login.xmlf
+END
+jdbc.properties
+K 25
+svn:wc:ra_dav:version-url
+V 71
+/svn/!svn/ver/128/trunk/tutorial-jsf/src/test/resources/jdbc.properties
+END
