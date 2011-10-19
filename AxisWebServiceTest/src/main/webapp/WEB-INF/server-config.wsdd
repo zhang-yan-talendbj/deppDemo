@@ -28,7 +28,7 @@ xmlns:handler="http://xml.apache.org/axis/wsdd/providers/handler" xmlns="http://
         </responseFlow>   
     </transport>   
   
-  <!--杩欓噷閰嶇疆浜嗕竴涓猈eb Service锛屽鏋滄湁澶氫釜Web Service锛屽氨鎸夎繖绉嶆牸寮忓湪涓嬮潰澧炲姞鍗冲彲-->   
+  <!--这里配置了一个Web Service，如果有多个Web Service，就按这种格式在下面增加即可-->   
   <service name="SayHello2" provider="java:RPC">   
     <parameter name="scope" value="Request"/>   
     <parameter name="className" value="SayHello"/>   
