@@ -111,7 +111,6 @@
 		<dependency>
 			<groupId>com.ibm.db2</groupId>
 			<artifactId>db2jcc</artifactId>
-			<version>9.5</version>
 			<scope>system</scope>
 			<systemPath>${project.basedir}/driver/db2jcc.jar</systemPath>
 		</dependency>
@@ -220,4 +219,13 @@
 
 		</plugins>
 	</build>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>com.ibm.db2</groupId>
+				<artifactId>db2jcc</artifactId>
+				<version>9.5</version>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
 </project>
