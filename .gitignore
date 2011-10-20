@@ -12,4 +12,7 @@
 *.class
 *.jar
 *.pst
+*target/
+*.classpath
+*.project
 
