@@ -18,7 +18,11 @@ public class TestUserService extends TestCase {
 	
 	public void testDemo() throws Exception {
 		System.out.println(99);
+<<<<<<< HEAD
 		
 	}
 
+=======
+	}
+>>>>>>> 5233cf07bab044b6b2d6fda7befca71d17204def
 }

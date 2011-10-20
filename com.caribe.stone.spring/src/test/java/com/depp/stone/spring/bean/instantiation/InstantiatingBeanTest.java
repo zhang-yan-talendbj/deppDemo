@@ -4,12 +4,25 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
 @ContextConfiguration
 public class InstantiatingBeanTest extends AbstractJUnit4SpringContextTests {
 
+=======
+import org.springframework.core.io.Resource;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
+
+
+@ContextConfiguration
+public class InstantiatingBeanTest extends AbstractJUnit4SpringContextTests {
+
+	
+
+>>>>>>> 5233cf07bab044b6b2d6fda7befca71d17204def
 	@Autowired
 	private ConstructorBean constructorBean3;
 	@Autowired
@@ -36,7 +49,11 @@ public class InstantiatingBeanTest extends AbstractJUnit4SpringContextTests {
 	private LookupBean lookupBean;
 	@Autowired
 	private InitBean initBean;
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> 5233cf07bab044b6b2d6fda7befca71d17204def
 	public InitBean getInitBean() {
 		return initBean;
 	}
@@ -164,7 +181,10 @@ public class InstantiatingBeanTest extends AbstractJUnit4SpringContextTests {
 		assertEquals("have been initialed", getInitBean().getInitMsg());
 		// TODO Collection merging
 		// TODO Custom scope
+<<<<<<< HEAD
 
+=======
+>>>>>>> 5233cf07bab044b6b2d6fda7befca71d17204def
 	}
 
 }

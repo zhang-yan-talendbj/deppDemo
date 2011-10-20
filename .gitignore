@@ -1,4 +1,20 @@
+/.idea/*
+.klive/
+*.classpath
+*.project
+*.iml
+**target/
+**.settings/
+
+**.zip
+*.bak
+.metadata/
+*.class
+*.jar
+*.pst
 *target/
 *.classpath
 *.project
+**.svn/
+*.svn-base
 

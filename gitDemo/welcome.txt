@@ -1,2 +1,6 @@
 hello
 Nice to meet u
+<<<<<<< HEAD
+=======
+bye-bye
+>>>>>>> 5233cf07bab044b6b2d6fda7befca71d17204def
