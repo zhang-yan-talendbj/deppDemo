@@ -1,0 +1,46 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>com.caribe.stone</groupId>
+  <artifactId>com.caribe.stone.parent</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>com.caribe.stone.parent</name>
+  <url>http://maven.apache.org</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <modules>
+  <module>../AxisWebServiceTest</module>
+  <module>
+  	../archetype.template/com.caribe.stone.archetype.domain
+  </module>
+  <module>../archetype.template/com.caribe.stone.archetype.web</module>
+  
+  <module>../com.caribe.stone.cs</module>
+  <module>../com.caribe.stone.openjpa</module>
+  <module>../com.caribe.stone.pdfbox</module>
+  <module>../com.caribe.stone.spring</module>
+  <module>../com.caribe.stone.tapestry</module>
+  <module>../com.caribe.store.javamail</module>
+  <module>../groovyDemo</module>
+  <module>../utils</module>
+  <module>../com.aia.javamail</module>
+  <module>../com.caribe.megalith.core</module>
+  <module>../com.caribe.stone.io</module>
+  <module>../com.caribe.stone.maven.assembly</module>
+  <module>../com.caribe.stone.spring-openjpa</module>
+  </modules>
+</project>
