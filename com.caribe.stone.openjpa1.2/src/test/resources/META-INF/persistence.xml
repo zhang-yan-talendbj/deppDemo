@@ -17,7 +17,7 @@
 			h2不支持buildSchema中的参数
 			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema(ForeignKeys=true,PrimaryKeys=true,Indexes=true,schemaAction=refresh)"/>
 			 -->
-			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema"/>
+			<property name="openjpa.jdbc.SynchronizeMappings" value="buildSchema()"/>
 			<property name="openjpa.Log" value="DefaultLevel=INFO, Tool=INFO"/>
 		</properties>
 	</persistence-unit>

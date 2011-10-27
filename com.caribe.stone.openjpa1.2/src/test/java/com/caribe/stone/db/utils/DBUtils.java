@@ -7,7 +7,6 @@ import java.util.PropertyResourceBundle;
 
 import org.springframework.core.io.ClassPathResource;
 
-import com.ibm.db2.jcc.DB2Driver;
 
 public class DBUtils {
 	private static final String OPENJPA_CONNECTION_PASSWORD = "openjpa.ConnectionPassword";

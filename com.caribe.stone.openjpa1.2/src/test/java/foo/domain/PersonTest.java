@@ -42,9 +42,13 @@ public class PersonTest extends AbstractTest {
 	@Test
 	public void testName() throws Exception {
 		Query q = em.createQuery("select p from Person as p where 1=1 and p.name =:name");
-//		q.setParameter(1, "林忠青");
-		List list = q.getResultList();
-		System.out.println(list.size());
+		q.setParameter(1, "林忠青");
+		List<Person> list = q.getResultList();
+		Person p = em.find(Person.class, 1);
+		p.setName("bruce"+new Date());
+//		em.getTransaction().begin();
+		em.persist(p);
+//		em.getTransaction().commit();
 	}
 	private <OBJ> OBJ getRandomPerson(Class<?> c) throws Exception {
 		@SuppressWarnings("unchecked")

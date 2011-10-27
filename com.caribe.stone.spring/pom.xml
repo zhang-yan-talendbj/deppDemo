@@ -75,6 +75,23 @@
 			<version>2.2</version>
 		</dependency>
 		<!-- spring end -->
+		<!-- jpa Begin -->
+		<dependency>
+			<groupId>javax.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<!-- jpa end -->
+		<dependency>
+			<groupId>org.apache.openjpa</groupId>
+			<artifactId>openjpa</artifactId>
+			<version>1.2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.annotation</groupId>
+			<artifactId>jsr250-api</artifactId>
+			<version>1.0</version>
+		</dependency>
 	</dependencies>
 
 	<!-- 插件配置 -->

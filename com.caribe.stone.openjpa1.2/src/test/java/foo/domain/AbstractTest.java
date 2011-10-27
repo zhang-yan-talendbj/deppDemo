@@ -18,7 +18,7 @@ public class AbstractTest {
 
 	@Before
 	public void setUp() {
-		em=EntityManagerFactoryUtils.getDB2EntityManager();
+		em=EntityManagerFactoryUtils.getEntityManager();
 	}
 
 	@After

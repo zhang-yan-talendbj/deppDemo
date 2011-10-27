@@ -21,7 +21,7 @@ public class EntityManagerFactoryUtils {
 		Properties p = null;
 		try {
 			p=new Properties();
-			p.load(new ClassPathResource("db2.properties").getInputStream());
+			p.load(new ClassPathResource("h2.properties").getInputStream());
 			if(map!=null){
 				p.putAll(map);
 			}
@@ -33,10 +33,10 @@ public class EntityManagerFactoryUtils {
 		factory = Persistence.createEntityManagerFactory("jpa", p);
 	}
 
-	public static EntityManager getDB2EntityManager() {
+	public static EntityManager getEntityManager() {
 		return factory.createEntityManager();
 	}
-	public static EntityManager getDB2EntityManager(Map map) {
+	public static EntityManager getEntityManager(Map map) {
 		createFactory(map);
 		return factory.createEntityManager();
 	}
@@ -52,6 +52,6 @@ public class EntityManagerFactoryUtils {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException {
 		//create table
-		System.out.println(EntityManagerFactoryUtils.getDB2EntityManager());
+		System.out.println(EntityManagerFactoryUtils.getEntityManager());
 	}
 }

@@ -25,7 +25,7 @@ public class Person extends BaseObject {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(length = 20, nullable = false)
+	@Column(length = 200, nullable = false)
 	private String name;
 
 	@Override
