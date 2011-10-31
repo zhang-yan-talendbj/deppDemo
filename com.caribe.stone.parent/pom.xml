@@ -23,24 +23,34 @@
     </dependency>
   </dependencies>
   <modules>
-  <module>../AxisWebServiceTest</module>
+  <module>../HousePouch</module>
+  <module>../com.aia.javamail</module>
+  <module>../com.caribe.megalith.core</module>
   <module>
   	../archetype.template/com.caribe.stone.archetype.domain
   </module>
   <module>../archetype.template/com.caribe.stone.archetype.web</module>
-  
+  <module>../com.caribe.stone.check-in</module>
   <module>../com.caribe.stone.cs</module>
+  <module>../com.caribe.stone.easy-mock</module>
+  <module>../com.caribe.stone.io</module>
+  <module>../com.caribe.stone.jsf</module>
+  <module>../com.caribe.stone.junit</module>
+  <module>../com.caribe.stone.maven.assembly</module>
   <module>../com.caribe.stone.openjpa</module>
+  <module>../com.caribe.stone.openjpa1.2</module>
   <module>../com.caribe.stone.pdfbox</module>
+  <module>../com.caribe.stone.properties</module>
   <module>../com.caribe.stone.spring</module>
+  <module>../com.caribe.stone.spring-openjpa</module>
+  <module>../com.caribe.stone.spring-transaction</module>
   <module>../com.caribe.stone.tapestry</module>
+  <module>../com.caribe.stone.thread</module>
   <module>../com.caribe.store.javamail</module>
   <module>../groovyDemo</module>
+  <module>../spidie-mvn2-spring-openjpa</module>
+  <module>../myface.hw</module>
+  <module>../AxisWebServiceTest</module>
   <module>../utils</module>
-  <module>../com.aia.javamail</module>
-  <module>../com.caribe.megalith.core</module>
-  <module>../com.caribe.stone.io</module>
-  <module>../com.caribe.stone.maven.assembly</module>
-  <module>../com.caribe.stone.spring-openjpa</module>
   </modules>
 </project>
