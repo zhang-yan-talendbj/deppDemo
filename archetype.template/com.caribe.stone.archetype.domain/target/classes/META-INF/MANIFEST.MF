@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: Administrator
+Build-Jdk: 1.6.0_10-rc2
+Specification-Title: Demo Domain
+Specification-Version: 0.0.1-SNAPSHOT
+Implementation-Title: Demo Domain
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.caribe.stone
+Created-By: Maven Integration for Eclipse
+

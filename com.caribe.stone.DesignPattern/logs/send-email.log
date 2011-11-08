@@ -1,0 +1,28 @@
+2011-10-31 23:17:57,953 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number A:
+2011-10-31 23:18:04,156 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - a is not a number,plz input a number.
+2011-10-31 23:18:04,156 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number A:
+2011-10-31 23:18:13,125 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number b:
+2011-10-31 23:18:16,031 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - a is not a number,plz input a number.
+2011-10-31 23:18:16,031 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number b:
+2011-10-31 23:18:21,484 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - bbb is not a number,plz input a number.
+2011-10-31 23:18:21,484 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number b:
+2011-10-31 23:18:25,562 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a operation:
+2011-10-31 23:18:28,921 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a operation:
+2011-10-31 23:19:08,984 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number A:
+2011-10-31 23:19:18,718 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - a is not a number,plz input a number.
+2011-10-31 23:19:18,718 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number A:
+2011-10-31 23:19:19,890 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - bb is not a number,plz input a number.
+2011-10-31 23:19:19,890 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number A:
+2011-10-31 23:19:20,937 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - cc is not a number,plz input a number.
+2011-10-31 23:19:20,937 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number A:
+2011-10-31 23:19:22,234 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - z is not a number,plz input a number.
+2011-10-31 23:19:22,234 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number A:
+2011-10-31 23:19:23,109 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number b:
+2011-10-31 23:19:26,828 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a operation:
+2011-10-31 23:19:31,328 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - + is not a operation,plz input a operation.
+2011-10-31 23:19:31,328 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a operation:
+2011-10-31 23:20:20,968 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number A:
+2011-10-31 23:20:22,609 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - null is not a number,plz input a number.
+2011-10-31 23:20:24,906 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number A:
+2011-10-31 23:20:26,546 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a number b:
+2011-10-31 23:20:28,203 [main] INFO  [com.caribe.stone.DesignPattern.simpleFactory.Client] - Please input a operation:

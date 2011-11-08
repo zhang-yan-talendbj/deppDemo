@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Built-By: Administrator
+Build-Jdk: 1.6.0_10-rc2
+Specification-Title: Bruce's Demo
+Specification-Version: 0.0.1-SNAPSHOT
+Implementation-Title: Bruce's Demo
+Implementation-Version: 0.0.1-SNAPSHOT
+Implementation-Vendor-Id: com.caribe.stone
+Created-By: Maven Integration for Eclipse
+
