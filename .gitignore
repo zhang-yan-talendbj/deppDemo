@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /.idea/*
 .klive/
 *.classpath
@@ -23,3 +24,20 @@ logs/
 *.log
 
 
+=======
+/.idea/*
+.klive/
+*.classpath
+*.project
+*.iml
+**target/
+**.settings/
+
+**.zip
+*.bak
+.metadata/
+*.class
+*.jar
+*.pst
+
+>>>>>>> d64a92cd44c1cd1279e7c9921940f7cb9d860b60
