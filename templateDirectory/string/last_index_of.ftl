@@ -1,1 +1,0 @@
-${"abcabc"?last_index_of("ab")}
