@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <assembly
 	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -35,3 +36,42 @@
 		</dependencySet>
 	</dependencySets>
 </assembly>
+=======
+<assembly
+	xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+	
+	<id>release</id>
+	<formats>
+		<format>zip</format>
+	</formats>
+    <includeBaseDirectory>false</includeBaseDirectory>	
+	<fileSets>
+		<fileSet>
+			<directory>src/main/resource</directory>
+			<outputDirectory>src/main/resource</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>emailFlag</directory>
+			<outputDirectory>emailFlag</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>emailPath</directory>
+			<outputDirectory>emailPath</outputDirectory>
+		</fileSet>
+		<fileSet>
+			<directory>run</directory>
+			<outputDirectory>/</outputDirectory>
+		</fileSet>
+		
+		
+	</fileSets>
+	<dependencySets>
+		<dependencySet>
+			<outputDirectory>lib</outputDirectory>
+			<scope>compile</scope>
+		</dependencySet>
+	</dependencySets>
+</assembly>
+>>>>>>> d64a92cd44c1cd1279e7c9921940f7cb9d860b60

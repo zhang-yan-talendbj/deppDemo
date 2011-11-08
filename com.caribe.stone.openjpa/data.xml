@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version='1.0' encoding='UTF-8'?>
 <dataset>
   <person ID="1" BIRTHDAY="2011-09-15" NAME="&#26519;&#24544;&#38738;"/>
@@ -10,3 +11,17 @@
   <person ID="8" BIRTHDAY="2011-09-28" NAME="&#26519;&#24544;&#38738;"/>
   <person ID="9" BIRTHDAY="2011-09-28" NAME="&#26519;&#24544;&#38738;"/>
 </dataset>
+=======
+<?xml version='1.0' encoding='UTF-8'?>
+<dataset>
+  <person ID="1" BIRTHDAY="2011-09-15" NAME="&#26519;&#24544;&#38738;"/>
+  <person ID="2" BIRTHDAY="2011-09-15" NAME="&#26519;&#24544;&#38738;"/>
+  <person ID="3" BIRTHDAY="2011-09-15" NAME="&#26519;&#24544;&#38738;"/>
+  <person ID="4" BIRTHDAY="2011-09-15" NAME="&#26519;&#24544;&#38738;"/>
+  <person ID="5" BIRTHDAY="2011-09-15" NAME="&#26519;&#24544;&#38738;"/>
+  <person ID="6" BIRTHDAY="2011-09-15" NAME="&#26519;&#24544;&#38738;"/>
+  <person ID="7" BIRTHDAY="2011-09-28" NAME="&#26519;&#24544;&#38738;"/>
+  <person ID="8" BIRTHDAY="2011-09-28" NAME="&#26519;&#24544;&#38738;"/>
+  <person ID="9" BIRTHDAY="2011-09-28" NAME="&#26519;&#24544;&#38738;"/>
+</dataset>
+>>>>>>> d64a92cd44c1cd1279e7c9921940f7cb9d860b60
