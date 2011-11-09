@@ -7,6 +7,7 @@
     <body>
         <f:view>
             <h:form id="mainForm">
+			<h:messages  layout="table" /> 
               <h:panelGrid columns="2">
                 <h:outputLabel for="name" value="Please enter your name" />
                 <h:inputText id="name" value="#{helloWorld.name}" required="true"/>

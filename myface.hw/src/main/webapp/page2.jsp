@@ -6,6 +6,7 @@
     </head>
     <body>
         <f:view>
+        <h:messages  layout="table" /> 
             <h:form id="mainForm">
                 <h2><h:outputText value="Hello #{helloWorld.name}. We hope you enjoy Apache MyFaces"/></h2>
                 <h:commandLink action="back">

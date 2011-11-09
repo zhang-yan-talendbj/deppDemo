@@ -15,8 +15,14 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
-*/
+ */
 package org.apache.myfaces.blank;
+
+import java.text.MessageFormat;
+import java.util.ResourceBundle;
+
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 
 /**
  * A typical simple backing bean, that is backed to <code>helloworld.jsp</code>
@@ -24,29 +30,33 @@ package org.apache.myfaces.blank;
  */
 public class HelloWorldController {
 
-    
-    //properties
-    private String name;
-    
-    /**
-     * default empty constructor
-     */
-    public HelloWorldController(){
-    }
-    
-    //-------------------getter & setter
-    public String getName() {
-        return name;
-    }
-    public void setName(String name) {
-        this.name = name;
-    }
-    
-    /**
-     * Method that is backed to a submit button of a form.
-     */
-    public String send(){
-        //do real logic, return a string which will be used for the navigation system of JSF
-        return "success";
-    }
+	// properties
+	private String name;
+
+	/**
+	 * default empty constructor
+	 */
+	public HelloWorldController() {
+	}
+
+	// -------------------getter & setter
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	/**
+	 * Method that is backed to a submit button of a form.
+	 */
+	public String send() {
+		System.out.println("do something in controller.");
+
+		
+		// do real logic, return a string which will be used for the navigation
+		// system of JSF
+		return "success";
+	}
 }
