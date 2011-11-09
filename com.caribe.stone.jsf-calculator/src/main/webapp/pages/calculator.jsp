@@ -5,50 +5,50 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>Calculator Application</title>
+		<title>Calculator Application</title>
+ 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/main.css" />
 </head>
 <body>
 <f:view>
 	<h:form id="calcForm">
-		<h4>Calculator</h4>
-		<table>
-			<tr>
-				<td><h:outputLabel value="First Number" for="firstNumber" /></td>
-				<td><h:inputText id="firstNumber"
-					value="#{calculator.firstNumber}" required="true" /></td>
-				<td><h:message for="firstNumber" /></td>
-			</tr>
-
-			<tr>
-				<td><h:outputLabel value="Second Number" for="secondNumber" />
-				</td>
-				<td><h:inputText id="secondNumber"
-					value="#{calculator.secondNumber}" required="true" /></td>
-				<td><h:message for="secondNumber" /></td>
-			</tr>
-		</table>
+		<h4>Calculator 3rd Example</h4>
+		<h:messages infoClass="infoClass" errorClass="errorClass" layout="table" globalOnly="true"/>
+		<h:panelGrid columns="3" rowClasses="oddRow, evenRow" 
+					styleClass="formGrid">
+				<%-- First Number--%>
+				<h:outputLabel value="First Number" for="firstNumber" 
+								styleClass="#{calculatorController.firstNumberStyleClass}"/>
+				<h:inputText id="firstNumber" label="First Number"
+					value="#{calculatorController.calculator.firstNumber}" required="true"
+					binding="#{calculatorController.firstNumberInput}" />
+				<h:message for="firstNumber" errorClass="errorClass"/>
+				
+				
+				<%-- Second Number--%>
+				<h:outputLabel id="snl" value="Second Number" for="secondNumber"
+								styleClass="#{calculatorController.secondNumberStyleClass}"/>
+				<h:inputText id="secondNumber" label="Second Number"
+					value="#{calculatorController.calculator.secondNumber}" required="true"
+					binding="#{calculatorController.secondNumberInput}"/>
+				<h:message for="secondNumber" errorClass="errorClass"/>
+		</h:panelGrid>
 		<div>
-		
-			<h:commandButton action="#{calculator.add}"  value="Add" />
-			<h:commandButton action="#{calculator.multiply}"  value="Multiply" />
-			<h:commandButton action="#{calculator.clear}"  value="Clear" immediate="true"/>
+			<h:commandButton action="#{calculatorController.add}"  value="Add" />
+			<h:commandButton action="#{calculatorController.multiply}"  value="Multiply" />
+			<h:commandButton action="#{calculatorController.divide}"  value="Divide" />
+			<h:commandButton action="#{calculatorController.print}"  value="Print" />
+			<h:commandButton action="#{calculatorController.clear}"  value="Clear" immediate="true"/>
 		</div>
-
 	</h:form>
 
-	<h:panelGroup rendered="#{calculator.result != 0}">
+	<h:panelGroup binding="#{calculatorController.resultsPanel}" rendered="false">
 		<h4>Results</h4>
-		<table>
-			<tr><td>
-				First Number  ${calculator.firstNumber}
-			</td></tr>
-			<tr><td>
-				Second Number  ${calculator.secondNumber}
-			</td></tr>
-			<tr><td>
-				Result  ${calculator.result}
-			</td></tr>
-		</table>
+		<h:panelGrid columns="1" rowClasses="oddRow, evenRow"
+				styleClass="resultGrid">
+				<h:outputText value="First Number  #{calculatorController.calculator.firstNumber}"/>
+				<h:outputText value="Second Number #{calculatorController.calculator.secondNumber}"/>
+				<h:outputText value="Result  #{calculatorController.calculator.result}"/>
+		</h:panelGrid>		
 	</h:panelGroup>
 </f:view>
 

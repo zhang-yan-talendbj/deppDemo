@@ -2,12 +2,40 @@
 
 <faces-config xmlns="http://java.sun.com/xml/ns/javaee"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee 
+    http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
     version="1.2">
+
+    <application>
+        <message-bundle>messages</message-bundle>
+    </application>
+
+    <managed-bean>
+        <managed-bean-name>calculatorController</managed-bean-name>
+        <managed-bean-class>
+            com.arcmind.jsfquickstart.controller.CalculatorController
+        </managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+        <managed-property>
+            <property-name>calculator</property-name>
+            <value>#{calculator}</value>
+        </managed-property>
+    </managed-bean>
     <managed-bean>
         <managed-bean-name>calculator</managed-bean-name>
-        <managed-bean-class>com.arcmind.jsfquickstart.model.Calculator</managed-bean-class>
-        <managed-bean-scope>request</managed-bean-scope>
+        <managed-bean-class>
+            com.arcmind.jsfquickstart.model.Calculator
+        </managed-bean-class>
+        <managed-bean-scope>none</managed-bean-scope>
     </managed-bean>
+    
+    <navigation-rule>
+		<from-view-id>*</from-view-id>
+		<navigation-case>
+			<from-outcome>print</from-outcome>
+			<to-view-id>/pages/printDemo.jsp</to-view-id>
+			<redirect />
+		</navigation-case>
+	</navigation-rule>
 
 </faces-config>
