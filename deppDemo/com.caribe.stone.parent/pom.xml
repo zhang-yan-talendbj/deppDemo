@@ -24,5 +24,61 @@
   </dependencies>
   <modules>
   	<module>archetype</module>
+  	<module>../com.caribe.stone.archetype.domain</module>
+  	<module>
+  		../../archetype.template/com.caribe.stone.archetype.domain
+  	</module>
+  	<module>
+  		../../archetype.template/com.caribe.stone.archetype.web
+  	</module>
+  	<module>../com.caribe.stone.core</module>
+  	<module>../../com.caribe.stone.jndi/bin</module>
+  	<module>../../com.caribe.stone.jsf-calculator</module>
+  	<module>../../com.caribe.stone.monitor</module>
+  	<module>
+  		F:/Moin/mywiki/data/source/com.caribe.stone.openjpa1.2
+  	</module>
+  	<module>../../com.caribe.stone.selenium</module>
+  	<module>../../com.caribe.stone.source</module>
+  	<module>../../com.caribe.stone.thread2</module>
+  	<module>../com.caribe.stone.archetype.web</module>
+  	<module>
+  		../../com.caribe.store.javamail/target/classes/META-INF/maven/com.caribe.stone/com.caribe.store.javamail
+  	</module>
+  	<module>../../com.depp.stone.cs</module>
+  	<module>../../archetype-template/com.depp.stone.domain</module>
+  	<module>../../com.depp.stone.jasper</module>
+  	<module>../../com.depp.stone.jdbc</module>
+  	<module>../../com.depp.stone.jndi.demo</module>
+  	<module>../../com.depp.stone.spring</module>
+  	<module>../../com.depp.stone.tapestry</module>
+  	<module>../../archetype-template/com.depp.stone.web</module>
+  	<module>../groovyDemo</module>
+  	<module>
+  		../../../Opensource/springside/springside4/examples/mini-service
+  	</module>
+  	<module>
+  		../../../Opensource/springside/springside4/examples/mini-web
+  	</module>
+  	<module>../../spidie-mvn2-spring-openjpa</module>
+  	<module>../../myface.hw</module>
+  	<module>
+  		../../../Opensource/springside/springside4/examples/showcase
+  	</module>
+  	<module>../../../Opensource/springside/springside4</module>
+  	<module>
+  		../../../Opensource/springside/springside4/modules/core
+  	</module>
+  	<module>
+  		../../../Opensource/springside/springside4/modules/extension
+  	</module>
+  	<module>
+  		../../../Opensource/springside/springside4/tools/maven/archetype
+  	</module>
+  	<module>
+  		../../../Opensource/springside/springside4/modules/parent
+  	</module>
+  	<module>../../AxisWebServiceTest</module>
+  	<module>../utils</module>
   </modules>
 </project>
