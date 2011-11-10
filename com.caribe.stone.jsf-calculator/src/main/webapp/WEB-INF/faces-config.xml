@@ -30,12 +30,69 @@
     </managed-bean>
     
     <navigation-rule>
-		<from-view-id>*</from-view-id>
-		<navigation-case>
-			<from-outcome>print</from-outcome>
-			<to-view-id>/pages/printDemo.jsp</to-view-id>
-			<redirect />
-		</navigation-case>
-	</navigation-rule>
+        <display-name>Calculator View</display-name>
+        <from-view-id>/pages/calculator.jsp</from-view-id>
+        <navigation-case>
+            <from-outcome>results</from-outcome>
+            <to-view-id>/pages/results.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 
+    <navigation-rule>
+        <display-name>Results Page</display-name>
+        <from-view-id>/pages/results.jsp</from-view-id>
+        <navigation-case>
+            <from-outcome>calculator</from-outcome>
+            <to-view-id>/pages/calculator.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>HOME</from-outcome>
+            <to-view-id>/home.jsp</to-view-id>
+            <redirect/>            
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>CALCULATOR</from-outcome>
+            <to-view-id>/pages/calculator.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <navigation-case>
+            <from-outcome>CALCULATOR_REDIRECT</from-outcome>
+            <to-view-id>/pages/calculator.jsp</to-view-id>
+            <redirect/>            
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/pages/*</from-view-id>
+        <navigation-case>
+            <from-outcome>calculatorMain</from-outcome>
+            <to-view-id>/pages/calculator.jsp</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+
+    <navigation-rule>
+        <from-view-id>/pages/*</from-view-id>
+        <navigation-case>
+            <from-outcome>print</from-outcome>
+            <to-view-id>/pages/template.xml</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>/pages/*</from-view-id>
+        <navigation-case>
+            <from-outcome>simpleTest</from-outcome>
+            <to-view-id>/pages/simple.jsp</to-view-id>
+            <redirect/>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>

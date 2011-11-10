@@ -2,16 +2,18 @@
 <%@ taglib uri="http://java.sun.com/jsf/html" prefix="h"%>
 <%@ taglib uri="http://java.sun.com/jsf/core" prefix="f"%>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+               "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
 		<title>Calculator Application</title>
- 		<link rel="stylesheet" type="text/css" href="<%=request.getContextPath()%>/css/main.css" />
+ 		<link rel="stylesheet" 
+ 		    type="text/css" href="<%=request.getContextPath()%>/css/main.css" />
 </head>
 <body>
 <f:view>
 	<h:form id="calcForm">
-		<h4>Calculator 3rd Example</h4>
+		<h4>Calculator 4th Example</h4>
 		<h:messages infoClass="infoClass" errorClass="errorClass" layout="table" globalOnly="true"/>
 		<h:panelGrid columns="3" rowClasses="oddRow, evenRow" 
 					styleClass="formGrid">
@@ -36,20 +38,12 @@
 			<h:commandButton action="#{calculatorController.add}"  value="Add" />
 			<h:commandButton action="#{calculatorController.multiply}"  value="Multiply" />
 			<h:commandButton action="#{calculatorController.divide}"  value="Divide" />
-			<h:commandButton action="#{calculatorController.print}"  value="Print" />
 			<h:commandButton action="#{calculatorController.clear}"  value="Clear" immediate="true"/>
+			<h:commandButton action="#{calculatorController.print}"  value="Print" immediate="true"/>
+			<h:commandButton action="#{calculatorController.simpleTest}"  value="SimpleTest" immediate="true"/>
+			<h:commandButton action="HOME" value="Home" immediate="true"/>
 		</div>
 	</h:form>
-
-	<h:panelGroup binding="#{calculatorController.resultsPanel}" rendered="false">
-		<h4>Results</h4>
-		<h:panelGrid columns="1" rowClasses="oddRow, evenRow"
-				styleClass="resultGrid">
-				<h:outputText value="First Number  #{calculatorController.calculator.firstNumber}"/>
-				<h:outputText value="Second Number #{calculatorController.calculator.secondNumber}"/>
-				<h:outputText value="Result  #{calculatorController.calculator.result}"/>
-		</h:panelGrid>		
-	</h:panelGroup>
 </f:view>
 
 </body>

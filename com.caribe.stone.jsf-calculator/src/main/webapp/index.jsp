@@ -1,1 +1,1 @@
-<jsp:forward page="faces/pages/calculator.jsp"/>
+<jsp:forward page="home.jsf"/>
