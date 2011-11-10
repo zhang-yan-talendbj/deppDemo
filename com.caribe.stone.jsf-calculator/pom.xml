@@ -31,9 +31,6 @@
 		</dependency>
 
 		<!-- jsf begin -->
-	
-		<!-- jsf end -->
-
 		<dependency>
 			<groupId>javax.faces</groupId>
 			<artifactId>jsf-api</artifactId>
@@ -44,6 +41,7 @@
 			<artifactId>jsf-impl</artifactId>
 			<version>1.2_15</version>
 		</dependency>
+		<!-- jsf end -->
 	</dependencies>
 
 	<build>
