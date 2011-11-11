@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>   
 <deployment name="defaultClientConfig"   
 xmlns:java="http://xml.apache.org/axis/wsdd/providers/java"   
@@ -38,44 +37,3 @@ xmlns:handler="http://xml.apache.org/axis/wsdd/providers/handler" xmlns="http://
   
 </deployment>  
 
-=======
-<?xml version="1.0" encoding="UTF-8"?>   
-<deployment name="defaultClientConfig"   
-xmlns:java="http://xml.apache.org/axis/wsdd/providers/java"   
-xmlns:handler="http://xml.apache.org/axis/wsdd/providers/handler" xmlns="http://xml.apache.org/axis/wsdd/">   
-  <globalConfiguration name="defaultClientConfig">   
-    <requestFlow name="RequestFlow1" type="">   
-        <handler name="Handler1" type="java:org.apache.axis.handlers.JWSHandler">   
-          <parameter name="scope" value="session"/>   
-        </handler>   
-        <handler name="Handler2" type="java:org.apache.axis.handlers.JWSHandler">   
-            <parameter name="scope" value="request"/>   
-            <parameter name="extension" value=".jwr"/>   
-        </handler>   
-      </requestFlow>   
-    </globalConfiguration>   
-    <handler name="URLMapper" type="java:org.apache.axis.handlers.http.URLMapper"/>   
-    <handler name="LocalResponder" type="java:org.apache.axis.transport.local.LocalResponder"/>   
-    <handler name="Authenticate" type="java:org.apache.axis.handlers.SimpleAuthenticationHandler"/>   
-    <transport name="http" type="">   
-        <requestFlow name="RequestFlow1" type="">   
-        <handler name="Handler1" type="URLMapper"/>   
-        <handler name="Handler2" type="java:org.apache.axis.handlers.http.HTTPAuthHandler"/>   
-      </requestFlow>   
-    </transport>   
-    <transport name="local" type="">   
-        <responseFlow name="ResponseFlow1" type="">   
-            <handler name="Handler1" type="LocalResponder"/>   
-        </responseFlow>   
-    </transport>   
-  
-  <!--这里配置了一个Web Service，如果有多个Web Service，就按这种格式在下面增加即可-->   
-  <service name="SayHello2" provider="java:RPC">   
-    <parameter name="scope" value="Request"/>   
-    <parameter name="className" value="SayHello"/>   
-    <parameter name="allowedMethods" value="*"/>   
-  </service>   
-  
-</deployment>  
-
->>>>>>> d64a92cd44c1cd1279e7c9921940f7cb9d860b60

@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 oddRow {
 	background-color: white;
 }
@@ -15,22 +14,4 @@ formGrid {
 resultGrid {
 	border: solid #000 1px;
 	width: 200px;
-=======
-oddRow {
-	background-color: white;
-}
-
-evenRow {
-	background-color: silver;
-}
-
-formGrid {
-	border: solid #000 3px;
-	width: 400px;
-}
-
-resultGrid {
-	border: solid #000 1px;
-	width: 200px;
->>>>>>> d64a92cd44c1cd1279e7c9921940f7cb9d860b60
 }

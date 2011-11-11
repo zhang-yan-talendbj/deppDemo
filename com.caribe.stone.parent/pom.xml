@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
@@ -74,62 +73,3 @@
   <module>../utils</module>
   </modules>
 </project>
-=======
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-
-  <groupId>com.caribe.stone</groupId>
-  <artifactId>com.caribe.stone.parent</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-
-  <name>com.caribe.stone.parent</name>
-  <url>http://maven.apache.org</url>
-
-  <properties>
-    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-  </properties>
-
-  <dependencies>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-  <modules>
-  <module>../HousePouch</module>
-  <module>../com.aia.javamail</module>
-  <module>../com.caribe.megalith.core</module>
-  <module>
-  	../archetype.template/com.caribe.stone.archetype.domain
-  </module>
-  <module>../archetype.template/com.caribe.stone.archetype.web</module>
-  <module>../com.caribe.stone.check-in</module>
-  <module>../com.caribe.stone.cs</module>
-  <module>../com.caribe.stone.easy-mock</module>
-  <module>../com.caribe.stone.io</module>
-  <module>../com.caribe.stone.jsf</module>
-  <module>../com.caribe.stone.junit</module>
-  <module>../com.caribe.stone.maven.assembly</module>
-  <module>../com.caribe.stone.openjpa</module>
-  <module>../com.caribe.stone.openjpa1.2</module>
-  <module>../com.caribe.stone.pdfbox</module>
-  <module>../com.caribe.stone.properties</module>
-  <module>../com.caribe.stone.spring</module>
-  <module>../com.caribe.stone.spring-openjpa</module>
-  <module>../com.caribe.stone.spring-transaction</module>
-  <module>../com.caribe.stone.tapestry</module>
-  <module>../com.caribe.stone.thread</module>
-  <module>../com.caribe.store.javamail</module>
-  <module>../groovyDemo</module>
-  <module>../spidie-mvn2-spring-openjpa</module>
-  <module>../myface.hw</module>
-  <module>../AxisWebServiceTest</module>
-  <module>../utils</module>
-  <module>../com.caribe.stone.DesignPattern</module>
-  </modules>
-</project>
->>>>>>> d64a92cd44c1cd1279e7c9921940f7cb9d860b60

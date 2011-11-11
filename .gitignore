@@ -1,30 +1,3 @@
-<<<<<<< HEAD
-/.idea/*
-.klive/
-*.classpath
-*.project
-*.iml
-**target/
-**.settings/
-
-**.zip
-*.bak
-.metadata/
-*.class
-*.jar
-*.pst
-*target/
-*.classpath
-*.project
-**.svn/
-*.svn-base
-/domain.bat
-/web.bat
-logs/
-*.log
-
-
-=======
 /.idea/*
 .klive/
 *.classpath
@@ -40,4 +13,3 @@ logs/
 *.jar
 *.pst
 
->>>>>>> d64a92cd44c1cd1279e7c9921940f7cb9d860b60

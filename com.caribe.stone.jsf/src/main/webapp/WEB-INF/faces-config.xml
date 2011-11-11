@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 
 <faces-config xmlns="http://java.sun.com/xml/ns/javaee"
@@ -36,42 +35,3 @@
 		</navigation-case>
 	</navigation-rule>
 </faces-config>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-
-<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_1_2.xsd"
-	version="1.2">
-	<managed-bean>
-		<managed-bean-name>calculator</managed-bean-name>
-		<managed-bean-class>com.pjl.model.Calculator</managed-bean-class>
-		<managed-bean-scope>request</managed-bean-scope>
-	</managed-bean>
-
-	<managed-bean>
-		<managed-bean-name>tableData</managed-bean-name>
-		<managed-bean-class>com.corejsf.TableData</managed-bean-class>
-		<managed-bean-scope>session</managed-bean-scope>
-	</managed-bean>
-
-
-	<application>
-		<message-bundle>messages</message-bundle>
-	</application>
-	<navigation-rule>
-		<display-name>index</display-name>
-		<from-view-id>/index.jsp</from-view-id>
-		<navigation-case>
-			<to-view-id>/pages/calculator.jsp</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-	<navigation-rule>
-		<display-name>index</display-name>
-		<from-view-id>/index.jsp</from-view-id>
-		<navigation-case>
-			<to-view-id>/simples/index.jsp</to-view-id>
-		</navigation-case>
-	</navigation-rule>
-</faces-config>
->>>>>>> d64a92cd44c1cd1279e7c9921940f7cb9d860b60
