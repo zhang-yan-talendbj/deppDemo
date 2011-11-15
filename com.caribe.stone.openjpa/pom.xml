@@ -107,13 +107,13 @@
 			<scope>test</scope>
 		</dependency>
 		<!-- dbunit end -->
-		<!-- db2 driver -->
+		<!-- db2 driver 
 		<dependency>
-			<groupId>com.ibm.db2</groupId>
+			<groupId>com.ibm</groupId>
 			<artifactId>db2jcc</artifactId>
-			<scope>system</scope>
-			<systemPath>${project.basedir}/driver/db2jcc.jar</systemPath>
+			<version>9</version>
 		</dependency>
+		-->
 		<!-- poi excel -->
 		<dependency>
 			<groupId>org.apache.poi</groupId>

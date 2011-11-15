@@ -18,20 +18,15 @@
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
+
 			<version>4.8.1</version>
 			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.pff</groupId>
-			<artifactId>java-libpst</artifactId>
-			<version>0.7</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>
-
 		<!-- pdfbox begin -->
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
@@ -101,7 +96,12 @@
 				</exclusions>
 			</dependency>
 		<!-- logging end -->
-		
+
+		<dependency>
+			<groupId>com.pff</groupId>
+			<artifactId>java-libpst</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<!-- 插件配置 -->
@@ -113,8 +113,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>2.3.2</version>
 				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
+					<source>1.6</source>
+					<target>1.6</target>
 					<showWarnings>true</showWarnings>
 				</configuration>
 			</plugin>
@@ -236,7 +236,6 @@
 
 				</executions>
 			</plugin>
-
 		</plugins>
 	</build>
 </project>

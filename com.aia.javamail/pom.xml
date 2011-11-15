@@ -21,24 +21,25 @@
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>com.pff</groupId>
 			<artifactId>java-libpst</artifactId>
 			<version>0.7</version>
 		</dependency>
+		 -->
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
 			<version>1.4</version>
 		</dependency>
-
 		<!-- pdfbox begin -->
 		<dependency>
 			<groupId>org.apache.pdfbox</groupId>
 			<artifactId>pdfbox</artifactId>
 			<version>1.6.0</version>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.bouncycastle</groupId>
 			<artifactId>bcprov-jdk15</artifactId>
@@ -101,7 +102,11 @@
 				</exclusions>
 			</dependency>
 		<!-- logging end -->
-		
+		<dependency>
+			<groupId>com.pff</groupId>
+			<artifactId>java-libpst</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<!-- 插件配置 -->
