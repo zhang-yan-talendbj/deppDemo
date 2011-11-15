@@ -24,7 +24,7 @@
   </dependencies>
   <modules>
 
-  <module>../HousePouch</module>
+  <!--  <module>../HousePouch</module>-->
   <module>../com.aia.javamail</module>
   <module>../com.caribe.megalith.core</module>
   <module>../com.caribe.stone.DesignPattern</module>
@@ -68,7 +68,6 @@
   <module>../com.caribe.stone.ognl</module>
   <module>../com.caribe.stone.archetype.web</module>
   <module>../com.caribe.store.javamail</module>
-  <module>../com.caribe.stone.archetype.spring</module>
   <module>
   	../archetype.template/com.caribe.stone.archetype.domain
   </module>
