@@ -42,7 +42,7 @@
 					</h:column>
 				</f:facet>
 				<h:panelGrid columns="2">
-					<h:commandLink value="remove" action="#{contactController.remove}">
+					<h:commandLink rendered="#{contact.group.name==\"friends\"}" value="remove" action="#{contactController.remove}">
 						<f:setPropertyActionListener
 							target="#{contactController.selectedContact}" value="#{contact}" />
 					</h:commandLink>
