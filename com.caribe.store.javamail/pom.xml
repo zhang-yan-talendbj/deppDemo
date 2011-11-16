@@ -96,11 +96,12 @@
 				</exclusions>
 			</dependency>
 		<!-- logging end -->
-
 		<dependency>
 			<groupId>com.pff</groupId>
 			<artifactId>java-libpst</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.7</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/../com.caribe.stone.parent/repository/java-libpst.0.7.jar</systemPath>
 		</dependency>
 	</dependencies>
 
