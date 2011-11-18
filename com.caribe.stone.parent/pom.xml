@@ -62,5 +62,6 @@
   	../archetype.template/com.caribe.stone.archetype.domain
   </module>
   <module>../com.caribe.stone.monitor</module>
+  <module>com.caribe.stone.tdd</module>
   </modules>
 </project>
