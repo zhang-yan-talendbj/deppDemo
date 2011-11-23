@@ -1,4 +1,4 @@
-package foo.domain;
+/*package foo.domain;
 
 import static org.junit.Assert.*;
 
@@ -23,3 +23,4 @@ public class EntityManagerFactoryUtilsTest {
 	}
 
 }
+*/
