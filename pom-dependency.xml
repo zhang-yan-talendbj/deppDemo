@@ -1,15 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<groupId>com.caribe.stone</groupId>
-	<artifactId>com.caribe.stone.parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>org.springside</groupId>
+	<artifactId>springside3-parent</artifactId>
 	<packaging>pom</packaging>
-
-	<name>com.caribe.stone.parent</name>
-	<url>http://maven.apache.org</url>
+	<name>Springside3's Parent pom.xml</name>
+	<version>3.3.4</version>
+	<organization>
+		<name>SpringSide</name>
+		<url>http://www.springside.org.cn</url>
+	</organization>
 
 	<properties>
 		<!-- 主要依赖库的版本定义 -->
@@ -28,15 +29,67 @@
 		<slf4j.version>1.6.1</slf4j.version>
 		<selenium.version>2.0a5</selenium.version>
 
-		<!-- Plugin的属性定义 -->
+		<!-- Plugin的属性定义  -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<modules>
-		<module>com.caribe.stone.core</module>
-		<module>com.caribe.stone.web</module>
-		<module>com.caribe.stone.plugin</module>
-	</modules>
-	<!-- 设定团队持续集成发布包服务器 -->
+
+	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查找. -->
+	<repositories>
+		<repository>
+			<id>nexus</id>
+			<name>Team Nexus Repository</name>
+			<url>http://localhost:8081/nexus/content/groups/public</url>
+		</repository>
+
+		<repository>
+			<id>offical</id>
+			<name>Maven Official Repository</name>
+			<url>http://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>springside</id>
+			<name>SpringSide Additional Repository</name>
+			<url>http://springside.googlecode.com/svn/repository</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>jboss</id>
+			<name>Jboss Repository</name>
+			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+
+		<repository>
+			<id>java.net</id>
+			<name>Java.net Repository</name>
+			<url>http://download.java.net/maven/2/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>nexus</id>
+			<name>Team Nexus Repository</name>
+			<url>http://localhost:8081/nexus/content/groups/public</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<!-- 设定团队持续集成发布包服务器  -->
 	<distributionManagement>
 		<repository>
 			<id>nexus</id>
@@ -149,7 +202,7 @@
 				<version>${spring.version}</version>
 			</dependency>
 
-			<!-- optional datasource -->
+			<!-- optional datasource-->
 			<dependency>
 				<groupId>commons-dbcp</groupId>
 				<artifactId>commons-dbcp</artifactId>
@@ -288,7 +341,7 @@
 			</dependency>
 			<!-- webservice end -->
 
-			<!-- rest begin -->
+			<!--  rest begin -->
 			<dependency>
 				<groupId>com.sun.jersey</groupId>
 				<artifactId>jersey-server</artifactId>
@@ -376,7 +429,7 @@
 				<version>${quartz.version}</version>
 			</dependency>
 
-			<!-- memcached begin -->
+			<!-- memcached begin-->
 			<dependency>
 				<groupId>spy</groupId>
 				<artifactId>memcached</artifactId>
@@ -391,7 +444,7 @@
 			</dependency>
 			<!-- memcached end -->
 
-			<!-- logging begin -->
+			<!-- logging begin-->
 			<!-- slf4j -->
 			<dependency>
 				<groupId>org.slf4j</groupId>
@@ -440,7 +493,7 @@
 					</exclusion>
 				</exclusions>
 			</dependency>
-			<!-- logging end -->
+			<!-- logging end-->
 
 			<!-- email begin -->
 			<dependency>
@@ -479,7 +532,7 @@
 				<artifactId>xercesImpl</artifactId>
 				<version>2.9.1</version>
 			</dependency>
-			<!-- xml end -->
+			<!-- xml  end -->
 
 			<!-- excel begin -->
 			<dependency>
@@ -713,47 +766,6 @@
 				<version>${jetty.version}</version>
 				<scope>provided</scope>
 			</dependency>
-
-			<!-- pdfbox -->
-			<dependency>
-				<groupId>org.apache.pdfbox</groupId>
-				<artifactId>pdfbox</artifactId>
-				<version>1.6.0</version>
-			</dependency>
-			<dependency>
-				<groupId>org.bouncycastle</groupId>
-				<artifactId>bcprov-jdk16</artifactId>
-				<version>1.46</version>
-			</dependency>
-			<dependency>
-				<groupId>org.bouncycastle</groupId>
-				<artifactId>bcmail-jdk16</artifactId>
-				<version>1.46</version>
-			</dependency>
-			<!-- pdfbox -->
-
-			<dependency>
-				<groupId>org.apache.ant</groupId>
-				<artifactId>ant</artifactId>
-				<version>1.8.1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>itext</groupId>
-				<artifactId>itext</artifactId>
-				<version>1.3.1</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.apache.openjpa</groupId>
-				<artifactId>openjpa-all</artifactId>
-				<version>2.1.1</version>
-			</dependency>
-			<dependency>
-			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy</artifactId>
-			<version>1.8.0</version>
-		</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -792,7 +804,7 @@
 					<version>2.4</version>
 				</plugin>
 
-				<!-- war插件 -->
+				<!-- war插件-->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-war-plugin</artifactId>
@@ -832,21 +844,21 @@
 					<version>2.1.2</version>
 				</plugin>
 
-				<!-- clean插件 -->
+				<!-- clean插件-->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-clean-plugin</artifactId>
 					<version>2.4.1</version>
 				</plugin>
 
-				<!-- install插件 -->
+				<!-- install插件-->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-install-plugin</artifactId>
 					<version>2.3.1</version>
 				</plugin>
 
-				<!-- deploy插件 -->
+				<!-- deploy插件-->
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-deploy-plugin</artifactId>
