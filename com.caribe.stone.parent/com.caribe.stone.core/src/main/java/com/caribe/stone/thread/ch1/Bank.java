@@ -1,4 +1,4 @@
-package ch1;
+package com.caribe.stone.thread.ch1;
 
 public class Bank {
 
