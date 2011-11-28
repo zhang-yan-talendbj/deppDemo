@@ -1,24 +1,32 @@
 import static org.junit.Assert.*;
+
+import org.junit.Before;
 import org.junit.Test;
 
 public class TestTemplate {
 
+	private Template t;
+
 	@Test
-	public void oneVariable() throws Exception {
-		Template template = new Template("Hello,#{name}");
-		template.set("name", "Bruce");
-		assertEquals("Hello,Bruce", template.evaluate());
+	public void multipleVariables() throws Exception {
+		assertTemplateEvaluatesTo("一,二,三");
 	}
 
+	public void assertTemplateEvaluatesTo(String expected) {
+		assertEquals(expected, t.evaluate());
+	}
+	
 	@Test
-	public void differentValue() throws Exception {
-		Template template = new Template("Hello,#{name}");
-		template.set("name", "Lasse");
-		assertEquals("Hello,Lasse", template.evaluate());
+	public void unknownVariablesAreIgnored() throws Exception {
+		t.set("doesnotexist", "whatever");
+		assertTemplateEvaluatesTo("一,二,三");
 	}
 
-	@Test
-	public void testName() throws Exception {
-
+	@Before
+	public void setUp() {
+		t = new Template("#{one},#{two},#{three}");
+		t.set("one", "一");
+		t.set("two", "二");
+		t.set("three", "三");
 	}
 }
