@@ -1,4 +1,5 @@
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.regex.Matcher;
@@ -21,13 +22,37 @@ public class Template {
 		this.variables.put(string, string2);
 	}
 
-	public Object evaluate() {
+	public String evaluate() {
+		// String result = replaceVariables();
+		// checkForMissingValue(result);
+		TemplateParse t = new TemplateParse();
+		List<String> segments = t.parse(templateText);
+		StringBuilder result = new StringBuilder();
+		for (String seg : segments) {
+			append(seg, result);
+		}
+		return result.toString();
+	}
+
+	private void append(String seg, StringBuilder result) {
+		if (seg.startsWith("#{") && seg.endsWith("}")) {
+			String var = seg.substring(2, seg.length() - 1);
+			if (!variables.containsKey(var)) {
+				throw new MissingValueException("No value for " + seg);
+			}
+			result.append(variables.get(var));
+		} else {
+			result.append(seg);
+		}
+
+	}
+
+	public String replaceVariables() {
 		String result = templateText;
 		for (Entry<String, String> entry : variables.entrySet()) {
 			String key = "#\\{" + entry.getKey() + "\\}";
 			result = result.replaceAll(key, entry.getValue());
 		}
-		checkForMissingValue(result);
 		return result;
 	}
 

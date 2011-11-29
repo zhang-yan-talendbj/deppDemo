@@ -34,7 +34,7 @@ public class RegexLearingTest {
 
 	@Test
 	public void testFindStartAndEnd() throws Exception {
-		String haystack="The needle shop sells needles.";
-				String regex="(needle)";
+		String haystack = "The needle shop sells needles.";
+		String regex = "(needle)";
 	}
 }
