@@ -27,6 +27,10 @@ public class Template {
 		// checkForMissingValue(result);
 		TemplateParse t = new TemplateParse();
 		List<String> segments = t.parse(templateText);
+		return concatenate(segments);
+	}
+
+	public String concatenate(List<String> segments) {
 		StringBuilder result = new StringBuilder();
 		for (String seg : segments) {
 			append(seg, result);
@@ -35,7 +39,7 @@ public class Template {
 	}
 
 	private void append(String seg, StringBuilder result) {
-		if (seg.startsWith("#{") && seg.endsWith("}")) {
+		if (isVariable(seg)) {
 			String var = seg.substring(2, seg.length() - 1);
 			if (!variables.containsKey(var)) {
 				throw new MissingValueException("No value for " + seg);
@@ -45,6 +49,10 @@ public class Template {
 			result.append(seg);
 		}
 
+	}
+
+	public static boolean isVariable(String seg) {
+		return seg.startsWith("#{") && seg.endsWith("}");
 	}
 
 	public String replaceVariables() {
