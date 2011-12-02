@@ -35,6 +35,7 @@
 		<module>com.caribe.stone.web</module>
 		<module>com.caribe.stone.plugin</module>
     <module>com.caribe.stone.jsf2</module>
+    <module>subtdd</module>
   </modules>
 	
 	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺�?进行查找. -->

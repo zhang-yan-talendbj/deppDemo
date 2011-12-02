@@ -1,3 +1,4 @@
+package com.caribe.stone.tdd.template;
 public class Variable implements Segment {
 	private String name;
 

@@ -1,3 +1,4 @@
+package com.caribe.stone.tdd.template;
 public class PlainText implements Segment {
 
 	private String text;

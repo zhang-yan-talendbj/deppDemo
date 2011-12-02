@@ -1,3 +1,4 @@
+package com.caribe.stone.tdd.template;
 import static org.junit.Assert.*;
 
 import org.junit.Before;
