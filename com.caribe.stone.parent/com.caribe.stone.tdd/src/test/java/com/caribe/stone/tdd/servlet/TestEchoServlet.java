@@ -24,15 +24,4 @@ public class TestEchoServlet {
 		assertEquals("param1=value1", lines[0]);
 		assertEquals("param2=value22", lines[1]);
 	}
-	
-	@Test
-	public void wrongPasswordShouldredirectToErrorPage() throws Exception {
-		HttpServlet s=new LoginServlet();
-		MockHttpServletRequest req = new MockHttpServletRequest("GET","/login");
-		MockHttpServletResponse resp = new MockHttpServletResponse();
-		req.addParameter("j_username", "bruce");
-		req.addParameter("j_password", "pw");
-		
-		
-	}
 }
