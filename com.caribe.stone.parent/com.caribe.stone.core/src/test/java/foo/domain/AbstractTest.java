@@ -5,7 +5,7 @@ import javax.persistence.EntityManager;
 import org.junit.After;
 import org.junit.Before;
 
-public class AbstractTest {
+public abstract class AbstractTest {
 
 	protected EntityManager em = null;
 

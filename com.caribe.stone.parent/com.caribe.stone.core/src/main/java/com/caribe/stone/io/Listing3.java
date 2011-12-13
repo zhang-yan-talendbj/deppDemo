@@ -12,47 +12,47 @@ public class Listing3 {
 			pipedIS.connect(pipedOS);
 		}
 		catch(IOException e) {
-			System.err.println("Á¬½ÓÊ§°Ü");
+			System.err.println("è¿æ¥å¤±è´¥");
 			System.exit(1);
 		}
 
 		byte[] inArray = new byte[10];
 		int bytesRead = 0;
 
-		// Æô¶¯Ğ´²Ù×÷Ïß³Ì
+		// å¯åŠ¨å†™æ“ä½œçº¿ç¨‹
 		startWriterThread();
 
 		try {
 			bytesRead = pipedIS.read(inArray, 0, 10);
 			while(bytesRead != -1) {
-				System.out.println("ÒÑ¾­¶ÁÈ¡" +
-					bytesRead + "×Ö½Ú...");
+				System.out.println("å·²ç»è¯»å–" +
+					bytesRead + "å­—èŠ‚...");
 				bytesRead = pipedIS.read(inArray, 0, 10);
 			}
 		}
 		catch(IOException e) {
-			System.err.println("¶ÁÈ¡ÊäÈë´íÎó.");
+			System.err.println("è¯»å–è¾“å…¥é”™è¯¯.");
 			System.exit(1);
 		}
 	} // main()
 
-    // ´´½¨Ò»¸ö¶ÀÁ¢µÄÏß³Ì
-    // Ö´ĞĞĞ´ÈëPipedOutputStreamµÄ²Ù×÷
+    // åˆ›å»ºä¸€ä¸ªç‹¬ç«‹çš„çº¿ç¨‹
+    // æ‰§è¡Œå†™å…¥PipedOutputStreamçš„æ“ä½œ
 	private static void startWriterThread() {
 		new Thread(new Runnable() {
 			public void run() {
 				byte[] outArray = new byte[2000];
 
-				while(true) { // ÎŞÖÕÖ¹Ìõ¼şµÄÑ­»·
+				while(true) { // æ— ç»ˆæ­¢æ¡ä»¶çš„å¾ªç¯
 					try {
-						// ÔÚ¸ÃÏß³Ì×èÈûÖ®Ç°£¬ÓĞ×î¶à1024×Ö½ÚµÄÊı¾İ±»Ğ´Èë
+						// åœ¨è¯¥çº¿ç¨‹é˜»å¡ä¹‹å‰ï¼Œæœ‰æœ€å¤š1024å­—èŠ‚çš„æ•°æ®è¢«å†™å…¥
 						pipedOS.write(outArray, 0, 2000);
 					}
 					catch(IOException e) {
-						System.err.println("Ğ´²Ù×÷´íÎó");
+						System.err.println("å†™æ“ä½œé”™è¯¯");
 						System.exit(1);
 					}
-					System.out.println("	 ÒÑ¾­·¢ËÍ2000×Ö½Ú...");
+					System.out.println("	 å·²ç»å‘é€2000å­—èŠ‚...");
 				}
 			}
 		}).start();

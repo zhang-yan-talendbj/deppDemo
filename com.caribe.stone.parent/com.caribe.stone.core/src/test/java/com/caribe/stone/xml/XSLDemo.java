@@ -22,8 +22,6 @@ import org.dom4j.io.DocumentSource;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.SAXReader;
 import org.dom4j.io.XMLWriter;
-import org.jsoup.Jsoup;
-import org.jsoup.select.Elements;
 
 public class XSLDemo {
 	public static void main(String[] args) throws Exception {

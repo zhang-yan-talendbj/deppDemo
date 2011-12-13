@@ -10,7 +10,7 @@ public class Listing2 {
 			pipedIS.connect(pipedOS);
 		}
 		catch(IOException e) {
-			System.err.println("Á¬½ÓÊ§°Ü");
+			System.err.println("è¿æ¥å¤±è´¥");
 				System.exit(1);
 			}
 
@@ -19,23 +19,23 @@ public class Listing2 {
 		int bytesRead = 0;
 
 		try {
-            // ÏòpipedOS·¢ËÍ20×Ö½ÚÊı¾İ
+            // å‘pipedOSå‘é€20å­—èŠ‚æ•°æ®
 			pipedOS.write(outArray, 0, 20);
-			System.out.println("	 ÒÑ·¢ËÍ20×Ö½Ú...");
+			System.out.println("	 å·²å‘é€20å­—èŠ‚...");
 
-           // ÔÚÃ¿Ò»´ÎÑ­»·µü´úÖĞ£¬¶ÁÈë10×Ö½Ú
-           // ·¢ËÍ20×Ö½Ú
+           // åœ¨æ¯ä¸€æ¬¡å¾ªç¯è¿­ä»£ä¸­ï¼Œè¯»å…¥10å­—èŠ‚
+           // å‘é€20å­—èŠ‚
 			bytesRead = pipedIS.read(inArray, 0, 10);
             int i=0;
 			while(bytesRead != -1) {
 				pipedOS.write(outArray, 0, 20);
-				System.out.println("	 ÒÑ·¢ËÍ20×Ö½Ú..."+i);
+				System.out.println("	 å·²å‘é€20å­—èŠ‚..."+i);
 				i++;
 				bytesRead = pipedIS.read(inArray, 0, 10);
 			}
 		}
 		catch(IOException e) {
-				System.err.println("¶ÁÈ¡pipedISÊ±³öÏÖ´íÎó: " + e);
+				System.err.println("è¯»å–pipedISæ—¶å‡ºç°é”™è¯¯: " + e);
 				System.exit(1);
 		}
 	} // main()

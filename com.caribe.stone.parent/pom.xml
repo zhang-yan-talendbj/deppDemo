@@ -25,7 +25,8 @@
 		<quartz.version>1.8.4</quartz.version>
 		<jackson.version>1.6.0</jackson.version>
 		<slf4j.version>1.6.1</slf4j.version>
-		<selenium.version>2.0a5</selenium.version>
+		<selenium.version>2.0b1</selenium.version>
+		<selenium.version.new>2.8.0</selenium.version.new>
 
 		<!-- Plugin的属性定义 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -35,52 +36,12 @@
 		<module>com.caribe.stone.web</module>
 		<module>com.caribe.stone.plugin</module>
     <module>com.caribe.stone.jsf2</module>
-    <module>subtdd</module>
-  </modules>
+    <module>sunsuper</module>
+	</modules>
 	
 	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查找. -->
 	<repositories>
-		<repository>
-			<id>nexus</id>
-			<name>Team Nexus Repository</name>
-			<url>http://localhost:8081/nexus/content/groups/public</url>
-		</repository>
-
-		<repository>
-			<id>offical</id>
-			<name>Maven Official Repository</name>
-			<url>http://repo1.maven.org/maven2</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>springside</id>
-			<name>SpringSide Additional Repository</name>
-			<url>http://springside.googlecode.com/svn/repository</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>jboss</id>
-			<name>Jboss Repository</name>
-			<url>http://repository.jboss.org/nexus/content/groups/public-jboss/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
-
-		<repository>
-			<id>java.net</id>
-			<name>Java.net Repository</name>
-			<url>http://download.java.net/maven/2/</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-		</repository>
+		
 	</repositories>
 	
 	<!-- 预定义依赖项的version,scope与exclusions,子项目中只需定义groupId 和 artifactId 即可 -->
@@ -563,7 +524,7 @@
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
-				<version>4.0.1</version>
+				<version>4.1.2</version>
 			</dependency>
 			<dependency>
 				<groupId>net.jcip</groupId>
@@ -659,19 +620,19 @@
 			<dependency>
 				<groupId>org.seleniumhq.selenium</groupId>
 				<artifactId>selenium-htmlunit-driver</artifactId>
-				<version>${selenium.version}</version>
+				<version>${selenium.version.new}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.seleniumhq.selenium</groupId>
 				<artifactId>selenium-firefox-driver</artifactId>
-				<version>${selenium.version}</version>
+				<version>${selenium.version.new}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.seleniumhq.selenium</groupId>
 				<artifactId>selenium-ie-driver</artifactId>
-				<version>${selenium.version}</version>
+				<version>${selenium.version.new}</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>
@@ -927,6 +888,37 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>2.2-beta-5</version>
+				</plugin>
+				<!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+				<plugin>
+					<groupId>org.eclipse.m2e</groupId>
+					<artifactId>lifecycle-mapping</artifactId>
+					<version>1.0.0</version>
+					<configuration>
+						<lifecycleMappingMetadata>
+							<pluginExecutions>
+								<pluginExecution>
+									<pluginExecutionFilter>
+										<groupId>
+											org.zeroturnaround
+										</groupId>
+										<artifactId>
+											javarebel-maven-plugin
+										</artifactId>
+										<versionRange>
+											[1.0.5,)
+										</versionRange>
+										<goals>
+											<goal>generate</goal>
+										</goals>
+									</pluginExecutionFilter>
+									<action>
+										<ignore></ignore>
+									</action>
+								</pluginExecution>
+							</pluginExecutions>
+						</lifecycleMappingMetadata>
+					</configuration>
 				</plugin>
 			</plugins>
 		</pluginManagement>

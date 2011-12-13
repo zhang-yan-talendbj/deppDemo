@@ -1,4 +1,4 @@
-package com.caribe.stone.thread.ch1;
+package com.caribe.stone.thread.introduce;
 
 public class PrintRunnable {
 
