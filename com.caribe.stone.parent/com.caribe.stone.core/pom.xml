@@ -223,10 +223,6 @@
 			<artifactId>dbunit</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.jsoup</groupId>
-			<artifactId>jsoup</artifactId>
-		</dependency>
 		<!-- xml -->
 		<dependency>
 			<groupId>com.sun.xml.bind</groupId>
@@ -248,6 +244,10 @@
 			<artifactId>xercesImpl</artifactId>
 		</dependency>
 		<!-- xml -->
+		<dependency>
+			<groupId>org.jsoup</groupId>
+			<artifactId>jsoup</artifactId>
+		</dependency>
 	</dependencies>
 
 	<build>
