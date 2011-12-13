@@ -7,6 +7,6 @@ import foo.domain.AbstractTest;
 public class BuildSchema extends AbstractTest {
 	@Test
 	public void build() throws Exception {
-		System.out.println(em);
+//		System.out.println(em);
 	}
 }

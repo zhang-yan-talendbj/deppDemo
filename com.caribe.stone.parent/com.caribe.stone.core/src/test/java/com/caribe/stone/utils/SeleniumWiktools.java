@@ -38,13 +38,13 @@ public class SeleniumWiktools {
         if (isCreate) {
             editor.clear();
         }
-        String oldContent = editor.getValue();
-        if (!oldContent.equals(wikiContent)) {
-            editor.sendKeys("\r\n");
-            editor.sendKeys("  ");
-            editor.sendKeys(wikiContent);
-            editor.submit();
-        }
+//        String oldContent = editor.getValue();
+//        if (!oldContent.equals(wikiContent)) {
+//            editor.sendKeys("\r\n");
+//            editor.sendKeys("  ");
+//            editor.sendKeys(wikiContent);
+//            editor.submit();
+//        }
     }
 
     public static void readWiki(File file) throws IOException {

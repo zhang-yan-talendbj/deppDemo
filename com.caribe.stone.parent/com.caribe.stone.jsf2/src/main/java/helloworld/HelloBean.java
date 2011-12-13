@@ -40,9 +40,10 @@
 
 package helloworld;
 
+import java.io.Serializable;
+
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import java.io.Serializable;
 
 @ManagedBean
 @SessionScoped
@@ -56,7 +57,6 @@ public class HelloBean implements Serializable {
 	}
 
 	public void setName(String name) {
-		System.out.println("thinkdeeply");
 		this.name = name;
 	}
 
