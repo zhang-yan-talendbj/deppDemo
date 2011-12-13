@@ -36,6 +36,7 @@
 		<module>com.caribe.stone.plugin</module>
     <module>com.caribe.stone.jsf2</module>
     <module>com.caribe.stone.tdd</module>
+    <module>com.caribe.stone.selenium</module>
 	</modules>
 	
 	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺�?进行查找. -->
@@ -786,6 +787,11 @@
 			<artifactId>groovy</artifactId>
 			<version>1.8.0</version>
 		</dependency>
+			<dependency>
+				<groupId>org.jsoup</groupId>
+				<artifactId>jsoup</artifactId>
+				<version>1.6.1</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
