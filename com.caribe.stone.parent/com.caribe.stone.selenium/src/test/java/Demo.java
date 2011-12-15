@@ -9,6 +9,6 @@ public class Demo {
 	public static void main(String[] args) {
 		WebDriver wd = new InternetExplorerDriver();
 		wd.get("http://www.google.com.hk/");
-		System.out.println(wd.findElement(By.xpath("//input")));
+		System.out.println(wd.findElement(By.xpath("//input[@name='btnI']")).getTagName());
 	}
 }
