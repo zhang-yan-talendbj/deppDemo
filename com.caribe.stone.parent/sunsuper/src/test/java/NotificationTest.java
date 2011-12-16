@@ -1,4 +1,4 @@
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
 
 public class NotificationTest {
 
@@ -20,8 +20,15 @@ public class NotificationTest {
 	public void recordNotification() throws Exception {
 
 		wd.get(url);
-		wd.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		wd.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 		assertEquals("AIA Pre-Claim", wd.getTitle());
+		
+		
+		wd.get("http://localhost:8090/com.caribe.stone.jsf2");
+		System.out.println(wd.findElements(By.xpath("//a")).size());
+		if(true){
+			return ;
+		}
 		WebElement recordBtn = wd.findElement(By.xpath("//input[@value='Record Notification']"));
 		recordBtn.click();
 
@@ -61,7 +68,7 @@ public class NotificationTest {
 		List<WebElement> notification = wd.findElements(By.xpath("//div[@id='bodyListTable']/table[2]/tbody/tr/td"));
 		assertEquals(7, notification.size());
 		assertEquals(successMsg.substring(16, 22), notification.get(0).getText());
-		assertEquals("Notification1", notification.get(1).getText());
+		assertEquals("Notification", notification.get(1).getText());
 	}
 
 	public void selectOption(WebElement select, String selectedOption) {
@@ -81,8 +88,8 @@ public class NotificationTest {
 	@BeforeClass
 	public static void initDriver() {
 //		InternetExplorerDriver will start IE, HtmlUnitDriver is very fast!!!
-//		wd= new InternetExplorerDriver();
+		wd= new InternetExplorerDriver();
 //		wd = new HtmlUnitDriver();
-		wd = new FirefoxDriver();
+//		wd = new FirefoxDriver();
 	}
 }

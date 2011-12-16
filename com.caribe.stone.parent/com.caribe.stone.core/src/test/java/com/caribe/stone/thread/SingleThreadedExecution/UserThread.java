@@ -1,4 +1,4 @@
-package com.caribe.stone.thread.ch1;
+package com.caribe.stone.thread.SingleThreadedExecution;
 
 public class UserThread extends Thread {
 	private final Gate gate;

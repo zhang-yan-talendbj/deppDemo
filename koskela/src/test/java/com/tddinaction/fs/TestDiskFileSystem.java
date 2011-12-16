@@ -1,4 +1,4 @@
-package com.tddinaction.fs;
+/*package com.tddinaction.fs;
 
 import static org.junit.Assert.assertEquals;
 
@@ -40,3 +40,4 @@ public class TestDiskFileSystem extends FileSystemTestCase {
 		assertEquals("content", new String(actual));
 	}
 }
+*/

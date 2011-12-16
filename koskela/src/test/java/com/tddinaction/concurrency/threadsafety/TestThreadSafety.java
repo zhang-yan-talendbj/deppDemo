@@ -21,7 +21,7 @@ public class TestThreadSafety {
     public void testForThreadSafety() throws Exception {
         final Counter codeUnderTest = new Counter();
         final int numberOfThreads = 20;
-        final int incrementsPerThread = 100000;
+        final int incrementsPerThread = 100;
 
         Runnable runnable = new Runnable() {
             public void run() {
