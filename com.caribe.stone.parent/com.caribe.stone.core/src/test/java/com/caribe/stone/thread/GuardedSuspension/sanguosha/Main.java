@@ -12,6 +12,5 @@ public class Main {
 		new KillThread(king, "赵云", "喝！能进能退，乃真正法器").start();
 		new KillThread(king, "马超", "全军突击！").start();
 		new KillThread(king, "司马", "天意,哈哈").start();
-		new KillThread(king, "马超", "全军突击！").start();
 	}
 }
