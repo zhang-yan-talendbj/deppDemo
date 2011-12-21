@@ -20,7 +20,7 @@ public final class ImmutablePerson {
     public String getAddress() {
         return address;
     }
-    public String toString() {
+    public synchronized String toString() {
         return "[ ImmutablePerson: " + name + ", " + address + " ]";
     }
 }

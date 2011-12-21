@@ -24,7 +24,7 @@ public final class MutablePerson {
     String getAddress() { // Called only by ImmutablePerson
         return address;
     }
-    public synchronized String toString() {
+    public String toString() {
         return "[ MutablePerson: " + name + ", " + address + " ]";
     }
 }
