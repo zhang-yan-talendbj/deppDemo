@@ -16,6 +16,22 @@
 		<jetty.version>6.1.25</jetty.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<repositories>
+		<repository>
+			<id>jboss-public-repository-group</id>
+			<name>JBoss Public Maven Repository Group</name>
+			<url>https://repository.jboss.org/nexus/content/groups/public</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>never</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -54,7 +70,7 @@
 			</exclusions>
 		</dependency>
 		<!-- slf4j end -->
-		
+
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
@@ -73,7 +89,36 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 		</dependency>
-		
+		 <!-- jar needed for running JSFUnit under Arquillian. For Cactus, replace 
+			the artifactId with jsfunit-cactus -->
+		<dependency>
+			<groupId>org.jboss.jsfunit</groupId>
+			<artifactId>jsfunit-arquillian</artifactId>
+			<version>2.0.0.Beta2</version>
+		</dependency>
+
+		<!-- RichFaces and Ajax4jsf Client jar -->
+		<dependency>
+			<groupId>org.jboss.jsfunit</groupId>
+			<artifactId>jboss-jsfunit-richfaces</artifactId>
+			<version>2.0.0.Beta2</version>
+		</dependency>
+
+		<!-- Ant task used to "jsfunify" a WAR file -->
+		<dependency>
+			<groupId>org.jboss.jsfunit</groupId>
+			<artifactId>jboss-jsfunit-ant</artifactId>
+			<version>2.0.0.Beta2</version>
+		</dependency>
+
+
+		<!-- JSFUnit Static Analysis Tools -->
+		<dependency>
+			<groupId>org.jboss.jsfunit</groupId>
+			<artifactId>jboss-jsfunit-analysis</artifactId>
+			<version>2.0.0.Beta2</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
