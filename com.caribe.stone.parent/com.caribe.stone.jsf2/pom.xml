@@ -18,6 +18,13 @@
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>org.jboss.jsfunit</groupId>
+			<artifactId>jboss-jsfunit-analysis</artifactId>
+			<version>2.0.0.Beta3-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
@@ -54,7 +61,7 @@
 			</exclusions>
 		</dependency>
 		<!-- slf4j end -->
-		
+
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
@@ -73,7 +80,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>
@@ -220,5 +227,11 @@
 				</executions>
 			</plugin>
 		</plugins>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
 	</build>
 </project>
