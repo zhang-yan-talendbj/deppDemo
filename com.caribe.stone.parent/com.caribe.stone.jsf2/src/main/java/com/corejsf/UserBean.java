@@ -1,12 +1,5 @@
 package com.corejsf;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.PipedInputStream;
-import java.io.PipedOutputStream;
-import java.io.PrintStream;
 import java.io.Serializable;
 
 import javax.faces.bean.ManagedBean;
@@ -22,6 +15,7 @@ public class UserBean implements Serializable {
 	private String password;
 
 	public String getName() {
+		System.out.println("--");
 		return name;
 	}
 
