@@ -161,29 +161,12 @@
 			</exclusions>
 		</dependency>
 		<!-- validator end -->
-		<!-- selenium 2.0 -->
+		
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-htmlunit-driver</artifactId>
+			<artifactId>selenium-java</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-firefox-driver</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-ie-driver</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.seleniumhq.selenium</groupId>
-			<artifactId>selenium-remote-client</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-
 
 		<!-- hibernate tools -->
 		<dependency>
