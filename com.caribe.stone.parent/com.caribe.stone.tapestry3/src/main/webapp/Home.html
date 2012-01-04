@@ -4,10 +4,11 @@
 </head>
 <body>
 <span jwcid="$Content$" >
-See u see me.
-See u see me.
 Hello 
 <span jwcid="user">User Name</span>! Welcome to Tapestry!
+	<span jwcid="@ActionLink" listener="ognl:listeners.customerSelectAction">
+    	 <span jwcid="@Insert" value="ognl:userName"/> 
+    </span>
 </span>
 <span jwcid="$Remove$" >
 Fuck.

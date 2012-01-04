@@ -247,6 +247,9 @@
 						<version>6.1.25</version>
 						<configuration>
 							<reload>manual</reload>
+						<!-- 
+						  <scanIntervalSeconds>2</scanIntervalSeconds>
+						 -->
 							<webDefaultXml>src/main/resources/webdefault.xml</webDefaultXml>
 							<connectors>
 								<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
@@ -256,21 +259,25 @@
 							</connectors>
 						</configuration>
 					</plugin>
-					
+<!-- 
 					<plugin>
-				<groupId>org.zeroturnaround</groupId>
-				<artifactId>javarebel-maven-plugin</artifactId>
-				<version>1.0.5</version>
-				<executions>
-					<execution>
-						<id>generate-rebel-xml</id>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
+						<groupId>org.zeroturnaround</groupId>
+						<artifactId>javarebel-maven-plugin</artifactId>
+						<version>1.0.5</version>
+						<executions>
+							<execution>
+								<id>generate-rebel-xml</id>
+								<phase>process-resources</phase>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration> output rebel.xml
+								<rebelXmlDirectory>src/main/resources</rebelXmlDirectory> 
+						</configuration>
+					</plugin>
+ -->
 				</plugins>
 			</build>
 		</profile>
