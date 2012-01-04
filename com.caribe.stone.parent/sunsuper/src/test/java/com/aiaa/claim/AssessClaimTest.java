@@ -10,10 +10,6 @@ import org.openqa.selenium.By;
 public class AssessClaimTest extends AIAAAbstractTest {
 	@Test
 	public void testName() throws Exception {
-		wd.findElement(By.name("inputPolicyNumber")).sendKeys("MP9883");
-		wd.findElement(By.name("inputMemberNumber")).sendKeys("4");
-		SeleniumUtils.select(wd.findElement(By.name("selectPolicySource")),"Compass");
-		
 		wd.findElement(By.id("recordClaim")).click();
 		
 		recordClaim();
@@ -67,12 +63,31 @@ public class AssessClaimTest extends AIAAAbstractTest {
 		}
 	}
 
+	@Override
+	protected DriverType getTyep() {
+		// TODO Auto-generated method stub
+		return DriverType.firefox;
+	}
 	@Before
 	public void setUp(){
 		super.setUp();
-		wd.get("http://CIBD3R8CGMD05:9080/ClaimsAdminWeb/login.jsp");
-		wd.findElement(By.id("name")).sendKeys("auth1");
-		wd.findElement(By.id("pswd")).sendKeys("123");
-		wd.findElement(By.name("action")).click();
+		wd.get("http://localhost:9084/ClaimsAdminWeb/app");
+//		wd.findElement(By.id("name")).sendKeys("auth1");
+//		wd.findElement(By.id("pswd")).sendKeys("123");
+//		wd.findElement(By.name("action")).click();
+		
+		wd.findElement(By.name("inputPolicyNumber")).sendKeys("MP9883");
+		wd.findElement(By.name("inputMemberNumber")).sendKeys("4");
+		SeleniumUtils.select(wd.findElement(By.name("selectPolicySource")),"Compass");
+	}
+	@Test
+	public void testRehab() throws Exception {
+		String linkText = "20152";//23451
+		setValueByName(linkText, "inputClaimNumber");
+		clickByName("search");
+		wd.findElement(By.linkText(linkText)).click();
+		
+		System.out.println(wd.findElement(By.id("startEditRehabilitationTask")));
+	
 	}
 }
