@@ -3,7 +3,7 @@
 *.classpath
 *.project
 *.iml
-**target/
+target/
 **.settings/
 
 **.zip
@@ -15,4 +15,6 @@
 
 logs/
 *.log
+
+bin/
 
