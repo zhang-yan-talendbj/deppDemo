@@ -11,7 +11,6 @@ public class AssessClaimTest extends AIAAAbstractTest {
 	@Test
 	public void testName() throws Exception {
 		wd.findElement(By.id("recordClaim")).click();
-		
 		recordClaim();
 	}
 	

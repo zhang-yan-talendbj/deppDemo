@@ -1,0 +1,15 @@
+<html>
+<head>
+
+</head>
+
+<body>
+   <span jwcid="@Insert" value="ognl:fullName"/>
+<span jwcid="@Conditional" condition="ognl:manager"> is a Manager
+ <span jwcid="@Conditional" condition="ognl:! staffList.empty" > with staff.</span>
+ <span jwcid="@Conditional" condition="ognl:staffList.empty">
+  with <font color="red"><b>no</b></font> staff.</span>
+</span>
+<span jwcid="@Conditional" condition="ognl:! manager"> is not a Manager.</span>
+</body>
+</html>

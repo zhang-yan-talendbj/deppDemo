@@ -6,7 +6,7 @@ import org.apache.tapestry.IRequestCycle;
 import org.apache.tapestry.html.BasePage;
 
 public class Home extends BasePage implements IActionListener {
-	private String userName = "rockflyrain@gmail.com ";
+	private String userName = "Bruce";
 
 	public String getUserName() {
 		return this.userName;

@@ -260,6 +260,7 @@
 						</configuration>
 					</plugin>
 <!-- 
+ -->
 					<plugin>
 						<groupId>org.zeroturnaround</groupId>
 						<artifactId>javarebel-maven-plugin</artifactId>
@@ -273,11 +274,7 @@
 								</goals>
 							</execution>
 						</executions>
-						<configuration> output rebel.xml
-								<rebelXmlDirectory>src/main/resources</rebelXmlDirectory> 
-						</configuration>
 					</plugin>
- -->
 				</plugins>
 			</build>
 		</profile>
