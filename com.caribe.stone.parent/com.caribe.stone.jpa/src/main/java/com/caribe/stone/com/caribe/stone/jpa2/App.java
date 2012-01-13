@@ -11,6 +11,8 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Id;
 import javax.persistence.Persistence;
 
+import org.apache.openjpa.persistence.OpenJPAEntityManagerFactory;
+import org.apache.openjpa.persistence.OpenJPAPersistence;
 import org.junit.Test;
 
 /**
@@ -21,13 +23,9 @@ public class App {
 
 	@Test
 	public void tests() {
-		Map m = new HashMap();
-		EntityManagerFactory factory = Persistence
-				.createEntityManagerFactory("teaUnit");
-		m.put("dbdriver", "org.h2.Driver");
-		m.put("dburl", "jdbc:h2:tcp://localhost/~/teaMilk");
-		m.put("dbuser", "sa");
-		m.put("dbpass", "");
+		OpenJPAEntityManagerFactory mf = OpenJPAPersistence.createEntityManagerFactory("teaUnit","META-INF/2.xml");
+		EntityManagerFactory factory = Persistence.createEntityManagerFactory("teaUnit");
+		System.out.println(factory.getClass());
 
 		EntityManager em = factory.createEntityManager();
 		System.out.println(em);
