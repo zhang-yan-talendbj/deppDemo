@@ -9,10 +9,13 @@
        http://www.springframework.org/schema/context 
        http://www.springframework.org/schema/context/spring-context-3.0.xsd"
 	default-autowire="byName">
-
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:db_preclaim.properties" />
+		<property name="locations">
+			<list>
+				<value>classpath*:/application.test.properties</value>
+			</list>
+		</property>
 	</bean>
 
 	<bean id="dataSource"
@@ -22,23 +25,24 @@
 		<property name="username" value="${jdbc.username}" />
 		<property name="password" value="${jdbc.password}" />
 	</bean>
-
+	
 	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-		destroy-method="destroy">
-		<property name="persistenceUnitName" value="NotificationPersistenceUnit" />
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		
+		<property name="persistenceXmlLocation" value="classpath:META-INF/persistence-test.xml" />
+		<property name="persistenceUnitName" value="teaUnit" />
 		<property name="dataSource" ref="dataSource" />
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.OpenJpaVendorAdapter">
-				<property name="showSql" value="true" />
-				<property name="databasePlatform" value="org.apache.openjpa.jdbc.sql.DB2Dictionary" />
+				<property name="showSql" value="yes" />
+				<property name="databasePlatform" value="${jdbc.jpa.dictionary}" />
 			</bean>
+		</property>
+		<property name="loadTimeWeaver">
+			<bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
 		</property>
 	</bean>
 
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean>
 </beans>
 
 

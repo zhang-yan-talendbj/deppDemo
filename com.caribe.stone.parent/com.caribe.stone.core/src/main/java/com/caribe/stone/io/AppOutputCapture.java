@@ -9,21 +9,21 @@ public class AppOutputCapture {
 
 		public static void main(String[] args) {
 				if(args.length == 0) {
-		 	System.err.println("ÓÃ·¨£ºjava AppOutputCapture " +
-				 "<³ÌĞòÃû×Ö> {²ÎÊı1 ²ÎÊı2 ...}");
+		 	System.err.println("ç”¨æ³•ï¼šjava AppOutputCapture " +
+				 "<ç¨‹åºåå­—> {å‚æ•°1 å‚æ•°2 ...}");
 		 	System.exit(0);
 				}
 
 				try {
-						// Æô¶¯ÃüÁîĞĞÖ¸¶¨³ÌĞòµÄĞÂ½ø³Ì
+						// å¯åŠ¨å‘½ä»¤è¡ŒæŒ‡å®šç¨‹åºçš„æ–°è¿›ç¨‹
 						process = Runtime.getRuntime().exec(args);
 				}
 				catch(IOException e) {
-						System.err.println("´´½¨½ø³ÌÊ±³ö´í...\n" + e);
+						System.err.println("åˆ›å»ºè¿›ç¨‹æ—¶å‡ºé”™...\n" + e);
 						System.exit(1);
 				}
 
-				// »ñµÃĞÂ½ø³ÌËùĞ´ÈëµÄÁ÷
+				// è·å¾—æ–°è¿›ç¨‹æ‰€å†™å…¥çš„æµ
 				InputStream[] inStreams =
 						new InputStream[] {
 					process.getInputStream(),process.getErrorStream()};
@@ -32,7 +32,7 @@ public class AppOutputCapture {
 				cta.setFont(java.awt.Font.decode("monospaced"));
 
 				JFrame frame = new JFrame(args[0] +
-						"¿ØÖÆÌ¨Êä³ö");
+						"æ§åˆ¶å°è¾“å‡º");
 
 				frame.getContentPane().add(new JScrollPane(cta),
 					BorderLayout.CENTER);
@@ -43,7 +43,7 @@ public class AppOutputCapture {
 						public void windowClosing(WindowEvent evt) {
 								process.destroy();
 								try {
-										process.waitFor(); // ÔÚWin98ÏÂ¿ÉÄÜ±»¹ÒÆğ
+										process.waitFor(); // åœ¨Win98ä¸‹å¯èƒ½è¢«æŒ‚èµ·
 								}
 								catch(InterruptedException e) {}
 										System.exit(0);

@@ -19,8 +19,8 @@ public class LoopedStreams {
 				pipedOS.close();
 			}
 			catch(IOException e) {
-				// ¼ÇÂ¼´íÎó»òÆäËû´¦Àí
-				// Îª¼òµ¥¼Æ£¬´Ë´¦ÎÒÃÇÖ±½Ó½áÊø
+				// è®°å½•é”™è¯¯æˆ–å…¶ä»–å¤„ç†
+				// ä¸ºç®€å•è®¡ï¼Œæ­¤å¤„æˆ‘ä»¬ç›´æ¥ç»“æŸ
 				System.exit(1);
 			}
 		}
@@ -34,8 +34,8 @@ public class LoopedStreams {
 				super.close();
 			}
 			catch(IOException e) {
-				// ¼ÇÂ¼´íÎó»òÆäËû´¦Àí
-				// Îª¼òµ¥¼Æ£¬´Ë´¦ÎÒÃÇÖ±½Ó½áÊø
+				// è®°å½•é”™è¯¯æˆ–å…¶ä»–å¤„ç†
+				// ä¸ºç®€å•è®¡ï¼Œæ­¤å¤„æˆ‘ä»¬ç›´æ¥ç»“æŸ
 				System.exit(1);
 			}
 		}
@@ -62,26 +62,26 @@ public class LoopedStreams {
 		new Thread(new Runnable() {
 			public void run() {
 				while(keepRunning) {
-					// ¼ì²éÁ÷ÀïÃæµÄ×Ö½ÚÊı
+					// æ£€æŸ¥æµé‡Œé¢çš„å­—èŠ‚æ•°
 					if(byteArrayOS.size() > 0) {
 						byte[] buffer = null;
 						synchronized(byteArrayOS) {
 							buffer = byteArrayOS.toByteArray();
-							byteArrayOS.reset(); // Çå³ı»º³åÇø
+							byteArrayOS.reset(); // æ¸…é™¤ç¼“å†²åŒº
 						}
 						try {
-							// °ÑÌáÈ¡µ½µÄÊı¾İ·¢ËÍ¸øPipedOutputStream
+							// æŠŠæå–åˆ°çš„æ•°æ®å‘é€ç»™PipedOutputStream
 							pipedOS.write(buffer, 0, buffer.length);
 						}
 						catch(IOException e) {
-							// ¼ÇÂ¼´íÎó»òÆäËû´¦Àí
-							// Îª¼òµ¥¼Æ£¬´Ë´¦ÎÒÃÇÖ±½Ó½áÊø
+							// è®°å½•é”™è¯¯æˆ–å…¶ä»–å¤„ç†
+							// ä¸ºç®€å•è®¡ï¼Œæ­¤å¤„æˆ‘ä»¬ç›´æ¥ç»“æŸ
 							System.exit(1);
 						}
 					}
-					else // Ã»ÓĞÊı¾İ¿ÉÓÃ£¬Ïß³Ì½øÈëË¯Ãß×´Ì¬
+					else // æ²¡æœ‰æ•°æ®å¯ç”¨ï¼Œçº¿ç¨‹è¿›å…¥ç¡çœ çŠ¶æ€
 						try {
-							// Ã¿¸ô1Ãë²é¿´ByteArrayOutputStream¼ì²éĞÂÊı¾İ
+							// æ¯éš”1ç§’æŸ¥çœ‹ByteArrayOutputStreamæ£€æŸ¥æ–°æ•°æ®
 							Thread.sleep(1000);
 						}
 						catch(InterruptedException e) {}
