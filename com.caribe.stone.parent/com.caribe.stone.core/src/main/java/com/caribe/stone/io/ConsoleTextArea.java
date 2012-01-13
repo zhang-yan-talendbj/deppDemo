@@ -1,8 +1,15 @@
 package com.caribe.stone.io;
-import java.io.*;
-import java.util.*;
-import javax.swing.*;
-import javax.swing.text.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.PrintStream;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.text.Document;
 
 public class ConsoleTextArea extends JTextArea {
 	public ConsoleTextArea(InputStream[] inStreams) {
@@ -13,7 +20,7 @@ public class ConsoleTextArea extends JTextArea {
 	public ConsoleTextArea() throws IOException {
 		final LoopedStreams ls = new LoopedStreams();
 
-		// ÖØ¶¨ÏòSystem.outºÍSystem.err
+		// é‡å®šå‘System.outå’ŒSystem.err
 		PrintStream ps = new PrintStream(ls.getOutputStream());
 		System.setOut(ps);
 		System.setErr(ps);
@@ -38,22 +45,22 @@ public class ConsoleTextArea extends JTextArea {
 							setCaretPosition(doc.getLength());
 					}
 				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, "´ÓBufferedReader¶ÁÈ¡´íÎó£º" + e);
+					JOptionPane.showMessageDialog(null, "ä»BufferedReaderè¯»å–é”™è¯¯ï¼š" + e);
 					System.exit(1);
 				}
 			}
 		}).start();
 	} // startConsoleReaderThread()
 
-	// ¸ÃÀàÊ£Óà²¿·ÖµÄ¹¦ÄÜÊÇ½øĞĞ²âÊÔ
+	// è¯¥ç±»å‰©ä½™éƒ¨åˆ†çš„åŠŸèƒ½æ˜¯è¿›è¡Œæµ‹è¯•
 	public static void main(String[] args) {
-		JFrame f = new JFrame("ConsoleTextArea²âÊÔ");
+		JFrame f = new JFrame("ConsoleTextAreaæµ‹è¯•");
 		ConsoleTextArea consoleTextArea = null;
 
 		try {
 			consoleTextArea = new ConsoleTextArea();
 		} catch (IOException e) {
-			System.err.println("²»ÄÜ´´½¨LoopedStreams£º" + e);
+			System.err.println("ä¸èƒ½åˆ›å»ºLoopedStreamsï¼š" + e);
 			System.exit(1);
 		}
 
@@ -68,13 +75,13 @@ public class ConsoleTextArea extends JTextArea {
 			}
 		});
 
-		// Æô¶¯¼¸¸öĞ´²Ù×÷Ïß³ÌÏò
-		// System.outºÍSystem.errÊä³ö
-		startWriterTestThread("Ğ´²Ù×÷Ïß³Ì #1", System.err, 920, 50);
-		startWriterTestThread("Ğ´²Ù×÷Ïß³Ì #2", System.out, 500, 50);
-		startWriterTestThread("Ğ´²Ù×÷Ïß³Ì #3", System.out, 200, 50);
-		startWriterTestThread("Ğ´²Ù×÷Ïß³Ì #4", System.out, 1000, 50);
-		startWriterTestThread("Ğ´²Ù×÷Ïß³Ì #5", System.err, 850, 50);
+		// å¯åŠ¨å‡ ä¸ªå†™æ“ä½œçº¿ç¨‹å‘
+		// System.outå’ŒSystem.errè¾“å‡º
+		startWriterTestThread("å†™æ“ä½œçº¿ç¨‹ #1", System.err, 920, 50);
+		startWriterTestThread("å†™æ“ä½œçº¿ç¨‹ #2", System.out, 500, 50);
+		startWriterTestThread("å†™æ“ä½œçº¿ç¨‹ #3", System.out, 200, 50);
+		startWriterTestThread("å†™æ“ä½œçº¿ç¨‹ #4", System.out, 1000, 50);
+		startWriterTestThread("å†™æ“ä½œçº¿ç¨‹ #5", System.err, 850, 50);
 	} // main()
 
 	private static void startWriterTestThread(final String name, final PrintStream ps, final int delay, final int count) {

@@ -21,4 +21,5 @@
 	
 <application name="Tapestry Demo">
     <page name="ExternalLink" specification-path="externalLink.page"/>
+    <library id="Contrib" specification-path="/org/apache/tapestry/contrib/Contrib.library" />	
 </application>

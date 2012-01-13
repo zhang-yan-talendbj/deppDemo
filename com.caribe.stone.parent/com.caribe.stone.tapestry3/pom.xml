@@ -55,16 +55,14 @@
 		<!-- slf4j end -->
 
 		<dependency>
-			<groupId>org.apache.tapestry</groupId>
-			<artifactId>tapestry-contrib</artifactId>
-			<version>3.0.5-SNAPSHOT</version>
-			<scope>compile</scope>
+			<groupId>tapestry</groupId>
+			<artifactId>tapestry</artifactId>
+			<version>3.0.3</version>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.tapestry</groupId>
-			<artifactId>tapestry-framework</artifactId>
-			<version>3.0.5-SNAPSHOT</version>
-			<scope>compile</scope>
+			<groupId>tapestry</groupId>
+			<artifactId>tapestry-contrib</artifactId>
+			<version>3.0.3</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -247,9 +245,7 @@
 						<version>6.1.25</version>
 						<configuration>
 							<reload>manual</reload>
-						<!-- 
-						  <scanIntervalSeconds>2</scanIntervalSeconds>
-						 -->
+							<!-- <scanIntervalSeconds>2</scanIntervalSeconds> -->
 							<webDefaultXml>src/main/resources/webdefault.xml</webDefaultXml>
 							<connectors>
 								<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
@@ -259,8 +255,7 @@
 							</connectors>
 						</configuration>
 					</plugin>
-<!-- 
- -->
+					<!-- -->
 					<plugin>
 						<groupId>org.zeroturnaround</groupId>
 						<artifactId>javarebel-maven-plugin</artifactId>
