@@ -2,8 +2,6 @@ package com.caribe.stone.com.caribe.stone.jpa2;
 
 
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.persistence.Basic;
 import javax.persistence.Entity;
