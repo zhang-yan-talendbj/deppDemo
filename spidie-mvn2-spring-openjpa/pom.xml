@@ -38,6 +38,11 @@
 			<version>1.8.0.7</version>
 		</dependency>
 		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.2.142</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.openjpa</groupId>
 			<artifactId>openjpa</artifactId>
 			<version>1.2.1</version>
@@ -75,12 +80,12 @@
 		</plugins>
 	</build>
 	<properties>
-		<jdbc.driverClassName>org.hsqldb.jdbcDriver
+		<jdbc.driverClassName>org.h2.Driver
 		</jdbc.driverClassName>
-		<jdbc.url><![CDATA[jdbc:hsqldb:file:target/testdb;shutdown=true]]></jdbc.url>
+		<jdbc.url><![CDATA[jdbc:h2:tcp://localhost/~/tea-milk]]></jdbc.url>
 		<jdbc.username>sa</jdbc.username>
 		<jdbc.password></jdbc.password>
-		<jpa.database>HSQL</jpa.database>
+		<jpa.database>H2</jpa.database>
 		<jpa.showSql>true</jpa.showSql>
 	</properties>
 </project>
