@@ -16,20 +16,16 @@ import org.junit.Test;
  * Hello world!
  * 
  */
-public class App {
+public class SimpleJPADemo {
 
 	@Test
-	public void tests() {
+	public void simple() {
 		EntityManagerFactory factory = OpenJPAPersistence.createEntityManagerFactory("teaUnit","META-INF/persistence.xml");
 
 		EntityManager em = factory.createEntityManager();
-		System.out.println(em);
 		em.getTransaction().begin();
-
 		em.persist(new Message("Hello Persistence!"));
-
 		em.getTransaction().commit();
-
 		em.close();
 	}
 }
