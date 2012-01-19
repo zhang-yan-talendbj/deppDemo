@@ -157,7 +157,9 @@
 					<includes>
 						<include>**/*Test.java</include>
 					</includes>
+					<!-- 
 					<argLine>-javaagent:"e:/study/program/JavaFramework/maven2/repository/org/apache/openjpa/openjpa-all/2.1.1/openjpa-all-2.1.1.jar"</argLine>
+					 -->
 				</configuration>
 			</plugin>
 
