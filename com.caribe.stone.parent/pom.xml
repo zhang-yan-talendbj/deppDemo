@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.caribe.stone</groupId>
@@ -12,7 +11,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<!-- 主要依赖库的版本定义 -->
+		<!-- 主�?�?赖库的版本定义 -->
 		<springside.version>3.3.4</springside.version>
 		<spring.version>3.0.4.RELEASE</spring.version>
 		<hibernate.version>3.5.5-Final</hibernate.version>
@@ -37,14 +36,15 @@
 		<module>com.caribe.stone.plugin</module>
 		<module>com.caribe.stone.jsf2</module>
 		<module>com.caribe.stone.fit</module>
-	</modules>
+    <module>com.caribe.stone.jwebunit</module>
+  </modules>
 
-	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查找. -->
+	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺�?进行查找. -->
 	<repositories>
 
 	</repositories>
 
-	<!-- 预定义依赖项的version,scope与exclusions,子项目中只需定义groupId 和 artifactId 即可 -->
+	<!-- 预定义�?赖项的version,scope与exclusions,�?项目中�?�需定义groupId 和 artifactId �?��?� -->
 	<dependencyManagement>
 		<dependencies>
 			<!-- springside modules begin -->
@@ -899,7 +899,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore></ignore>
+										<ignore/>
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
