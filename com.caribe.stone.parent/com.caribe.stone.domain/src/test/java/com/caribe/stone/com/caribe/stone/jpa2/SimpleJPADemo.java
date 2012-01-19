@@ -17,7 +17,8 @@ import org.junit.Test;
  * 
  */
 public class SimpleJPADemo {
-
+//-javaagent:e:\study\program\JavaFramework\maven2\repository\org\apache\openjpa\openjpa\1.2.1\openjpa-1.2.1.jar
+	
 	@Test
 	public void simple() {
 		EntityManagerFactory factory = OpenJPAPersistence.createEntityManagerFactory("teaUnit","META-INF/persistence.xml");
@@ -30,7 +31,8 @@ public class SimpleJPADemo {
 	}
 }
 
-@Entity
+//@Entity
+// comment this @entity or  spring will load this class Message why???
 class Message {
 	@Id
 	private long id = System.currentTimeMillis();

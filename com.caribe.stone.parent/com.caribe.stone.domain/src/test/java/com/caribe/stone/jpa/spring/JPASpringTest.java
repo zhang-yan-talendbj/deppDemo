@@ -15,8 +15,7 @@ public class JPASpringTest extends AbstractJUnit4SpringContextTests {
 
 	@Test
 	public void testName() throws Exception {
-		EntityManagerFactory emf = (EntityManagerFactory) applicationContext
-				.getBean("entityManagerFactory");
+		EntityManagerFactory emf = (EntityManagerFactory) applicationContext.getBean("entityManagerFactory");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
 		SimpleEntity simple = new SimpleEntity();

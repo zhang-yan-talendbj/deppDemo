@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.caribe.stone</groupId>
-	<artifactId>com.caribe.stone.jpa2</artifactId>
+	<artifactId>com.caribe.stone.domain</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 

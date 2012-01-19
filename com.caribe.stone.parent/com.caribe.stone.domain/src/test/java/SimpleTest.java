@@ -1,6 +1,9 @@
+import junit.framework.Assert;
+
 import org.apache.openjpa.persistence.OpenJPAEntityManager;
 import org.apache.openjpa.persistence.OpenJPAEntityManagerFactory;
 import org.apache.openjpa.persistence.OpenJPAPersistence;
+import org.h2.security.AES;
 import org.junit.Test;
 
 import com.caribe.stone.jpa.entities.SimpleEntity;
@@ -17,6 +20,9 @@ public class SimpleTest {
 		em.getTransaction().begin();
 		em.persist(se);
 		em.getTransaction().commit();
+		
+		SimpleEntity simple=em.find(SimpleEntity.class, se.getId());
+		Assert.assertEquals("simple", simple.getName());
 	}
 
 }

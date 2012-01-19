@@ -1,3 +1,4 @@
+package com.caribe.stone.magic;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
@@ -5,6 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+/** this class is copy others~~~until I understand it.
+ * @author Administrator
+ *
+ */
 public class SorcererStone {
 	
 	private static Logger logger = LoggerFactory.getLogger(SorcererStone.class);
@@ -19,7 +24,7 @@ public class SorcererStone {
 	 * @param index the Index of the generic ddeclaration,start from 0.
 	 * @return the index generic declaration, or Object.class if cannot be determined
 	 */
-	@SuppressWarnings("unchecked")
+	
 	public static Class getSuperClassGenricType(final Class clazz, final int index) {
 
 		Type genType = clazz.getGenericSuperclass();
