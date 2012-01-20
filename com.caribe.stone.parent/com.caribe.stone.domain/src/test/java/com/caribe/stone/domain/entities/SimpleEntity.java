@@ -1,4 +1,4 @@
-package com.caribe.stone.jpa.entities;
+package com.caribe.stone.domain.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

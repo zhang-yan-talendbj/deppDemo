@@ -1,4 +1,4 @@
-package com.caribe.stone.jpa.spring;
+package com.caribe.stone.domain.spring.jpa;
 
 import static junit.framework.Assert.*;
 import javax.persistence.EntityManager;
@@ -8,10 +8,10 @@ import org.junit.Test;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.AbstractJUnit4SpringContextTests;
 
-import com.caribe.stone.jpa.entities.SimpleEntity;
+import com.caribe.stone.domain.entities.SimpleEntity;
 
-@ContextConfiguration(locations = { "classpath:/JPA-CONFIG/spring/context.xml" })
-public class JPASpringTest extends AbstractJUnit4SpringContextTests {
+@ContextConfiguration()
+public class JPALocalContainerEntityManagerFactoryBean extends AbstractJUnit4SpringContextTests {
 
 	@Test
 	public void testName() throws Exception {

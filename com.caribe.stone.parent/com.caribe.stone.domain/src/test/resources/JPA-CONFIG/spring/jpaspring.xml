@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
 	<persistence-unit name="simpleUnit" transaction-type="RESOURCE_LOCAL">
 		<!-- ORM 类 -->
-		<class>com.caribe.stone.jpa.entities.SimpleEntity</class>
+		<class>com.caribe.stone.domain.entities.SimpleEntity</class>
 		<properties>
 			<!-- <property name="openjpa.ConnectionDriverName" value="org.h2.Driver" 
 				/> <property name="openjpa.ConnectionURL" value="jdbc:h2:tcp://10.69.4.187:9092/test" 

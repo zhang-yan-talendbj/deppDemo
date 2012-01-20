@@ -3,7 +3,7 @@
 	<persistence-unit name="simpleUnit1" transaction-type="RESOURCE_LOCAL">
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl</provider>
 		<!-- ORM 类 -->
-		<class>com.caribe.stone.jpa.entities.SimpleEntity</class>
+		<class>com.caribe.stone.domain.entities.SimpleEntity</class>
 		<properties>
 
 			<!-- 配置从java ORM annotation 生成数据库结构，配置此步时，需要把对应的java ORM类复制上面的<class/>标签中。 

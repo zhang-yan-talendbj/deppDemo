@@ -1,76 +1,55 @@
 package com.caribe.stone.com.caribe.stone.jpa2;
 
 
-import java.util.Date;
+import static org.junit.Assert.*;
 
-import javax.persistence.Basic;
-import javax.persistence.Entity;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.Id;
 
+import junit.framework.Assert;
+
+import org.apache.openjpa.persistence.OpenJPAEntityManager;
+import org.apache.openjpa.persistence.OpenJPAEntityManagerFactory;
 import org.apache.openjpa.persistence.OpenJPAPersistence;
 import org.junit.Test;
+
+import com.caribe.stone.domain.entities.Message;
+import com.caribe.stone.domain.entities.SimpleEntity;
 
 /**
  * Hello world!
  * 
  */
 public class SimpleJPADemo {
-//-javaagent:e:\study\program\JavaFramework\maven2\repository\org\apache\openjpa\openjpa\1.2.1\openjpa-1.2.1.jar
-	
+	// -javaagent:e:\study\program\JavaFramework\maven2\repository\org\apache\openjpa\openjpa\1.2.1\openjpa-1.2.1.jar
+
 	@Test
-	public void simple() {
-		EntityManagerFactory factory = OpenJPAPersistence.createEntityManagerFactory("teaUnit","META-INF/persistence.xml");
+	public void defaultPersistence() {
+		EntityManagerFactory factory = OpenJPAPersistence.createEntityManagerFactory("teaUnit",
+				"META-INF/persistence.xml");
 
 		EntityManager em = factory.createEntityManager();
 		em.getTransaction().begin();
-		em.persist(new Message("Hello Persistence!"));
+		Message m = new Message("Hello Persistence!");
+		em.persist(m);
 		em.getTransaction().commit();
 		em.close();
-	}
-}
-
-//@Entity
-// comment this @entity or  spring will load this class Message why???
-class Message {
-	@Id
-	private long id = System.currentTimeMillis();
-
-	@Basic
-	private String message;
-
-	@Basic
-	private Date created = new Date();
-
-	public Message() {
+		Assert.assertNotNull(m.getId());
 	}
 
-	public Message(String msg) {
-		message = msg;
+	@Test
+	public void configPersistenPath() {
+		OpenJPAEntityManagerFactory mf = OpenJPAPersistence.createEntityManagerFactory("simpleUnit1",
+				"jpa/simpleJPA.xml");
+		OpenJPAEntityManager em = mf.createEntityManager();
+		SimpleEntity se = new SimpleEntity();
+		se.setName("simple");
+		em.getTransaction().begin();
+		em.persist(se);
+		em.getTransaction().commit();
+
+		SimpleEntity simple = em.find(SimpleEntity.class, se.getId());
+		assertEquals("simple", simple.getName());
 	}
 
-	public void setId(long val) {
-		id = val;
-	}
-
-	public long getId() {
-		return id;
-	}
-
-	public void setMessage(String msg) {
-		message = msg;
-	}
-
-	public String getMessage() {
-		return message;
-	}
-
-	public void setCreated(Date date) {
-		created = date;
-	}
-
-	public Date getCreated() {
-		return created;
-	}
 }

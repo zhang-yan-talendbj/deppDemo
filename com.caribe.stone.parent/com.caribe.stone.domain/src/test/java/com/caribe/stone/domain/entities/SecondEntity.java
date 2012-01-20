@@ -1,4 +1,4 @@
-package com.caribe.stone.jpa.entities;
+package com.caribe.stone.domain.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="SIMPLE_ENTITY")
+@Table(name="SECOND_ENTITY")
 public class SecondEntity {
 
 	private Long id;
