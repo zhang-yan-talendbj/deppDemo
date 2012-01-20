@@ -12,11 +12,14 @@ public class MavenFilterTest {
 	public void testMavenFilter() throws Exception {
 		InputStream is = MavenFilterTest.class.getResourceAsStream("/mavenTest/testMavenFilter.txt");
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
-		Assert.assertEquals("com.caribe.stone.jpa2", br.readLine());
+		Assert.assertEquals("com.caribe.stone", br.readLine());
 	}
+	/**View test.properties
+	 * @throws Exception
+	 */
 	@Test
 	public void testMavenFilterSpringConfig() throws Exception {
-		InputStream is = MavenFilterTest.class.getResourceAsStream("/JPA-CONFIG/spring/context.xml");
+		InputStream is = MavenFilterTest.class.getResourceAsStream("/application.test.properties");
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		while(true){
 			String s = br.readLine();
