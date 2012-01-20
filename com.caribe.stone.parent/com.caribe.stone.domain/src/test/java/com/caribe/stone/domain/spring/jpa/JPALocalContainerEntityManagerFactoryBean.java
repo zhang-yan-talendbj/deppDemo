@@ -41,9 +41,4 @@ public class JPALocalContainerEntityManagerFactoryBean extends AbstractJUnit4Spr
 		SimpleEntity s = em.find(SimpleEntity.class, simple.getId());
 		assertEquals("simple", s.getName());
 	}
-
-	@Test
-	public void testName() throws Exception {
-		assertNotNull(entityManager);
-	}
 }
