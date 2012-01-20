@@ -2,9 +2,15 @@ package com.caribe.stone.domain.dao;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
 
 import com.caribe.stone.magic.SorcererStone;
 
@@ -12,14 +18,26 @@ import com.caribe.stone.magic.SorcererStone;
  * @author bsnpbag
  * 
  * @param <E>
- * @param <P>
+ * @param <PK>
  */
-public class BaseDao<E, P extends Serializable> {
+@Repository
+public class BaseDao<E, PK extends Serializable> {
 
 	protected Logger logger = LoggerFactory.getLogger(getClass());
 
 	protected Class<E> entityClass;
-	protected Class<P> primeKey;
+	protected Class<PK> primeKey;
+
+	private EntityManager em;
+
+	@PersistenceContext
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
+	public EntityManager getEm() {
+		return em;
+	}
 
 	@SuppressWarnings("unchecked")
 	public BaseDao() {
@@ -27,28 +45,27 @@ public class BaseDao<E, P extends Serializable> {
 		this.primeKey = SorcererStone.getSuperClassGenricType(getClass(), 1);
 	}
 
-	public P save(E entity) {
-		P p = null;
-		return p;
+	public void save(E entity) {
+		em.persist(entity);
 	}
 
 	public E update(E entity) {
+		em.merge(entity);
 		return entity;
 
 	}
 
-	public E delete(E entity) {
-		return entity;
-
+	public void delete(E entity) {
+		em.remove(entity);
 	}
 
-	public E find(P pk) {
+	public E find(PK pk) {
 		E entity = null;
 		return entity;
-
 	}
 
 	public Collection<E> findAll() {
-		return null;
+		Query query = em.createQuery("select t from "+entityClass.getName()+" t");
+		return query.getResultList();
 	}
 }
