@@ -1,5 +1,7 @@
 package com.caribe.stone.domain.dao;
 
+import static org.junit.Assert.*;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceContext;
@@ -15,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.caribe.stone.domain.entities.SimpleEntity;
 
 @ContextConfiguration
+@TransactionConfiguration(transactionManager="transactionManager",defaultRollback=false)
 public class BaseDaoTest extends AbstractTransactionalJUnit4SpringContextTests{
 
 	// @Resource
@@ -98,4 +101,8 @@ public class BaseDaoTest extends AbstractTransactionalJUnit4SpringContextTests{
 				.getBean("transactionManager");
 	}
 
+	@Test
+	public void isEntityManagerNull() throws Exception {
+		assertNull(em);
+	}
 }

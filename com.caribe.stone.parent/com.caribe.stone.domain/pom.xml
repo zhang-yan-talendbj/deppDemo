@@ -14,6 +14,7 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.4.RELEASE</spring.version>
+		<hibernate.version>3.5.5-Final</hibernate.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -127,11 +128,35 @@
 			<version>${spring.version}</version>
 		</dependency>
 
+		<!-- openjpa -->
 		<dependency>
 			<groupId>org.apache.openjpa</groupId>
 			<artifactId>openjpa</artifactId>
 			<version>1.2.1</version>
 		</dependency>
+
+		<!-- hibernate -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-annotations</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>javassist</groupId>
+			<artifactId>javassist</artifactId>
+			<version>3.12.1.GA</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -157,9 +182,7 @@
 					<includes>
 						<include>**/*Test.java</include>
 					</includes>
-					<!-- 
-					<argLine>-javaagent:"e:/study/program/JavaFramework/maven2/repository/org/apache/openjpa/openjpa-all/2.1.1/openjpa-all-2.1.1.jar"</argLine>
-					 -->
+					<!-- <argLine>-javaagent:"e:/study/program/JavaFramework/maven2/repository/org/apache/openjpa/openjpa-all/2.1.1/openjpa-all-2.1.1.jar"</argLine> -->
 				</configuration>
 			</plugin>
 

@@ -48,5 +48,4 @@ public class SorcererStone {
 
 		return (Class) params[index];
 	}
-
 }
