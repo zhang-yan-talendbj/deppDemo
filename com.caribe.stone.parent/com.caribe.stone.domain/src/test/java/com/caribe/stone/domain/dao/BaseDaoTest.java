@@ -35,36 +35,21 @@ public class BaseDaoTest extends AbstractTransactionalJUnit4SpringContextTests{
 		this.em = em;
 	}
 
-	// public BaseDao<SimpleEntity, Long> getBaseDao() {
-	// return baseDao;
-	// }
-	//
-	// public void setBaseDao(BaseDao<SimpleEntity, Long> baseDao) {
-	// this.baseDao = baseDao;
-	// }
 
 	@Test
 	@Transactional
 	public void testBaseDao() {
-		// SimpleEntity entity = new SimpleEntity();
-		// entity.setName("bruce");
-		// // baseDao.save(entity);
-		// EntityManager em = baseDao.getEm();
-		// em.getTransaction().begin();
-		// em.persist(entity);
-		// System.out.println(entity.getId());
-		// em.getTransaction().commit();
 
 		EntityManagerFactory emf = (EntityManagerFactory) applicationContext
 				.getBean("entityManagerFactory");
 		EntityManager em = emf.createEntityManager();
-		System.out.println(em);
 		SimpleEntity entity = getEntity();
 		em.getTransaction().begin();
 		em.persist(entity);
 		em.flush();
 		em.getTransaction().commit();
-		System.out.println(entity.getId());
+		assertNotNull(entity.getId());
+		
 	}
 
 	private SimpleEntity getEntity() {
@@ -91,7 +76,7 @@ public class BaseDaoTest extends AbstractTransactionalJUnit4SpringContextTests{
 		em.persist(entity);
 		em.flush();
 		// em.getTransaction().commit();
-		System.out.println(entity.getId());
+		assertNotNull(entity.getId());
 	}
 
 	@Test
@@ -103,6 +88,6 @@ public class BaseDaoTest extends AbstractTransactionalJUnit4SpringContextTests{
 
 	@Test
 	public void isEntityManagerNull() throws Exception {
-		assertNull(em);
+		assertNotNull(em);
 	}
 }

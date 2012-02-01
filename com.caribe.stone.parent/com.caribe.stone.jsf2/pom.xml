@@ -10,7 +10,7 @@
 	<groupId>com.caribe.stone.jsf2</groupId>
 	<artifactId>com.caribe.stone.jsf2</artifactId>
 	<packaging>war</packaging>
-	<name>JSF2 RichFaces Demo</name>
+	<name>com.caribe.stone.jsf2</name>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.source>1.6</maven.compiler.source>

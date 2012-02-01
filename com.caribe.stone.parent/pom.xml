@@ -11,7 +11,7 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<!-- 主�?�?赖库的版本定义 -->
+		<!-- 主�?�?赖库的版本定义 -->
 		<springside.version>3.3.4</springside.version>
 		<spring.version>3.0.4.RELEASE</spring.version>
 		<hibernate.version>3.5.5-Final</hibernate.version>
@@ -32,19 +32,23 @@
 	</properties>
 	<modules>
 		<module>com.caribe.stone.core</module>
+		<module>com.caribe.stone.domain</module>
+		<!--<module>com.caribe.stone.fit</module> -->
+		<module>com.caribe.stone.jsf2</module>
+   	    <module>com.caribe.stone.jwebunit</module>
+   	    <module>com.caribe.stone.tapestry3</module>
+   	    <module>com.caribe.stone.tapestry</module>
+   	    <module>com.caribe.stone.tdd</module>
 		<module>com.caribe.stone.web</module>
 		<module>com.caribe.stone.plugin</module>
-		<module>com.caribe.stone.jsf2</module>
-		<module>com.caribe.stone.fit</module>
-    <module>com.caribe.stone.jwebunit</module>
   </modules>
 
-	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺�?进行查找. -->
+	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺�?进行查找. -->
 	<repositories>
 
 	</repositories>
 
-	<!-- 预定义�?赖项的version,scope与exclusions,�?项目中�?�需定义groupId 和 artifactId �?��?� -->
+	<!-- 预定义�?赖项的version,scope与exclusions,�?项目中�?�需定义groupId 和 artifactId �?��?� -->
 	<dependencyManagement>
 		<dependencies>
 			<!-- springside modules begin -->

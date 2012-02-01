@@ -20,9 +20,9 @@ public class ClassLoaderTest {
 			c = Class.forName("java.lang.Object");
 			cl = c.getClassLoader();
 			System.out.println("java.lang.Object's loader is  " + cl);
-			c = Class.forName("com.caribe.stone.j2se.clazz.TestClass");
+			c = Class.forName("com.caribe.stone.j2se.clazz.ClassLoaderTest");
 			cl = c.getClassLoader();
-			System.out.println("com.caribe.stone.j2se.clazz.TestClass's loader is  " + cl);
+			System.out.println("com.caribe.stone.j2se.clazz.ClassLoaderTest's loader is  " + cl);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -45,13 +45,6 @@ public class ClassLoaderTest {
 		ClassLoader cl2 = ClassLoader.getSystemClassLoader();
 		assertSame(cl, cl2);
 	}
-	
-//	@Test
-//	public void loadClass() throws Exception {
-//		ClassLoader cl = ClassLoader.getSystemClassLoader();
-//		cl.
-//	}
-	
 }
 
 class TestClass {
