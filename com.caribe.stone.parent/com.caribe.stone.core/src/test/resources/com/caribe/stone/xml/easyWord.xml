@@ -1,0 +1,68 @@
+
+<w:wordDocument xmlns:w="http://schemas.microsoft.com/office/word/2003/wordml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:sl="http://schemas.microsoft.com/schemaLibrary/2003/core" xmlns:aml="http://schemas.microsoft.com/aml/2001/core" xmlns:wx="http://schemas.microsoft.com/office/word/2003/auxHint" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:dt="uuid:C2F41010-65B3-11d1-A29F-00AA00C14882" xmlns:wsp="http://schemas.microsoft.com/office/word/2003/wordml/sp2" w:macrosPresent="no" w:embeddedObjPresent="no" w:ocxPresent="no" xml:space="preserve">
+  <w:ignoreElements w:val="http://schemas.microsoft.com/office/word/2003/wordml/sp2"/>
+  <o:DocumentProperties>
+    <o:LastAuthor>bsnpbag</o:LastAuthor>
+    <o:Revision>2</o:Revision>
+    <o:TotalTime>0</o:TotalTime>
+    <o:Created>2011-12-05T09:05:00Z</o:Created>
+    <o:LastSaved>2011-12-05T09:05:00Z</o:LastSaved>
+    <o:Pages>1</o:Pages>
+    <o:Words>4</o:Words>
+    <o:Characters>23</o:Characters>
+    <o:Lines>1</o:Lines>
+    <o:Paragraphs>1</o:Paragraphs>
+    <o:CharactersWithSpaces>26</o:CharactersWithSpaces>
+    <o:Version>11.8134</o:Version>
+  </o:DocumentProperties>
+  <w:fonts/>
+  <w:styles/>
+  <w:docPr/>
+  <w:body>
+    <wx:sect>
+      <w:p wsp:rsidR="00000000" wsp:rsidRDefault="00DA5CB6">
+        <w:pPr/>
+        <w:r>
+          <w:t sunsuper="bank">    1    </w:t>
+        </w:r>
+      </w:p>
+      <w:p wsp:rsidR="00DA5CB6" wsp:rsidRDefault="00DA5CB6">
+        <w:pPr/>
+        <w:r>
+          <w:t sunsuper="bank">     </w:t>
+        </w:r>
+      </w:p>
+      <w:p wsp:rsidR="00DA5CB6" wsp:rsidRDefault="00DA5CB6">
+        <w:pPr/>
+        <w:r>
+          <w:t>      </w:t>
+        </w:r>
+      </w:p>
+      <w:p wsp:rsidR="00DA5CB6" wsp:rsidRDefault="00DA5CB6">
+        <w:pPr/>
+        <w:r>
+          <w:t>4</w:t>
+        </w:r>
+      </w:p>
+      <w:p wsp:rsidR="00DA5CB6" wsp:rsidRDefault="00DA5CB6">
+        <w:pPr/>
+        <w:r>
+          <w:t>5aaaa</w:t>
+        </w:r>
+      </w:p>
+      <w:p wsp:rsidR="00DA5CB6" wsp:rsidRDefault="00DA5CB6">
+        <w:pPr/>
+        <w:r>
+          <w:t>6bbbb</w:t>
+        </w:r>
+      </w:p>
+      <w:p wsp:rsidR="00DA5CB6" wsp:rsidRDefault="00DA5CB6">
+        <w:pPr/>
+        <w:r>
+          <w:t>8cccc</w:t>
+        </w:r>
+      </w:p>
+    </wx:sect>
+  </w:body>
+</w:wordDocument>
+

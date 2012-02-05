@@ -101,13 +101,8 @@
 			<artifactId>easymockclassextension</artifactId>
 			<version>2.2</version>
 		</dependency>
-		<!--
-			<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib</artifactId>
-			<version>2.1_3</version>
-			</dependency>
-		-->
+		<!-- <dependency> <groupId>cglib</groupId> <artifactId>cglib</artifactId> 
+			<version>2.1_3</version> </dependency> -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
@@ -332,7 +327,27 @@
 				<artifactId>maven-dependency-plugin</artifactId>
 				<version>2.0-alpha-4</version>
 			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>fit-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>fixture</id>
+						<phase>integration-test</phase>
+						<configuration>
+							<sourceDirectory>src/test/resources/storytests/calculator</sourceDirectory>
+							<sourceIncludes>*.htm</sourceIncludes>
+							<caseSensitive>true</caseSensitive>
+							<outputDirectory>target/fit</outputDirectory>
+							<ignoreFailures>false</ignoreFailures>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
 </project>

@@ -1,4 +1,4 @@
-package com.tddinaction.concurrency.waitforthreads;
+/*package com.tddinaction.concurrency.waitforthreads;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,9 +20,9 @@ public class TestWaitingForSpawnedThreads {
 
     private static final String DO_NOT_ADD_DATA = "DO_NOT_ADD_DATA";
 
-    /**
+    *//**
      * Sample test class that spawns threads from inside test methods.
-     */
+     *//*
     @RunWith(value = ThreadedRunner.class)
     public static class ControllableTestCase {
         @Test
@@ -108,3 +108,4 @@ public class TestWaitingForSpawnedThreads {
         assertEquals("Number of failures.", expected, failures);
     }
 }
+*/

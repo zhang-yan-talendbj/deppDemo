@@ -1,0 +1,30 @@
+task hello{
+  doLast{
+	println("hello world")
+ 	4.times { println    "$it"    }    
+	}	
+}
+task helloSimple <<{ //grovvy 中的<<是添加到的意思
+//sb = new StringBuffer(‘foo’)
+//    sb << ‘bar’ 
+	println("hello world")
+}
+
+task intro(dependsOn:hello)<<{
+ println "I'm Gradle"
+}
+
+task taskX(dependsOn:     'taskY'   ) << {// 'taskY' is a task name
+
+    println 'taskX'
+}
+task taskY << {
+    println 'taskY1'
+}
+
+	4.times{// you can use it to dynamically create tasks
+		counter ->
+		task "task$counter" <<{
+		println "I'm task number $counter "
+		}
+}

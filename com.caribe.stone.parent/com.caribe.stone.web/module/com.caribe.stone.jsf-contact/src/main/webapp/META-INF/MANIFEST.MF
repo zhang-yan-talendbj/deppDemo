@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Class-Path: jsf-api-1.2_14.jar jsf-impl-1.2_14.jar jstl-1.2.jar servle
+ t-api-2.5.jar
+
