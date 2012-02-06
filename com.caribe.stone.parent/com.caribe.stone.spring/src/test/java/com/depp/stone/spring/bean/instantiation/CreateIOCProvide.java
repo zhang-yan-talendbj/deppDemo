@@ -18,17 +18,17 @@ public class CreateIOCProvide {
 
 		bindViaCode(bf);
 
-		LvBu bean = (LvBu) bf.getBean("knight");
-		Assert.assertTrue(bean instanceof LvBu);
-		Assert.assertTrue(bean.getHorse() instanceof 赤免);
-		Assert.assertTrue(bean.getWeapon() instanceof 方天画戟);
+		PhantomAssassin bean = (PhantomAssassin) bf.getBean("knight");
+		Assert.assertTrue(bean instanceof PhantomAssassin);
+		Assert.assertTrue(bean.getShoes() instanceof FlyingShoes);
+		Assert.assertTrue(bean.getWeapon() instanceof Battlefury);
 	}
 
 	@SuppressWarnings("deprecation")
 	private void bindViaCode(DefaultListableBeanFactory bf) {
-		AbstractBeanDefinition weapon = new RootBeanDefinition(方天画戟.class, true);
-		AbstractBeanDefinition knight = new RootBeanDefinition(LvBu.class, true);
-		AbstractBeanDefinition horse = new RootBeanDefinition(赤免.class, true);
+		AbstractBeanDefinition weapon = new RootBeanDefinition(Battlefury.class, true);
+		AbstractBeanDefinition knight = new RootBeanDefinition(PhantomAssassin.class, true);
+		AbstractBeanDefinition horse = new RootBeanDefinition(FlyingShoes.class, true);
 		bf.registerBeanDefinition("weapon", weapon);
 		bf.registerBeanDefinition("knight", knight);
 		bf.registerBeanDefinition("horse", horse);
