@@ -72,6 +72,6 @@ public class CreateIOCProvide {
 		reader.loadBeanDefinitions("classpath:com/depp/stone/spring/bean/ioc/bean-annotation.xml");
 		
 		checkBean(bf);
-		
 	}
+	
 }
