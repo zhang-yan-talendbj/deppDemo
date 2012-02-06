@@ -1,4 +1,4 @@
-package com.depp.stone.spring.bean.instantiation;
+package com.depp.stone.spring.bean.ioc;
 
 public class PhantomAssassin {
 
@@ -9,6 +9,9 @@ public class PhantomAssassin {
 
 	private Battlefury weapon;
 	private FlyingShoes shoes;
+
+	public PhantomAssassin() {
+	}
 
 	public FlyingShoes getShoes() {
 		return shoes;
