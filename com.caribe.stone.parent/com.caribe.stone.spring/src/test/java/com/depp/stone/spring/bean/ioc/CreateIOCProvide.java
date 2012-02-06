@@ -1,4 +1,4 @@
-package com.depp.stone.spring.bean.ioc.code;
+package com.depp.stone.spring.bean.ioc;
 
 import static org.junit.Assert.*;
 
@@ -10,9 +10,6 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 
-import com.depp.stone.spring.bean.ioc.Battlefury;
-import com.depp.stone.spring.bean.ioc.FlyingShoes;
-import com.depp.stone.spring.bean.ioc.PhantomAssassin;
 
 public class CreateIOCProvide {
 
@@ -63,8 +60,18 @@ public class CreateIOCProvide {
 	public void testIocProvider() throws Exception {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
-		reader.loadBeanDefinitions("classpath:com/depp/stone/spring/bean/ioc/xml/bean.xml");
+		reader.loadBeanDefinitions("classpath:com/depp/stone/spring/bean/ioc/bean.xml");
 
 		checkBean(bf);
+	}
+	
+	@Test
+	public void annotation() throws Exception {
+		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
+		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
+		reader.loadBeanDefinitions("classpath:com/depp/stone/spring/bean/ioc/bean-annotation.xml");
+		
+		checkBean(bf);
+		
 	}
 }
