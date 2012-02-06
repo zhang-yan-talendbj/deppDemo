@@ -1,6 +1,6 @@
 package com.depp.stone.spring.bean.instantiation;
 
-public class 吕布 {
+public class LvBu {
 
 	@Override
 	public String toString() {
@@ -26,7 +26,7 @@ public class 吕布 {
 		this.weapon = weapon;
 	}
 
-	public 吕布(方天画戟 weapon) {
+	public LvBu(方天画戟 weapon) {
 		this.weapon = weapon;
 	}
 

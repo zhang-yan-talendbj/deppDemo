@@ -18,8 +18,8 @@ public class CreateIOCProvide {
 
 		bindViaCode(bf);
 
-		吕布 bean = (吕布) bf.getBean("knight");
-		Assert.assertTrue(bean instanceof 吕布);
+		LvBu bean = (LvBu) bf.getBean("knight");
+		Assert.assertTrue(bean instanceof LvBu);
 		Assert.assertTrue(bean.getHorse() instanceof 赤免);
 		Assert.assertTrue(bean.getWeapon() instanceof 方天画戟);
 	}
@@ -27,7 +27,7 @@ public class CreateIOCProvide {
 	@SuppressWarnings("deprecation")
 	private void bindViaCode(DefaultListableBeanFactory bf) {
 		AbstractBeanDefinition weapon = new RootBeanDefinition(方天画戟.class, true);
-		AbstractBeanDefinition knight = new RootBeanDefinition(吕布.class, true);
+		AbstractBeanDefinition knight = new RootBeanDefinition(LvBu.class, true);
 		AbstractBeanDefinition horse = new RootBeanDefinition(赤免.class, true);
 		bf.registerBeanDefinition("weapon", weapon);
 		bf.registerBeanDefinition("knight", knight);
