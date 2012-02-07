@@ -3,13 +3,13 @@ package com.depp.stone.spring.bean.ioc;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.ConstructorArgumentValues;
 import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-
 
 public class CreateIOCProvide {
 
@@ -64,14 +64,33 @@ public class CreateIOCProvide {
 
 		checkBean(bf);
 	}
-	
+
 	@Test
 	public void annotation() throws Exception {
 		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
 		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(bf);
 		reader.loadBeanDefinitions("classpath:com/depp/stone/spring/bean/ioc/bean-annotation.xml");
-		
+
 		checkBean(bf);
 	}
-	
+
+	@Test
+	public void beanWrapper() throws Exception {
+		Object pa = Class.forName("com.depp.stone.spring.bean.ioc.PhantomAssassin").newInstance();
+		Object battlefury = Class.forName("com.depp.stone.spring.bean.ioc.Battlefury").newInstance();
+		Object shoes = Class.forName("com.depp.stone.spring.bean.ioc.FlyingShoes").newInstance();
+		// use BeanWrapper is very simple to set property
+		BeanWrapperImpl bean = new BeanWrapperImpl(pa);
+		bean.setPropertyValue("weapon", battlefury);
+		bean.setPropertyValue("shoes", shoes);
+		assertTrue(bean.getWrappedInstance() instanceof PhantomAssassin);
+		assertSame(battlefury, bean.getPropertyValue("weapon"));
+	}
+
+	@Test
+	public void beanPostProcessor() throws Exception {
+		// TODO
+
+	}
+
 }
