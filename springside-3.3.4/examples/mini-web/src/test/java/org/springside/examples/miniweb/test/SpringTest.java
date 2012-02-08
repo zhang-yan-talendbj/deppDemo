@@ -22,7 +22,6 @@ public class SpringTest {
 	
 	@Test
 	public void testFileSystemXmlApplicationContext() throws Exception {
-		FileSystemXmlApplicationContext context = new FileSystemXmlApplicationContext();
 		
 	}
 }

@@ -26,7 +26,6 @@ public class ApplicationContextTest {
 	 */
 	@Test
 	public void fileSystemResourceLoader() throws Exception {
-		String str=new String("abc");
 		// TODO
 	}
 
@@ -35,4 +34,8 @@ public class ApplicationContextTest {
 		// TODO
 	}
 
+	@Test
+	public void messageSource() throws Exception {
+		//TODO
+	}
 }

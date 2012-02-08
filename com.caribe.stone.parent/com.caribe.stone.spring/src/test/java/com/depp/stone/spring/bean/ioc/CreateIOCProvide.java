@@ -32,9 +32,6 @@ public class CreateIOCProvide {
 		assertNotNull(bean);
 		assertNotNull(bean.getShoes());
 		assertNotNull(bean.getWeapon());
-		assertTrue(bean instanceof PhantomAssassin);
-		assertTrue(bean.getShoes() instanceof FlyingShoes);
-		assertTrue(bean.getWeapon() instanceof Battlefury);
 	}
 
 	@SuppressWarnings("deprecation")
