@@ -10,6 +10,7 @@ import org.springframework.beans.factory.support.AbstractBeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.core.io.ClassPathResource;
 
 public class CreateIOCProvide {
 
@@ -20,11 +21,10 @@ public class CreateIOCProvide {
 	 */
 	@Test
 	public void createIOC() throws Exception {
-		DefaultListableBeanFactory bf = new DefaultListableBeanFactory();
+		DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+		bindViaCode(beanFactory);
 
-		bindViaCode(bf);
-
-		checkBean(bf);
+		checkBean(beanFactory);
 	}
 
 	private void checkBean(DefaultListableBeanFactory bf) {
@@ -88,6 +88,16 @@ public class CreateIOCProvide {
 	public void beanPostProcessor() throws Exception {
 		// TODO
 
+	}
+
+	@Test
+	public void testXmlBeanFactory() throws Exception {
+		ClassPathResource res = new ClassPathResource("com/depp/stone/spring/bean/ioc/beans.xml");
+		DefaultListableBeanFactory factory = new DefaultListableBeanFactory();
+		XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(factory);
+		reader.loadBeanDefinitions(res);
+
+		assertEquals("bruce", factory.getBean("str"));
 	}
 
 }
