@@ -1,17 +1,20 @@
 package com.aiaa.claim;
 
+import static com.aiaa.claim.SeleniumUtils.*;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 public abstract class AIAAAbstractTest {
+	private static final String DEFAULT_VALUE = "default value";
 	protected static WebDriver wd;
 
 	@AfterClass
@@ -28,12 +31,14 @@ public abstract class AIAAAbstractTest {
 				wd = new InternetExplorerDriver();
 				break;
 			case firefox:
+				System.setProperty("webdriver.firefox.profile", "selenium");
 				wd = new FirefoxDriver();
 				break;
 			case html:
 				wd = new HtmlUnitDriver(true);
 			case chrome:
-				System.setProperty("webdriver.chrome.driver","c:/Documents and Settings/bsnpbag/Local Settings/Application Data/Google/Chrome/Application/chrome.exe");
+				System.setProperty("webdriver.chrome.driver",
+						"c:/Documents and Settings/bsnpbag/Local Settings/Application Data/Google/Chrome/Application/chrome.exe");
 				wd = new ChromeDriver();
 			default:
 				wd = new HtmlUnitDriver(true);
@@ -48,6 +53,7 @@ public abstract class AIAAAbstractTest {
 	}
 
 	protected void setValueByName(String value, String name) {
+		wd.findElement(By.name(name)).clear();
 		wd.findElement(By.name(name)).sendKeys(value);
 	}
 
@@ -61,6 +67,15 @@ public abstract class AIAAAbstractTest {
 
 	protected void clickById(String id) {
 		wd.findElement(By.id(id)).click();
+	}
+
+	protected void selectOptionByName(String selectedOption, String name) {
+		WebElement selectElement = wd.findElement(By.name(name));
+		select(selectElement, selectedOption);
+	}
+
+	protected void setDefaultValueByName(String name) {
+		setValueByName(DEFAULT_VALUE, name);
 	}
 }
 
