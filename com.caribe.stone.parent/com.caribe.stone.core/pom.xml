@@ -429,9 +429,13 @@
 				<artifactId>maven-checkstyle-plugin</artifactId>
 				<version>2.7</version>
 				<configuration>
-					<configLocation>CheckStyle/check.xml</configLocation>
+					<configLocation>config/maven_checks.xml</configLocation>
 				</configuration>
 			</plugin>
+			
+
+			
+			
 		</plugins>
 	</reporting>
 
