@@ -1,38 +1,42 @@
 package com.caribe.stone.wd;
 
+import static org.junit.Assert.*;
+
+import org.mortbay.jetty.Server;
+import org.openqa.selenium.By;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-/**
- * Unit test for simple App.
- */
-public class AppTest 
-    extends TestCase
-{
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public AppTest( String testName )
-    {
-        super( testName );
-    }
+public class AppTest extends AbstractTest {
 
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( AppTest.class );
-    }
+	@org.junit.Test
+	public void testName() throws Exception {
+		Server server = JettyUtils.buildNormalServer(8080, "/wd");
 
-    /**
-     * Rigourous Test :-)
-     */
-    public void testApp()
-    {
-        assertTrue( true );
-    }
+		server.start();
+
+		wd.get("http://localhost:8080/wd/");
+
+		wd.findElement(By.linkText("Sign up")).click();
+
+		setValueByName("thinkdeeply", "username");
+		setValueByName("pw", "password");
+		wd.findElement(By.tagName("form")).submit();
+
+		wd.get("http://localhost:8080/wd/");
+		wd.findElement(By.linkText("Log in")).click();
+
+		setValueByName("thinkdeeply", "username");
+		setValueByName("pw", "password");
+		wd.findElement(By.tagName("form")).submit();
+
+		assertEquals("success", wd.findElement(By.id("msg")).getText());
+	}
+
+	@Override
+	protected DriverType getTyep() {
+		return DriverType.firefox;
+	}
 }

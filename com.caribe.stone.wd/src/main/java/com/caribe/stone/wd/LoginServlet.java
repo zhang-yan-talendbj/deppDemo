@@ -40,7 +40,9 @@ public class LoginServlet extends HttpServlet {
 			@Override
 			public Integer execute(Statement stmt) throws SQLException {
 				int userid = 0;
-				String sql = "select count(*) from t_user where username ='aaacccc' and password ='bbb'";
+				String sql = "select count(*) from t_user where username ='" +username+
+						"' and password ='" +password+
+						"'";
 				System.out.println("Log:LoginServlet.doPost" + sql);
 				stmt.execute(sql);
 				ResultSet rs = stmt.getResultSet();

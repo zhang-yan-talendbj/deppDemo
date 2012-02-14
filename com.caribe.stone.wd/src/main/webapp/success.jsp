@@ -1,2 +1,2 @@
 
-success
+<div id='msg'>success</div>
