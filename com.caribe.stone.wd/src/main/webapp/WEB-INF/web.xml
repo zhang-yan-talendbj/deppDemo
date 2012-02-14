@@ -3,7 +3,25 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
-  <display-name>Archetype Created Web Application</display-name>
-  
-  
+	<display-name>WD simple project</display-name>
+
+	<servlet>
+		<servlet-class>com.caribe.stone.wd.RegisterServlet</servlet-class>
+		<servlet-name>registerServlet</servlet-name>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>registerServlet</servlet-name>
+		<url-pattern>registerServlet</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-class>com.caribe.stone.wd.LoginServlet</servlet-class>
+		<servlet-name>loginServlet</servlet-name>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>loginServlet</servlet-name>
+		<url-pattern>loginServlet</url-pattern>
+	</servlet-mapping>
 </web-app>
