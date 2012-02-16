@@ -68,6 +68,12 @@
 			<artifactId>h2</artifactId>
 			<version>${h2.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.4</version>
+		</dependency>
+
 		<!-- jetty -->
 		<dependency>
 			<groupId>org.mortbay.jetty</groupId>
@@ -109,6 +115,11 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
 
@@ -292,7 +303,20 @@
 				<version>2.2-beta-5</version>
 			</plugin>
 		</plugins>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+		<testResources>
+			<testResource>
+				<directory>src/test/resources</directory>
+				<filtering>true</filtering>
+			</testResource>
+		</testResources>
 	</build>
+
 
 	<profiles>
 		<profile>
@@ -303,7 +327,7 @@
 			<properties>
 				<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
 				<jdbc.jpa.dictionary>org.apache.openjpa.jdbc.sql.H2Dictionary</jdbc.jpa.dictionary>
-				<jdbc.url>jdbc:h2:mem:tea-milk;DB_CLOSE_DELAY=-1</jdbc.url>
+				<jdbc.url>jdbc:h2:mem:wd;DB_CLOSE_DELAY=-1</jdbc.url>
 				<jdbc.username>sa</jdbc.username>
 				<jdbc.password></jdbc.password>
 				<selenium.driver>htmlunit</selenium.driver>
@@ -316,7 +340,7 @@
 			<properties>
 				<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
 				<jdbc.jpa.dictionary>org.apache.openjpa.jdbc.sql.H2Dictionary</jdbc.jpa.dictionary>
-				<jdbc.url>jdbc:h2:tcp://localhost/~/tea-milk</jdbc.url>
+				<jdbc.url>jdbc:h2:tcp://localhost/~/wd</jdbc.url>
 				<jdbc.username>sa</jdbc.username>
 				<jdbc.password></jdbc.password>
 				<selenium.driver>firefox</selenium.driver>
