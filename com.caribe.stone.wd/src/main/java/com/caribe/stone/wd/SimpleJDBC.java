@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
+
 public class SimpleJDBC {
 
 	public final Object query(StatementCallback callback) {
@@ -14,6 +18,9 @@ public class SimpleJDBC {
 			Class.forName("org.h2.Driver");
 			// jdbc:h2:mem:mini-web;DB_CLOSE_DELAY=-1
 			// jdbc:h2:tcp://localhost/~/mini-web
+			// WebApplicationContext
+			// wac=WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
+
 			connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/wd", "sa", "");
 			Statement stmt = connection.createStatement();
 			result = callback.execute(stmt);
@@ -35,4 +42,10 @@ public class SimpleJDBC {
 		return result;
 	}
 
+	public static void main(String[] args) {
+		ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext(
+				"applicationContext.xml");
+		Object bean = applicationContext.getBean("configBean");
+		System.out.println(bean);
+	}
 }

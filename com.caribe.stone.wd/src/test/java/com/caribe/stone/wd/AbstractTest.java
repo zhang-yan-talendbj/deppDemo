@@ -37,11 +37,13 @@ public abstract class AbstractTest {
 				break;
 			case html:
 				wd = new HtmlUnitDriver(true);
+				break;
 			case chrome:
 				System.setProperty(
 						"webdriver.chrome.driver",
 						"F:/depp/Documents and Settings/Administrator/Local Settings/Application Data/Google/Chrome/Application/chrome.exe");
 				wd = new ChromeDriver();
+				break;
 			default:
 				wd = new HtmlUnitDriver(true);
 				break;
@@ -51,7 +53,7 @@ public abstract class AbstractTest {
 	}
 
 	protected DriverType getTyep() {
-		return DriverType.ie;
+		return DriverType.html;
 	}
 
 	protected void setValueByName(String value, String name) {

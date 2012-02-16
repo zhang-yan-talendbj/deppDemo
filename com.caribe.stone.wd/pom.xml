@@ -88,6 +88,70 @@
 			<version>${selenium.version}</version>
 			<scope>test</scope>
 		</dependency>
+
+		<!-- spring begin -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<!-- spring aop -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.6.9</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.6.9</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.2</version>
+		</dependency>
+
+		<!-- spring orm -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<!-- spring end -->
 	</dependencies>
 
 	<build>
@@ -229,4 +293,36 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>test</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
+				<jdbc.jpa.dictionary>org.apache.openjpa.jdbc.sql.H2Dictionary</jdbc.jpa.dictionary>
+				<jdbc.url>jdbc:h2:mem:tea-milk;DB_CLOSE_DELAY=-1</jdbc.url>
+				<jdbc.username>sa</jdbc.username>
+				<jdbc.password></jdbc.password>
+				<selenium.driver>htmlunit</selenium.driver>
+				<jpa.database>H2</jpa.database>
+				<jpa.showSql>true</jpa.showSql>
+			</properties>
+		</profile>
+		<profile>
+			<id>dev</id>
+			<properties>
+				<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
+				<jdbc.jpa.dictionary>org.apache.openjpa.jdbc.sql.H2Dictionary</jdbc.jpa.dictionary>
+				<jdbc.url>jdbc:h2:tcp://localhost/~/tea-milk</jdbc.url>
+				<jdbc.username>sa</jdbc.username>
+				<jdbc.password></jdbc.password>
+				<selenium.driver>firefox</selenium.driver>
+				<jpa.database>H2</jpa.database>
+				<jpa.showSql>true</jpa.showSql>
+			</properties>
+		</profile>
+	</profiles>
 </project>
