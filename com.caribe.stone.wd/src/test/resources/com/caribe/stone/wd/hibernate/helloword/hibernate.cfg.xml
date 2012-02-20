@@ -20,9 +20,6 @@
 		<!-- SQL to stdout logging <property name="show_sql">true</property> <property 
 			name="format_sql">true</property> <property name="use_sql_comments">true</property> -->
 
-		<property name="dialect">org.hibernate.dialect.H2Dialect</property>
-
-		<mapping resource="hello/Message.hbm.xml" />
-
+		<property name="dialect">${hibernate.dialect}</property>
 	</session-factory>
 </hibernate-configuration>

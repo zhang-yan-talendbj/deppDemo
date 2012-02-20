@@ -1,10 +1,14 @@
-package com.caribe.stone.wd.hibernate.helloword.hbm;
+package com.caribe.stone.wd.hibernate.helloword.annotation;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertNotNull;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.classic.Session;
 import org.junit.Test;
 
@@ -12,27 +16,26 @@ public class HelloWorld {
 
 	@Test
 	public void xmlHello() throws Exception {
-		Configuration configure = new Configuration()
+		AnnotationConfiguration configure = new AnnotationConfiguration()
 				.configure("com/caribe/stone/wd/hibernate/helloword/hibernate.cfg.xml");
-		configure
-				.addResource("com/caribe/stone/wd/hibernate/helloword/hbm/Message.hbm.xml");
+		configure.addAnnotatedClass(Message.class);
 		SessionFactory sessionFactory = configure.buildSessionFactory();
 		Session session = sessionFactory.openSession();
-		
+
 		Transaction tx = session.beginTransaction();
 		Message message = new Message("Hello World");
 		session.save(message);
 		tx.commit();
 		session.close();
-		
+
 		assertNotNull(message.getId());
 	}
 }
 
+@Entity
 class Message {
 	private Long id;
 	private String text;
-	private Message nextMessage;
 
 	Message() {
 	}
@@ -41,6 +44,8 @@ class Message {
 		this.text = text;
 	}
 
+	@Id
+	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
@@ -57,11 +62,4 @@ class Message {
 		this.text = text;
 	}
 
-	public Message getNextMessage() {
-		return nextMessage;
-	}
-
-	public void setNextMessage(Message nextMessage) {
-		this.nextMessage = nextMessage;
-	}
 }
