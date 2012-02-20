@@ -1,4 +1,4 @@
-package hello;
+package com.caribe.stone.wd.hibernate.helloword.hbm;
 
 import org.hibernate.*;
 import persistence.*;

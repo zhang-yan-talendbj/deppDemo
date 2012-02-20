@@ -1,4 +1,4 @@
-package hello;
+package com.caribe.stone.wd.hibernate.helloword.hbm;
 
 public class Message {
     private Long id;
