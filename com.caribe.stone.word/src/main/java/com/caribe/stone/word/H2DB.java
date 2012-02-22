@@ -14,7 +14,7 @@ public class H2DB {
 		try {
 			Class.forName("org.h2.Driver");
 
-			con = DriverManager.getConnection("jdbc:h2:file:D:/test", "sa", "");
+			con = DriverManager.getConnection("jdbc:h2:file:e:/bruce/wiki/wiki/gitRepository/db/test", "sa", "");
 			
 			stmt = con.createStatement();
 			obj = callback.execute(stmt);

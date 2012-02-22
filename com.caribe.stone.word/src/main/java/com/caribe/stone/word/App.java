@@ -25,7 +25,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 /**
@@ -140,7 +142,6 @@ public class App extends JFrame {
 			}
 		});
 
-		System.out.println(map);
 		Set keySet = map.keySet();
 		for (Object key : keySet) {
 			WordThread wordThread = new WordThread(timeList, String.valueOf(key));
@@ -154,11 +155,12 @@ public class App extends JFrame {
 	private static List<Long> timeList = new ArrayList<Long>(5);
 
 	static {
-		timeList.add(1000L * 60 * 2);
-		timeList.add(1000L * 60 * 5);
-		timeList.add(1000L * 60 * 20);
-		timeList.add(1000L * 60 * 60);
-		timeList.add(1000L * 60 * 120);
+		long e = 1000L * 60;
+		timeList.add(e * 2);
+		timeList.add(e * 5);
+		timeList.add(e * 20);
+		timeList.add(e * 60);
+		timeList.add(e * 120);
 	}
 	private static List<Thread> threadList = new LinkedList<Thread>();
 
@@ -195,7 +197,6 @@ class WordThread extends Thread {
 	@Override
 	public void run() {
 		try {
-			System.out.println(123);
 			H2DB db = new H2DB();
 			Object obj = db.execute(new StatementCallback() {
 
@@ -222,9 +223,19 @@ class WordThread extends Thread {
 			Thread.sleep(list.get(insert));
 			final JFrame j = new JFrame("Please review [" + word + "]");
 			JTextField text = new JTextField();
-			text.addActionListener(new WordListener(j, this));
+			text.setText(word);
+			JButton btn1 = new JButton("remebered");
+			btn1.addActionListener(new WordListener(j, this, true));
+			JButton btn2 = new JButton("forgot");
+			btn2.addActionListener(new WordListener(j, this, false));
 			j.setSize(600, 100);
-			j.add(text);
+			JPanel panel = new JPanel();
+			panel.setSize(600, 100);
+
+			panel.add(text);
+			panel.add(btn1);
+			panel.add(btn2);
+			j.add(panel);
 			j.setVisible(true);
 
 		} catch (InterruptedException e) {
@@ -234,13 +245,15 @@ class WordThread extends Thread {
 }
 
 class WordListener implements ActionListener {
-	private JFrame j;
-	private WordThread t;
+	private JFrame frame;
+	private WordThread thread;
+	private boolean flag;
 
-	public WordListener(JFrame j, WordThread t) {
+	public WordListener(JFrame j, WordThread t, boolean b) {
 		super();
-		this.j = j;
-		this.t = t;
+		this.frame = j;
+		this.thread = t;
+		this.flag = b;
 	}
 
 	@Override
@@ -251,7 +264,7 @@ class WordListener implements ActionListener {
 		} catch (InterruptedException e1) {
 			e1.printStackTrace();
 		}
-		j.dispose();
+		frame.dispose();
 		H2DB db = new H2DB();
 		db.execute(new StatementCallback() {
 
@@ -259,8 +272,13 @@ class WordListener implements ActionListener {
 			public Object execute(Statement stmt) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 				try {
-					stmt.execute("insert into word(word , level , createdtime) values('" + t.getWord()
-							+ "'," + 1 + ",'" + sdf.format(new Date()) + "')");
+					if (flag) {
+
+						stmt.execute("insert into word(word , level , createdtime) values('"
+								+ thread.getWord() + "'," + 1 + ",'" + sdf.format(new Date()) + "')");
+					} else {
+						stmt.execute("delete from word where word='" + thread.getWord() + "'");
+					}
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -268,8 +286,8 @@ class WordListener implements ActionListener {
 			}
 		});
 
-		t = new WordThread(t.getList(), t.getWord());
-		t.start();
+		thread = new WordThread(thread.getList(), thread.getWord());
+		thread.start();
 
 	}
 }
