@@ -20,7 +20,7 @@
 		<!-- SQL to stdout logging <property name="show_sql">true</property> <property 
 			name="format_sql">true</property> <property name="use_sql_comments">true</property> -->
 
-		<property name="dialect">org.hibernate.dialect.H2Dialect</property>
+		<property name="dialect">${hibernate.dialect}</property>
 
 		<mapping class="hello.Message" />
 	</session-factory>

@@ -6,7 +6,7 @@
 <hibernate-mapping>
 
     <class
-        name="hello.Message"
+        name="com.caribe.stone.wd.hibernate.helloword.hbm.Message"
         table="MESSAGES">
 
         <id
@@ -24,7 +24,6 @@
             cascade="all"
             column="NEXT_MESSAGE_ID"
             foreign-key="FK_NEXT_MESSAGE"/>
-
     </class>
 
 </hibernate-mapping>
