@@ -18,6 +18,4 @@ logs/
 
 bin/
 
-Hello World*/
-CaveatEmptorNative/
-helloworld-jpa/
+HibernateInAction/
