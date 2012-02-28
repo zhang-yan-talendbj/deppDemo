@@ -10,64 +10,35 @@ import org.openqa.selenium.WebElement;
 
 public class AssessClaimTest extends AIAAAbstractTest {
 	@Test
-	public void testName() throws Exception {
-
+	public void recordClaim() throws Exception {
+		if(true){
+			return ;
+		}
+		// home page
 		wd.findElement(By.name("inputPolicyNumber")).sendKeys("0000MP9936");
 		wd.findElement(By.name("inputMemberNumber")).sendKeys("545");
 		SeleniumUtils.select(wd.findElement(By.name("selectPolicySource")), "Compass");
 
 		wd.findElement(By.id("recordClaim")).click();
-		recordClaimDetail();
-	}
-
-	private void recordClaimDetail() {
-		// Benefit Name*
-		SeleniumUtils.select(wd.findElement(By.name("selectBenefitName")),
-				"SCI - WP 90D 2 YRS (DEFAULT) : GROUP SUPER SALARY CONTINUANCE - FT");
-		// Restrict Member Info*
-		selectOptionByName("Adviser", "aiaEmbedded");
-//		Reinsurer
-		selectOptionByName("American Home (Non-life Rein)", "aiaEmbedded$4");
 		
-		setValueByName("0.005", "aiaEmbedded$5");
-		selectOptionByName("Agreed Value", "aiaEmbedded$6");
-		selectOptionByName("Yes", "aiaEmbedded$7");
-		selectOptionByName("Lump Sum", "aiaEmbedded$9");
-		selectOptionByName("Yes", "aiaEmbedded$8");
-//		Benefit Period
-		selectOptionByName("1 Year", "aiaEmbedded$10");
-//		Waiting Period Type 	
-		selectOptionByName("Month(s)", "aiaEmbedded$12");
-//		Terms
-		selectOptionByName("AAL", "aiaEmbedded$13");
+		benefitDetails();
 		
-		setDefaultValueByName("aiaEmbedded$14");
-		setDefaultValueByName("inputExclusions");
-		wd.findElement(By.name("next")).click();
+		insured();
 		
-
-		SeleniumUtils.select(wd.findElement(By.name("aiaEmbedded")), "Mr");
-		selectOptionByName("Phone", "aiaEmbedded$7");//Preferred Contact Method
-		
-		setValueByName("23478234", "aiaEmbedded$0");
-		setValueByName("234782344", "aiaEmbedded$2");
-		setValueByName("23478234", "aiaEmbedded$4");
-		setValueByName("23478234", "aiaEmbedded$6");
-		setValueByName("2@a.com", "aiaEmbedded$8");
-		
-		
-		setValueById("3411-11", "number");
-		clickByName("findOccupationNumber");
-		selectOptionByName("Employed", "aiaEmbedded$15");
-		SeleniumUtils.select(wd.findElement(By.name("aiaEmbedded$20")), "QLD");
-		SeleniumUtils.select(wd.findElement(By.name("aiaEmbedded$26")), "QLD");
-
-		clickByName("checkInsuredPosIsResCheckbox");
-		
-		if (true) {
-			return;
+		owner();
+		if(true){
+			return ;
 		}
-		clickByName("next");
+		secondPayee();
+		
+		administrator();
+		
+		employer();
+		
+		claimDetails();
+		
+		summary();
+		
 		clickByName("next");
 		clickByName("next");
 		clickByName("next");
@@ -96,6 +67,83 @@ public class AssessClaimTest extends AIAAAbstractTest {
 		}
 	}
 
+	private void summary() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void claimDetails() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void employer() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void administrator() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void secondPayee() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void owner() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	private void insured() {
+		SeleniumUtils.select(wd.findElement(By.name("aiaEmbedded")), "Mr");
+		selectOptionByName("Phone", "aiaEmbedded$7");// Preferred Contact Method
+
+		setValueByName("23478234", "aiaEmbedded$0");
+		setValueByName("234782344", "aiaEmbedded$2");
+		setValueByName("23478234", "aiaEmbedded$4");
+		setValueByName("23478234", "aiaEmbedded$6");
+		setValueByName("2@a.com", "aiaEmbedded$8");
+
+		setValueById("3411-11", "number");
+		clickByName("findOccupationNumber");
+		selectOptionByName("Employed", "aiaEmbedded$15");
+		SeleniumUtils.select(wd.findElement(By.name("aiaEmbedded$20")), "QLD");
+		SeleniumUtils.select(wd.findElement(By.name("aiaEmbedded$26")), "QLD");
+
+		clickByName("checkInsuredPosIsResCheckbox");
+		
+		clickByName("next");
+	}
+
+	private void benefitDetails() {
+		// Benefit Name*
+		SeleniumUtils.select(wd.findElement(By.name("selectBenefitName")),
+				"SCI - WP 90D 2 YRS (DEFAULT) : GROUP SUPER SALARY CONTINUANCE - FT");
+		// Restrict Member Info*
+		selectOptionByName("Adviser", "aiaEmbedded");
+		// Reinsurer
+		selectOptionByName("American Home (Non-life Rein)", "aiaEmbedded$4");
+
+		setValueByName("0.005", "aiaEmbedded$5");
+		selectOptionByName("Agreed Value", "aiaEmbedded$6");
+		selectOptionByName("Yes", "aiaEmbedded$7");
+		selectOptionByName("Lump Sum", "aiaEmbedded$9");
+		selectOptionByName("Yes", "aiaEmbedded$8");
+		// Benefit Period
+		selectOptionByName("1 Year", "aiaEmbedded$10");
+		// Waiting Period Type
+		selectOptionByName("Month(s)", "aiaEmbedded$12");
+		// Terms
+		selectOptionByName("AAL", "aiaEmbedded$13");
+
+		setDefaultValueByName("aiaEmbedded$14");
+		setDefaultValueByName("inputExclusions");
+		wd.findElement(By.name("next")).click();
+	}
+
 	@Override
 	protected DriverType getTyep() {
 		// TODO Auto-generated method stub
@@ -111,14 +159,4 @@ public class AssessClaimTest extends AIAAAbstractTest {
 		// wd.findElement(By.name("action")).click();
 
 	}
-	// @Test
-	// public void testRehab() throws Exception {
-	// String linkText = "20152";//23451
-	// setValueByName(linkText, "inputClaimNumber");
-	// clickByName("search");
-	// wd.findElement(By.linkText(linkText)).click();
-	//
-	// System.out.println(wd.findElement(By.id("startEditRehabilitationTask")));
-	//
-	// }
 }

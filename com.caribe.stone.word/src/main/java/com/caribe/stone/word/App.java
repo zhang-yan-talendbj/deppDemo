@@ -13,6 +13,13 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -165,7 +172,40 @@ public class App extends JFrame {
 	private static List<Thread> threadList = new LinkedList<Thread>();
 
 	public static void main(String[] args) {
-		new App();
+		// new App();
+
+	}
+
+	public static synchronized void writeWordToFile(Object result) {
+		File file = new File("d:/word.txt");
+		if (!file.exists()) {
+			try {
+				file.createNewFile();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+
+		try {
+			BufferedInputStream is = new BufferedInputStream(new FileInputStream(file));
+
+			byte[] ary = new byte[is.available()];
+
+			is.read(ary);
+			BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(file));
+			os.write(ary);
+			String str = (String) result;
+			os.write(str.getBytes());
+			os.flush();
+			os.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 }
 
@@ -289,5 +329,25 @@ class WordListener implements ActionListener {
 		thread = new WordThread(thread.getList(), thread.getWord());
 		thread.start();
 
+		Object result = db.execute(new StatementCallback() {
+
+			@Override
+			public Object execute(Statement stmt) {
+				// TODO Auto-generated method stub
+				StringBuffer sb = null;
+				try {
+					sb = new StringBuffer();
+					stmt.execute("select word from word group by word having count(*)=5");
+					ResultSet rs = stmt.getResultSet();
+					while (rs.next()) {
+						sb.append(rs.getString(1)).append("/r/n");
+					}
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return sb.toString();
+			}
+		});
+		App.writeWordToFile(result);
 	}
 }

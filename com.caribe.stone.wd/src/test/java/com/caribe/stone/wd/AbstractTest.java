@@ -31,8 +31,8 @@ public abstract class AbstractTest {
 				wd = new InternetExplorerDriver();
 				break;
 			case firefox:
+				System.setProperty("webdriver.firefox.bin","d:/Program Files/test/Mozilla Firefox/firefox.exe");
 				System.setProperty("webdriver.firefox.profile", "selenium");
-				System.setProperty("webdriver.firefox.bin","D:/Program Files/test/Mozilla Firefox/firefox.exe");
 				wd = new FirefoxDriver();
 				break;
 			case html:

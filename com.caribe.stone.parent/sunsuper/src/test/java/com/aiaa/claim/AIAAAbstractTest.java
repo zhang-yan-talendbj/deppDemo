@@ -1,6 +1,7 @@
 package com.aiaa.claim;
 
 import static com.aiaa.claim.SeleniumUtils.*;
+
 import java.util.concurrent.TimeUnit;
 
 import org.junit.AfterClass;
@@ -10,6 +11,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.firefox.FirefoxProfile;
+import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
@@ -31,8 +34,13 @@ public abstract class AIAAAbstractTest {
 				wd = new InternetExplorerDriver();
 				break;
 			case firefox:
-				System.setProperty("webdriver.firefox.profile", "selenium");
-				wd = new FirefoxDriver();
+				System.setProperty("webdriver.firefox.bin","d:/Program Files/test/Mozilla Firefox9/firefox.exe");
+				
+				ProfilesIni allProfiles = new ProfilesIni();
+				FirefoxProfile profile = allProfiles.getProfile("selenium");
+				
+				System.out.println(profile.toString());
+				wd = new FirefoxDriver(profile);
 				break;
 			case html:
 				wd = new HtmlUnitDriver(true);
