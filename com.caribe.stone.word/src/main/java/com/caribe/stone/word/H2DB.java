@@ -13,8 +13,8 @@ public class H2DB {
 		Object obj = null;
 		try {
 			Class.forName("org.h2.Driver");
-
-			con = DriverManager.getConnection("jdbc:h2:file:e:/bruce/wiki/wiki/gitRepository/db/test", "sa", "");
+//			con = DriverManager.getConnection("jdbc:h2:file:e:/bruce/wiki/wiki/gitRepository/db/test", "sa", "");
+			con = DriverManager.getConnection("jdbc:h2:file:d:/share/gitRepository/db/test", "sa", "");
 			
 			stmt = con.createStatement();
 			obj = callback.execute(stmt);
@@ -53,9 +53,5 @@ public class H2DB {
 
 		return obj;
 
-	}
-
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		// insert("word");
 	}
 }
