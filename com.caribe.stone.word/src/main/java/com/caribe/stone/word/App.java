@@ -263,6 +263,7 @@ class WordThread extends Thread {
 			Thread.sleep(list.get(insert));
 			final JFrame j = new JFrame("Please review [" + word + "]");
 			JTextField text = new JTextField();
+			text.setSize(100,30);
 			text.setText(word);
 			JButton btn1 = new JButton("remebered");
 			btn1.addActionListener(new WordListener(j, this, true));

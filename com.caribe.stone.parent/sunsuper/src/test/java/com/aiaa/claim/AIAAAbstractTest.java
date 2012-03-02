@@ -34,20 +34,25 @@ public abstract class AIAAAbstractTest {
 				wd = new InternetExplorerDriver();
 				break;
 			case firefox:
-				System.setProperty("webdriver.firefox.bin","d:/Program Files/test/Mozilla Firefox9/firefox.exe");
-				
+				System.setProperty("webdriver.firefox.bin",
+						"d:/Program Files/test/Mozilla Firefox9/firefox.exe");
+
 				ProfilesIni allProfiles = new ProfilesIni();
 				FirefoxProfile profile = allProfiles.getProfile("selenium");
-				
-				System.out.println(profile.toString());
-				wd = new FirefoxDriver(profile);
+				if (profile != null) {
+					wd = new FirefoxDriver(profile);
+				} else {
+					wd = new FirefoxDriver();
+				}
 				break;
 			case html:
 				wd = new HtmlUnitDriver(true);
+				break;
 			case chrome:
 				System.setProperty("webdriver.chrome.driver",
 						"c:/Documents and Settings/bsnpbag/Local Settings/Application Data/Google/Chrome/Application/chrome.exe");
 				wd = new ChromeDriver();
+				break;
 			default:
 				wd = new HtmlUnitDriver(true);
 				break;
