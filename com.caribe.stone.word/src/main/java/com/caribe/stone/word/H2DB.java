@@ -1,9 +1,11 @@
 package com.caribe.stone.word;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Properties;
 
 public class H2DB {
 
@@ -11,11 +13,18 @@ public class H2DB {
 		Connection con = null;
 		Statement stmt = null;
 		Object obj = null;
+		String jdbcUrl = null;
 		try {
 			Class.forName("org.h2.Driver");
-//			con = DriverManager.getConnection("jdbc:h2:file:e:/bruce/wiki/wiki/gitRepository/db/test", "sa", "");
-			con = DriverManager.getConnection("jdbc:h2:file:d:/share/gitRepository/db/test", "sa", "");
-			
+			Properties properties = new Properties();
+			try {
+				properties.load(H2DB.class.getResourceAsStream("db.properties"));
+				jdbcUrl = properties.getProperty("jdbcUrl");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			con = DriverManager.getConnection(jdbcUrl, "sa", "");
+
 			stmt = con.createStatement();
 			obj = callback.execute(stmt);
 
@@ -50,8 +59,6 @@ public class H2DB {
 				}
 			}
 		}
-
 		return obj;
-
 	}
 }

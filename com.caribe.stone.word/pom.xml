@@ -198,5 +198,27 @@
 				</executions>
 			</plugin>
 		</plugins>
+
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
 	</build>
+
+	<profiles>
+		<profile>
+			<id>home</id>
+			<properties>
+				<jdbcUrl>jdbc:h2:file:d:/share/gitRepository/db/test</jdbcUrl>
+			</properties>
+		</profile>
+		<profile>
+			<id>aia</id>
+			<properties>
+				<jdbcUrl>jdbc:h2:file:e:/bruce/wiki/wiki/gitRepository/db/test</jdbcUrl>
+			</properties>
+		</profile>
+	</profiles>
 </project>

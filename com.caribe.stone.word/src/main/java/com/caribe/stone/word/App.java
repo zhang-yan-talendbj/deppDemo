@@ -37,10 +37,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-/**
- * Hello world!
- * 
- */
 public class App extends JFrame {
 
 	private Image icon;// 托盘图标
@@ -123,7 +119,7 @@ public class App extends JFrame {
 		// 以下是swing程序
 		setIconImage(icon);// 更改程序图标
 
-		setTitle("Please input the word");
+		setTitle("Please input the word,then press Enter.");
 		setSize(200, 150);
 		// 自动确定窗口位置
 		setLocationByPlatform(true);
@@ -139,7 +135,7 @@ public class App extends JFrame {
 			@Override
 			public Object execute(Statement stmt) {
 				try {
-					stmt.execute("select count(*),word from word group by word having(count(*)<5)");
+					stmt.execute("select count(*),word from word where level!=5 group by word  having(count(*)<5)");
 					ResultSet rs = stmt.getResultSet();
 					while (rs.next()) {
 						map.put(rs.getString(2), rs.getInt(1));
@@ -152,6 +148,7 @@ public class App extends JFrame {
 			}
 		});
 
+		System.out.println(map);
 		Set keySet = map.keySet();
 		for (Object key : keySet) {
 			WordThread wordThread = new WordThread(timeList,
@@ -213,7 +210,6 @@ public class App extends JFrame {
 				e.printStackTrace();
 			}
 		}
-
 	}
 }
 
@@ -324,9 +320,6 @@ class WordListener implements ActionListener {
 						"yyyy-MM-dd hh:mm:ss");
 				try {
 					if (flag) {
-						// set @cc=select count(*) from word;
-						// insert into word(word , level , createdtime)
-						// values('aaa',@cc,'2012-01-01')
 						stmt.execute("set @wordNum=select count(*) from word where word='"
 								+ thread.getWord()
 								+ "';"
