@@ -54,7 +54,8 @@ public class App extends JFrame {
 
 		// 托盘图标部分结束
 		// icon初始化
-		icon = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("icon.gif"));// 托盘图标显示的图片
+		icon = Toolkit.getDefaultToolkit().getImage(
+				this.getClass().getResource("icon.gif"));// 托盘图标显示的图片
 
 		if (SystemTray.isSupported()) {
 			systemTray = SystemTray.getSystemTray();// 获得系统托盘的实例
@@ -76,9 +77,10 @@ public class App extends JFrame {
 
 			trayIcon.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					if (e.getClickCount() == 1 && e.getButton() != MouseEvent.BUTTON3) {// 左击击托盘窗口再现，如果是双击就是e.getClickCount()
-																						// ==
-																						// 2
+					if (e.getClickCount() == 1
+							&& e.getButton() != MouseEvent.BUTTON3) {// 左击击托盘窗口再现，如果是双击就是e.getClickCount()
+																		// ==
+																		// 2
 						setVisible(true);
 						setExtendedState(JFrame.NORMAL);// 设置此 frame 的状态。
 					}
@@ -104,6 +106,7 @@ public class App extends JFrame {
 
 		final JTextField text = new JTextField();
 		// text.setAction()
+		text.setSize(100, 30);
 		text.addActionListener(new ActionListener() {
 
 			@Override
@@ -151,9 +154,9 @@ public class App extends JFrame {
 
 		Set keySet = map.keySet();
 		for (Object key : keySet) {
-			WordThread wordThread = new WordThread(timeList, String.valueOf(key));
+			WordThread wordThread = new WordThread(timeList,
+					String.valueOf(key));
 			threadList.add(wordThread);
-			System.out.println(wordThread);
 			wordThread.start();
 		}
 
@@ -172,40 +175,45 @@ public class App extends JFrame {
 	private static List<Thread> threadList = new LinkedList<Thread>();
 
 	public static void main(String[] args) {
-		// new App();
-
+		new App();
 	}
 
 	public static synchronized void writeWordToFile(Object result) {
-		File file = new File("d:/word.txt");
-		if (!file.exists()) {
+		String str = (String) result;
+		if (str != null && str.length() > 0) {
+			File file = new File("d:/word.txt");
+			if (!file.exists()) {
+				try {
+					file.createNewFile();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+
 			try {
-				file.createNewFile();
+				BufferedInputStream is = new BufferedInputStream(
+						new FileInputStream(file));
+
+				byte[] ary = new byte[is.available()];
+
+				is.read(ary);
+				BufferedOutputStream os = new BufferedOutputStream(
+						new FileOutputStream(file));
+				os.write(ary);
+
+				os.write(str.getBytes());
+				os.flush();
+				os.close();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 
-		try {
-			BufferedInputStream is = new BufferedInputStream(new FileInputStream(file));
-
-			byte[] ary = new byte[is.available()];
-
-			is.read(ary);
-			BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(file));
-			os.write(ary);
-			String str = (String) result;
-			os.write(str.getBytes());
-			os.flush();
-			os.close();
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 	}
 }
 
@@ -244,7 +252,8 @@ class WordThread extends Thread {
 				public Object execute(Statement stmt) {
 					int level = 0;
 					try {
-						stmt.execute("select count(*) from word where word='" + word + "'");
+						stmt.execute("select count(*) from word where word='"
+								+ word + "'");
 						ResultSet rs = stmt.getResultSet();
 
 						while (rs.next()) {
@@ -311,14 +320,23 @@ class WordListener implements ActionListener {
 
 			@Override
 			public Object execute(Statement stmt) {
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+				SimpleDateFormat sdf = new SimpleDateFormat(
+						"yyyy-MM-dd hh:mm:ss");
 				try {
 					if (flag) {
-
-						stmt.execute("insert into word(word , level , createdtime) values('"
-								+ thread.getWord() + "'," + 1 + ",'" + sdf.format(new Date()) + "')");
+						// set @cc=select count(*) from word;
+						// insert into word(word , level , createdtime)
+						// values('aaa',@cc,'2012-01-01')
+						stmt.execute("set @wordNum=select count(*) from word where word='"
+								+ thread.getWord()
+								+ "';"
+								+ "insert into word(word , level , createdtime) values('"
+								+ thread.getWord()
+								+ "',@wordNum,'"
+								+ sdf.format(new Date()) + "')");
 					} else {
-						stmt.execute("delete from word where word='" + thread.getWord() + "'");
+						stmt.execute("delete from word where word='"
+								+ thread.getWord() + "'");
 					}
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -338,17 +356,20 @@ class WordListener implements ActionListener {
 				StringBuffer sb = null;
 				try {
 					sb = new StringBuffer();
-					stmt.execute("select word from word group by word having count(*)=5");
+					stmt.execute("select distinct word from word where level=4 group by word order by word");
 					ResultSet rs = stmt.getResultSet();
 					while (rs.next()) {
-						sb.append(rs.getString(1)).append("/r/n");
+						sb.append(rs.getString(1)).append("\r\n");
 					}
+					stmt.execute("update word set level=5 where level=4");
+					stmt.execute("delete word where id in (select id where level=5)");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
 				return sb.toString();
 			}
 		});
+
 		App.writeWordToFile(result);
 	}
 }
