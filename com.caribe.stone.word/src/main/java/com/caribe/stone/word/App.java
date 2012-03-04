@@ -20,38 +20,47 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.Properties;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class App extends JFrame {
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+public class App extends JFrame {
+	private Logger LOG = LoggerFactory.getLogger(this.getClass());
 	private Image icon;// 托盘图标
 	private TrayIcon trayIcon;
 	private SystemTray systemTray;// 系统托盘
 	private PopupMenu pop = new PopupMenu(); // 构造一个右键弹出式菜单
 	private MenuItem exit = new MenuItem("Quite");
 	private MenuItem show = new MenuItem("Show Window");
+	private WordLevelTime wordLevelTime;
+
+	private WordService wordService;;
+
+	public WordService getWordService() {
+		return wordService;
+	}
+
+	public void setWordService(WordService wordService) {
+		this.wordService = wordService;
+	}
+
+	private JTextField wordText = new JTextField();
+
+	public WordLevelTime getWordLevelTime() {
+		return wordLevelTime;
+	}
 
 	public App() {
 
 		// 托盘图标部分结束
 		// icon初始化
-		icon = Toolkit.getDefaultToolkit().getImage(
-				this.getClass().getResource("icon.gif"));// 托盘图标显示的图片
+		icon = Toolkit.getDefaultToolkit().getImage(this.getClass().getResource("icon.gif"));// 托盘图标显示的图片
 
 		if (SystemTray.isSupported()) {
 			systemTray = SystemTray.getSystemTray();// 获得系统托盘的实例
@@ -73,10 +82,9 @@ public class App extends JFrame {
 
 			trayIcon.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					if (e.getClickCount() == 1
-							&& e.getButton() != MouseEvent.BUTTON3) {// 左击击托盘窗口再现，如果是双击就是e.getClickCount()
-																		// ==
-																		// 2
+					if (e.getClickCount() == 1 && e.getButton() != MouseEvent.BUTTON3) {// 左击击托盘窗口再现，如果是双击就是e.getClickCount()
+																						// ==
+																						// 2
 						setVisible(true);
 						setExtendedState(JFrame.NORMAL);// 设置此 frame 的状态。
 					}
@@ -100,21 +108,8 @@ public class App extends JFrame {
 			});
 		}// 托盘图标部分结束
 
-		final JTextField text = new JTextField();
-		// text.setAction()
-		text.setSize(100, 30);
-		text.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String word = e.getActionCommand();
-				text.setText("");
-				WordThread wordThread = new WordThread(timeList, word);
-				threadList.add(wordThread);
-				wordThread.start();
-			}
-		});
-		add(text);
+		wordText.setSize(100, 30);
+		add(wordText);
 
 		// 以下是swing程序
 		setIconImage(icon);// 更改程序图标
@@ -127,54 +122,82 @@ public class App extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setVisible(true);
 
-		H2DB db = new H2DB();
+	}
 
-		final Map map = new HashMap();
-		db.execute(new StatementCallback() {
+	public void setWordLevelTime(WordLevelTime timeList) {
+		this.wordLevelTime = timeList;
+	}
+
+	private static List<Thread> threadList = new LinkedList<Thread>();
+
+	public static void main(String[] args) {
+		App app = new App();
+		List<Long> testTimeList = getTestTimeList();
+		WordLevelTime wordLevelTime = new WordLevelTime();
+		wordLevelTime.setTimeList(testTimeList);
+		app.setWordLevelTime(wordLevelTime);
+		WordServiceImpl wordService = new WordServiceImpl();
+
+		Properties properties = new Properties();
+		String jdbcUrl = null;
+		try {
+			properties.load(H2DB.class.getResourceAsStream("db.properties"));
+			jdbcUrl = properties.getProperty("jdbcUrl");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		wordService.setJdbcUrl(jdbcUrl);
+		app.setWordService(wordService);
+
+		app.start();
+	}
+
+	private static List<Long> getTestTimeList() {
+		List<Long> testTimeList = new LinkedList<Long>();
+		long second = 1000L * 60;
+		testTimeList.add(second * 2);
+		testTimeList.add(second * 5);
+		testTimeList.add(second * 20);
+		testTimeList.add(second * 60);
+		testTimeList.add(second * 120);
+		return testTimeList;
+	}
+
+	public void start() {
+
+		wordText.addActionListener(new ActionListener() {
 
 			@Override
-			public Object execute(Statement stmt) {
-				try {
-					stmt.execute("select count(*),word from word where level!=5 group by word  having(count(*)<5)");
-					ResultSet rs = stmt.getResultSet();
-					while (rs.next()) {
-						map.put(rs.getString(2), rs.getInt(1));
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
+			public void actionPerformed(ActionEvent e) {
+				String word = e.getActionCommand();
+				LOG.info("Add new word:" + word);
 
-				return null;
+				wordText.setText("");
+				Word words = new Word(word, 0);
+				getWordService().insertWord(words);
+				WordThread wordThread = new WordThread(words, getWordLevelTime(), getWordService());
+				threadList.add(wordThread);
+				wordThread.start();
 			}
 		});
 
-		System.out.println(map);
-		Set keySet = map.keySet();
-		for (Object key : keySet) {
-			WordThread wordThread = new WordThread(timeList,
-					String.valueOf(key));
+		List<Word> list = wordService.getReviewWord();
+
+		LOG.info(list.toString());
+
+		for (Word word : list) {
+			WordThread wordThread = new WordThread(word, getWordLevelTime(), getWordService());
 			threadList.add(wordThread);
 			wordThread.start();
 		}
 
 	}
 
-	private static List<Long> timeList = new ArrayList<Long>(5);
-
-	static {
-		long e = 1000L * 60;
-		timeList.add(e * 2);
-		timeList.add(e * 5);
-		timeList.add(e * 20);
-		timeList.add(e * 60);
-		timeList.add(e * 120);
-	}
-	private static List<Thread> threadList = new LinkedList<Thread>();
-
-	public static void main(String[] args) {
-		new App();
-	}
-
+	/**
+	 * 输出已经完成单词
+	 * 
+	 * @param result
+	 */
 	public static synchronized void writeWordToFile(Object result) {
 		String str = (String) result;
 		if (str != null && str.length() > 0) {
@@ -189,14 +212,12 @@ public class App extends JFrame {
 			}
 
 			try {
-				BufferedInputStream is = new BufferedInputStream(
-						new FileInputStream(file));
+				BufferedInputStream is = new BufferedInputStream(new FileInputStream(file));
 
 				byte[] ary = new byte[is.available()];
 
 				is.read(ary);
-				BufferedOutputStream os = new BufferedOutputStream(
-						new FileOutputStream(file));
+				BufferedOutputStream os = new BufferedOutputStream(new FileOutputStream(file));
 				os.write(ary);
 
 				os.write(str.getBytes());
@@ -210,159 +231,5 @@ public class App extends JFrame {
 				e.printStackTrace();
 			}
 		}
-	}
-}
-
-class WordThread extends Thread {
-	private List<Long> list;
-	private String word;
-
-	public List<Long> getList() {
-		return list;
-	}
-
-	public void setList(List<Long> list) {
-		this.list = list;
-	}
-
-	public String getWord() {
-		return word;
-	}
-
-	public void setWord(String word) {
-		this.word = word;
-	}
-
-	WordThread(List<Long> list, String word) {
-		this.list = list;
-		this.word = word;
-	}
-
-	@Override
-	public void run() {
-		try {
-			H2DB db = new H2DB();
-			Object obj = db.execute(new StatementCallback() {
-
-				@Override
-				public Object execute(Statement stmt) {
-					int level = 0;
-					try {
-						stmt.execute("select count(*) from word where word='"
-								+ word + "'");
-						ResultSet rs = stmt.getResultSet();
-
-						while (rs.next()) {
-							level = rs.getInt(1);
-						}
-					} catch (SQLException e) {
-						e.printStackTrace();
-					}
-					return level;
-				}
-			});
-			int insert = Integer.parseInt(String.valueOf(obj));
-			if (insert >= list.size()) {
-				return;
-			}
-			Thread.sleep(list.get(insert));
-			final JFrame j = new JFrame("Please review [" + word + "]");
-			JTextField text = new JTextField();
-			text.setSize(100,30);
-			text.setText(word);
-			JButton btn1 = new JButton("remebered");
-			btn1.addActionListener(new WordListener(j, this, true));
-			JButton btn2 = new JButton("forgot");
-			btn2.addActionListener(new WordListener(j, this, false));
-			j.setSize(600, 100);
-			JPanel panel = new JPanel();
-			panel.setSize(600, 100);
-
-			panel.add(text);
-			panel.add(btn1);
-			panel.add(btn2);
-			j.add(panel);
-			j.setVisible(true);
-
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-	}
-}
-
-class WordListener implements ActionListener {
-	private JFrame frame;
-	private WordThread thread;
-	private boolean flag;
-
-	public WordListener(JFrame j, WordThread t, boolean b) {
-		super();
-		this.frame = j;
-		this.thread = t;
-		this.flag = b;
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-
-		try {
-			Thread.sleep(1000L);
-		} catch (InterruptedException e1) {
-			e1.printStackTrace();
-		}
-		frame.dispose();
-		H2DB db = new H2DB();
-		db.execute(new StatementCallback() {
-
-			@Override
-			public Object execute(Statement stmt) {
-				SimpleDateFormat sdf = new SimpleDateFormat(
-						"yyyy-MM-dd hh:mm:ss");
-				try {
-					if (flag) {
-						stmt.execute("set @wordNum=select count(*) from word where word='"
-								+ thread.getWord()
-								+ "';"
-								+ "insert into word(word , level , createdtime) values('"
-								+ thread.getWord()
-								+ "',@wordNum,'"
-								+ sdf.format(new Date()) + "')");
-					} else {
-						stmt.execute("delete from word where word='"
-								+ thread.getWord() + "'");
-					}
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				return null;
-			}
-		});
-
-		thread = new WordThread(thread.getList(), thread.getWord());
-		thread.start();
-
-		Object result = db.execute(new StatementCallback() {
-
-			@Override
-			public Object execute(Statement stmt) {
-				// TODO Auto-generated method stub
-				StringBuffer sb = null;
-				try {
-					sb = new StringBuffer();
-					stmt.execute("select distinct word from word where level=4 group by word order by word");
-					ResultSet rs = stmt.getResultSet();
-					while (rs.next()) {
-						sb.append(rs.getString(1)).append("\r\n");
-					}
-					stmt.execute("update word set level=5 where level=4");
-					stmt.execute("delete word where id in (select id where level=5)");
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-				return sb.toString();
-			}
-		});
-
-		App.writeWordToFile(result);
 	}
 }

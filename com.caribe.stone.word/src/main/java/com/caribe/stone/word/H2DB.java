@@ -1,28 +1,24 @@
 package com.caribe.stone.word;
 
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Properties;
 
 public class H2DB {
+
+	private String jdbcUrl;
+
+	public H2DB(String jdbcUrl) {
+		this.jdbcUrl = jdbcUrl;
+	}
 
 	public final Object execute(StatementCallback callback) {
 		Connection con = null;
 		Statement stmt = null;
 		Object obj = null;
-		String jdbcUrl = null;
 		try {
 			Class.forName("org.h2.Driver");
-			Properties properties = new Properties();
-			try {
-				properties.load(H2DB.class.getResourceAsStream("db.properties"));
-				jdbcUrl = properties.getProperty("jdbcUrl");
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
 			con = DriverManager.getConnection(jdbcUrl, "sa", "");
 
 			stmt = con.createStatement();
