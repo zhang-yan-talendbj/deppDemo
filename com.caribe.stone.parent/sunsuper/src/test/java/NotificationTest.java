@@ -89,7 +89,7 @@ public class NotificationTest {
 	public static void initDriver() {
 //		InternetExplorerDriver will start IE, HtmlUnitDriver is very fast!!!
 		wd= new InternetExplorerDriver();
-//		wd = new HtmlUnitDriver();
-//		wd = new FirefoxDriver();
+//		driver = new HtmlUnitDriver();
+//		driver = new FirefoxDriver();
 	}
 }

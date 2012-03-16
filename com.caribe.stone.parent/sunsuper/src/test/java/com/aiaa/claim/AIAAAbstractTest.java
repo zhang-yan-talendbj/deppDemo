@@ -18,20 +18,20 @@ import org.openqa.selenium.ie.InternetExplorerDriver;
 
 public abstract class AIAAAbstractTest {
 	private static final String DEFAULT_VALUE = "default value";
-	protected static WebDriver wd;
+	protected static WebDriver driver;
 
 	@AfterClass
 	public static void destoryDriver() {
-		// wd.quit();
+		// driver.quit();
 	}
 
 	@Before
 	public void setUp() {
-		if (wd == null) {
+		if (driver == null) {
 			DriverType type = getTyep();
 			switch (type) {
 			case ie:
-				wd = new InternetExplorerDriver();
+				driver = new InternetExplorerDriver();
 				break;
 			case firefox:
 				System.setProperty("webdriver.firefox.bin",
@@ -40,24 +40,24 @@ public abstract class AIAAAbstractTest {
 				ProfilesIni allProfiles = new ProfilesIni();
 				FirefoxProfile profile = allProfiles.getProfile("selenium");
 				if (profile != null) {
-					wd = new FirefoxDriver(profile);
+					driver = new FirefoxDriver(profile);
 				} else {
-					wd = new FirefoxDriver();
+					driver = new FirefoxDriver();
 				}
 				break;
 			case html:
-				wd = new HtmlUnitDriver(true);
+				driver = new HtmlUnitDriver(true);
 				break;
 			case chrome:
 				System.setProperty("webdriver.chrome.driver",
 						"c:/Documents and Settings/bsnpbag/Local Settings/Application Data/Google/Chrome/Application/chrome.exe");
-				wd = new ChromeDriver();
+				driver = new ChromeDriver();
 				break;
 			default:
-				wd = new HtmlUnitDriver(true);
+				driver = new HtmlUnitDriver(true);
 				break;
 			}
-			wd.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
 		}
 	}
 
@@ -66,24 +66,24 @@ public abstract class AIAAAbstractTest {
 	}
 
 	protected void setValueByName(String value, String name) {
-		wd.findElement(By.name(name)).clear();
-		wd.findElement(By.name(name)).sendKeys(value);
+		driver.findElement(By.name(name)).clear();
+		driver.findElement(By.name(name)).sendKeys(value);
 	}
 
 	protected void setValueById(String value, String id) {
-		wd.findElement(By.id(id)).sendKeys(value);
+		driver.findElement(By.id(id)).sendKeys(value);
 	}
 
 	protected void clickByName(String name) {
-		wd.findElement(By.name(name)).click();
+		driver.findElement(By.name(name)).click();
 	}
 
 	protected void clickById(String id) {
-		wd.findElement(By.id(id)).click();
+		driver.findElement(By.id(id)).click();
 	}
 
 	protected void selectOptionByName(String selectedOption, String name) {
-		WebElement selectElement = wd.findElement(By.name(name));
+		WebElement selectElement = driver.findElement(By.name(name));
 		select(selectElement, selectedOption);
 	}
 

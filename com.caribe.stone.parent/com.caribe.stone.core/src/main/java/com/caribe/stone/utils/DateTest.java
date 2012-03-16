@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import org.junit.Test;
@@ -17,6 +18,14 @@ public class DateTest {
 		GregorianCalendar calendar = new GregorianCalendar(2012, 11, 11);
 		assertEquals("(11/12)", sdf1.format(calendar.getTime()));
 	}
+	
+	@Test
+	public void testName() throws Exception {
+		SimpleDateFormat sdf1 = new SimpleDateFormat("/dd-MMM");
+		Date time = new GregorianCalendar(2012, 2, 15).getTime();
+		assertEquals("/15-Mar",sdf1.format(time));
+	}
+	
 	
 	@Test
 	public void compare() throws Exception {

@@ -30,7 +30,7 @@ public class ScreenShotStatement extends Statement {
 		} catch (Throwable e) {
 			throwable = e;
 			Class<?> clazz = target.getClass();
-			Field wd = clazz.getDeclaredField("wd");
+			Field wd = clazz.getDeclaredField("driver");
 			wd.setAccessible(true);
 			WebDriver driver = (WebDriver) wd.get(target);
 			if (driver instanceof FirefoxDriver || driver instanceof InternetExplorerDriver) {

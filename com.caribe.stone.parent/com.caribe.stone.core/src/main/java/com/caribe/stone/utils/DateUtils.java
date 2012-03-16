@@ -313,6 +313,13 @@ public class DateUtils {
 			return DEFAULT_DATE_FORMAT.parse(input);
 		}
 	}
+	public static Date parse(String input,String fromformat) throws ParseException {
+		if (input == null || fromformat==null) {
+			return null;
+		} else {
+			return new SimpleDateFormat(fromformat).parse(input);
+		}
+	}
 
 	/**
 	 * acutalMonthInNumberic. Java stores months 0,1,2 as Jan, Feb, Mar This

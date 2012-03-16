@@ -12,10 +12,10 @@ public class ViewPolicyRuleHistoryTest extends AIAAAbstractTest {
 	public void testViewPolicyRuleHistory() throws Exception {
 		clickById("manageFundRepository");
 		
-		SeleniumUtils.select(wd.findElement(By.name("selectPolicySource")), "Compass");
+		SeleniumUtils.select(driver.findElement(By.name("selectPolicySource")), "Compass");
 		clickByName("search");
 		
-		wd.findElement(By.linkText("view")).click();
+		driver.findElement(By.linkText("view")).click();
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class ViewPolicyRuleHistoryTest extends AIAAAbstractTest {
 	@Before
 	public void setUp() {
 		super.setUp();
-		wd.get("http://cibwkdp000105:9084/ClaimsAdminWeb/app");
+		driver.get("http://cibwkdp000105:9084/ClaimsAdminWeb/app");
 	}
 
 	@After

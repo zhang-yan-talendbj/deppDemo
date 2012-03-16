@@ -23,8 +23,7 @@ public class Aa {
 	@Test
 	public void testAa() throws Exception {
 		driver.get(baseUrl + "/ClaimsAdminWeb/app");
-		driver.findElement(By.linkText("21016")).click();
-
+		driver.findElement(By.id("startReleasePayments")).click();
 	}
 
 	@After
