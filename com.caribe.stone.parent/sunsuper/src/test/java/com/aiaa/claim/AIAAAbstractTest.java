@@ -1,14 +1,11 @@
 package com.aiaa.claim;
 
-import static com.aiaa.claim.SeleniumUtils.*;
-
 import java.util.concurrent.TimeUnit;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
-import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
@@ -22,7 +19,7 @@ public abstract class AIAAAbstractTest {
 
 	@AfterClass
 	public static void destoryDriver() {
-		// driver.quit();
+//		driver.quit();
 	}
 
 	@Before
@@ -65,31 +62,6 @@ public abstract class AIAAAbstractTest {
 		return DriverType.ie;
 	}
 
-	protected void setValueByName(String value, String name) {
-		driver.findElement(By.name(name)).clear();
-		driver.findElement(By.name(name)).sendKeys(value);
-	}
-
-	protected void setValueById(String value, String id) {
-		driver.findElement(By.id(id)).sendKeys(value);
-	}
-
-	protected void clickByName(String name) {
-		driver.findElement(By.name(name)).click();
-	}
-
-	protected void clickById(String id) {
-		driver.findElement(By.id(id)).click();
-	}
-
-	protected void selectOptionByName(String selectedOption, String name) {
-		WebElement selectElement = driver.findElement(By.name(name));
-		select(selectElement, selectedOption);
-	}
-
-	protected void setDefaultValueByName(String name) {
-		setValueByName(DEFAULT_VALUE, name);
-	}
 }
 
 enum DriverType {

@@ -13,6 +13,7 @@ import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.junit.After;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -21,24 +22,71 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+@RunWith(ImageRunner.class)
 public class CPIWarningTest extends AIAAAbstractTest {
 
 	private Logger LOG = LoggerFactory.getLogger(this.getClass());
 	private String baseUrl = "http://localhost:9083";
 	private String claimNumber;
 
-	// public static void main(String[] args) {
-	// CPIWarningTest claim = new CPIWarningTest();
-	// claim.setUp();
-	// claim.recordPayment("21603");
-	// claim.recordPayment("21603");
-	// claim.recordPayment("21603");
-	// }
-
 	@Test
 	public void recordAnOngoingClaim() throws Exception {
+		prepareClaim();
+
 		DateTime now = new DateTime(2012, 3, 15, 0, 0, 0, 0);
+
+		DateTimeFormatter pattern = DateTimeFormat.forPattern("d/M/yyyy");
+		DateTimeFormatter cedPattern = DateTimeFormat.forPattern("/d-MMM");
+
+		Payment initialPayment = recordPayment(now.toString(pattern), now.plusYears(1).toString(pattern),
+				true);// warning
+
+		authorisePayment(initialPayment);
+		releasePayments();
+		checkCPIState("Yes" + now.toString(cedPattern));
+		// ced 15/Mar
+
+		Payment payment1 = recordPayment(now.plusYears(2).minusDays(1).toString(pattern), now
+				.plusYears(2).toString(pattern), true);// crossed
+														// 14/3/2014->15/3/2014
+		Payment payment2 = recordPayment(now.plusYears(2).plusDays(1).toString(pattern), now.plusYears(2)
+				.plusDays(2).toString(pattern), false);// not
+														// 16/3/2014->17/3/2014
+
+		// ced now-1day
+		authorisePayment(payment1);
+		authorisePayment(payment2);
+
+		releasePayments();
+		checkCPIState("Yes" + now.toString(cedPattern));// ced 15/Mar
+
+		reversePayment(initialPayment);
+
+		checkCPIState("Yes" + now.plusYears(2).minusDays(1).toString(cedPattern));// ced 14/Mar
+	}
+
+	@Test
+	public void initialPaymentOnlyOneDay() throws Exception {
+		prepareClaim();
+
+		DateTime now = new DateTime(2012, 3, 15, 0, 0, 0, 0);
+
+		DateTimeFormatter pattern = DateTimeFormat.forPattern("d/M/yyyy");
+		DateTimeFormatter cedPattern = DateTimeFormat.forPattern("/dd-MMM");
+
+		Payment initialPayment = recordPayment(now.toString(pattern), now.toString(pattern), false);// warning
+
+		authorisePayment(initialPayment);
+		releasePayments();
+		checkCPIState("Yes" + now.toString(cedPattern));
+		// ced 15/Mar
+
+		reversePayment(initialPayment);
+
+		checkCPIState("Yes");// ced Yes
+	}
+
+	private void prepareClaim() {
 		recordClaim();
 		claimNumber = getClaimNumber();
 
@@ -49,33 +97,39 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		reserveClaim();
 
 		assessClaim();
+	}
 
-		DateTimeFormatter pattern = DateTimeFormat.forPattern("d/M/yyyy");
-		DateTimeFormatter cedPattern = DateTimeFormat.forPattern("/dd-MMM");
-		Payment initialPayment = recordPayment(now.toString(pattern), now.plusYears(1).toString(pattern),
-				true);// warning
+	private void reversePayment(Payment payment) {
 
-		authorisePayment(initialPayment);
-		releasePayments();
-		checkCPIState("Yes" + now.toString(cedPattern));
-		// ced now
+		viewClaim();
+		reversePaymentDetail(payment);
+	}
 
-		Payment payment1 = recordPayment(now.plusYears(2).minusDays(1).toString(pattern), now
-				.plusYears(2).toString(pattern), true);// crossed
-		Payment payment2 = recordPayment(now.plusYears(2).plusDays(1).toString(pattern), now.plusYears(2)
-				.plusDays(2).toString(pattern), false);// not
+	private void reversePaymentDetail(Payment payment) {
 
-		Payment payment3 = recordPayment(now.plusYears(3).minusDays(2).toString(pattern), now
-				.plusYears(3).plusDays(2).toString(pattern), true);// crossed
-		// ced now-1day
-		authorisePayment(payment1);
-		authorisePayment(payment2);
-		releasePayments();
-		checkCPIState("Yes" + now.plusYears(2).minusDays(1).toString(cedPattern));
+		driver.findElement(By.id("PaymentsTabLink")).click();
+		List<WebElement> trs = driver.findElements(By.xpath("id('payments')/tbody/tr[@class]"));
+		for (WebElement tr : trs) {
+			WebElement fromDate = tr.findElement(By.className("fromColumnValue"));
+			WebElement toDate = tr.findElement(By.className("toColumnValue"));
+			if (fromDate.getText().equals(payment.getFrom()) && toDate.getText().equals(payment.getTo())) {
+				tr.findElement(By.linkText("view")).click();
+				driver.findElement(By.id("reversePayment")).click();
+				driver.findElement(By.name("confirmTask")).click();
+				driver.findElement(By.name("complete")).click();
+				assertOperation("Reverse Payment (.*) Complete");
 
+				driver.findElement(By.name("complete")).click();
+				assertOperation("View Payment (.*) Complete");
+				break;
+			}
+		}
+
+		// driver.findElement(By.name("complete")).click();
 	}
 
 	private void releasePayments() {
+		goHome();
 		driver.findElement(By.id("startReleasePayments")).click();
 		driver.findElement(By.name("next")).click();
 		driver.findElement(By.name("confirmTask")).click();
@@ -142,16 +196,21 @@ public class CPIWarningTest extends AIAAAbstractTest {
 	}
 
 	private void viewClaim() {
-		if (driver.getTitle().startsWith("AIA Claims : View Claim :")) {
+		if (driver.getTitle().startsWith("AIA Claims : View Claim : " + claimNumber)) {
 			return;
+		} else {
+			goHome();
+			driver.findElement(By.name("inputClaimNumber")).clear();
+			driver.findElement(By.name("inputClaimNumber")).sendKeys(claimNumber);
+			driver.findElement(By.name("search")).click();
+			driver.findElement(By.linkText(claimNumber)).click();
 		}
+	}
+
+	private void goHome() {
 		if (!driver.getTitle().equals("AIA Claims : Home")) {
 			driver.get(baseUrl + "/ClaimsAdminWeb/app");
 		}
-		driver.findElement(By.name("inputClaimNumber")).clear();
-		driver.findElement(By.name("inputClaimNumber")).sendKeys(claimNumber);
-		driver.findElement(By.name("search")).click();
-		driver.findElement(By.linkText(claimNumber)).click();
 	}
 
 	private Payment recordPaymentDetails(String from, String to, boolean isCpiWarning) {
@@ -168,8 +227,8 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		driver.findElement(By.name("next")).click();
 
 		if (isCpiWarning) {
-			String cpiWarning = driver.findElement(By.xpath("//li[@class='error']")).getText();
-			assertEquals("This is a CPIWarning!", cpiWarning);
+			String cpiWarning = driver.findElement(By.xpath("//h3[@style]")).getText();
+			assertTrue(cpiWarning.startsWith("NOTE: Payment crosses Claims Escalation Date"));
 			driver.findElement(By.name("next")).click();
 		}
 		new Select(driver.findElement(By.name("selectPayee")))
@@ -255,8 +314,9 @@ public class CPIWarningTest extends AIAAAbstractTest {
 				return driver.findElement(By.name("aiaEmbedded$1")).getAttribute("value").length() > 0;
 			}
 		});
-		selectOptionByName("American Home (Non-life Rein)", "aiaEmbedded$4");
-		selectOptionByName("Agreed Value", "aiaEmbedded$6");
+		new Select(driver.findElement(By.name("aiaEmbedded$4")))
+				.selectByVisibleText("American Home (Non-life Rein)");
+		new Select(driver.findElement(By.name("aiaEmbedded$6"))).selectByVisibleText("Agreed Value");
 		new Select(driver.findElement(By.name("aiaEmbedded$7"))).selectByVisibleText("Yes");
 
 		new Select(driver.findElement(By.name("aiaEmbedded$13"))).selectByVisibleText("AAL");
@@ -350,14 +410,10 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		driver.findElement(By.name("complete")).click();
 	}
 
-	@After
-	public void tearDown() throws Exception {
-		// driver.quit();
-		// String verificationErrorString = verificationErrors.toString();
-		// if (!"".equals(verificationErrorString)) {
-		// fail(verificationErrorString);
-		// }
-	}
+	// @After
+	// public void tearDown() throws Exception {
+	// driver.close();
+	// }
 
 	@Override
 	protected DriverType getTyep() {

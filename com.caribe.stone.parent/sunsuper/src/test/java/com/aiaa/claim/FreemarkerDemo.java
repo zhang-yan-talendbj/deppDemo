@@ -36,8 +36,8 @@ public class FreemarkerDemo {
 
 		Map map = new HashMap();
 		ArrayList inputList = new ArrayList();
-		ParseHtmlDemo p = new ParseHtmlDemo();
-		map.put("input", p.getInputList());
+//		ParseHtmlDemo p = new ParseHtmlDemo();
+//		map.put("input", p.getInputList());
 		map.put("select", inputList);
 		map.put("checkbox", inputList);
 		map.put("msg", "sss");
