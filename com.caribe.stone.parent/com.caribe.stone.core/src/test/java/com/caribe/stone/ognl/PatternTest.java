@@ -38,4 +38,12 @@ public class PatternTest {
 //		System.out.println(m.find());
 //		System.out.println(m.group());
 	}
+	
+	@Test
+	public void match() throws Exception {
+		assertTrue(Pattern.compile("^aa$").matcher("aa").matches());
+		assertTrue(Pattern.compile(".aa.").matcher("baac").matches());
+		assertTrue(Pattern.compile(".aa*").matcher("baaaaaaaa").matches());
+		assertTrue(Pattern.compile(".*aa.*").matcher("zzzbaaaaaaaaab").matches());
+	}
 }
