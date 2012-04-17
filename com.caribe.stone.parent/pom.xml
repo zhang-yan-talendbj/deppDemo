@@ -29,6 +29,7 @@
 
 		<!-- Plugin的属性定义 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
 	</properties>
 	<modules>
 		<module>com.caribe.stone.core</module>

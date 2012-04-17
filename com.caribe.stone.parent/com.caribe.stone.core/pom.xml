@@ -452,6 +452,7 @@
 				<jdbc.username>sa</jdbc.username>
 				<jdbc.password></jdbc.password>
 				<selenium.driver>htmlunit</selenium.driver>
+				<sonar.host.url>http://localhost:9000</sonar.host.url>
 			</properties>
 		</profile>
 

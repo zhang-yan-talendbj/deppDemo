@@ -6,7 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.classic.Session;
 
 import com.depp.hibernate.annotation.pojo.Member;
-import com.depp.hibernate.util.HibernateUtil;
+import com.depp.hibernate.annotation.util.HibernateUtil;
 
 public class Client {
 

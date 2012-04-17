@@ -1,6 +1,6 @@
 package deppDemo.com.depp.dsa.adt;
 
-import deppDemo.com.depp.dsa.adt.exception.OutOfBoundaryException;
+import com.caribe.stone.dsa.adt.exception.OutOfBoundaryException;
 
 /**
  * Created by IntelliJ IDEA.

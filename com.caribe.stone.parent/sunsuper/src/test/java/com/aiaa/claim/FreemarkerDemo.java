@@ -20,7 +20,7 @@ import freemarker.template.TemplateException;
 
 public class FreemarkerDemo {
 	@Test
-	public void testName() throws Exception {
+	public void hello() throws Exception {
 
 		// ClassPathResource classPathResource = new
 		// ClassPathResource("template.txt");
@@ -34,15 +34,37 @@ public class FreemarkerDemo {
 		// ${Salutation} ${First_Name} ${Surname}
 		Writer out = new OutputStreamWriter(System.out);
 
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("msg", "HelloWord");
+		temp.process(map, out);
+		out.flush();
+		out.close();
+	}
+
+	@Test
+	public void template() throws Exception {
+		Configuration cfg = new Configuration();
+		// 设置模板文件夹
+		cfg.setDirectoryForTemplateLoading(new ClassPathResource("/template").getFile());
+		cfg.setObjectWrapper(new DefaultObjectWrapper());
+
+		Template temp = cfg.getTemplate("PolicyNotice.ftl");
+		Writer out = new OutputStreamWriter(System.out);
 		Map map = new HashMap();
 		ArrayList inputList = new ArrayList();
-//		ParseHtmlDemo p = new ParseHtmlDemo();
-//		map.put("input", p.getInputList());
+		inputList.add(11);
+		inputList.add(11);
+		inputList.add(11);
+		inputList.add(11);
+		inputList.add(11);
+		inputList.add(11);
+		inputList.add(11);
+		// ParseHtmlDemo p = new ParseHtmlDemo();
+		// map.put("input", p.getInputList());
 		map.put("select", inputList);
 		map.put("checkbox", inputList);
 		map.put("msg", "sss");
 
-		System.out.println(map);
 		temp.process(map, out);
 		out.flush();
 		out.close();

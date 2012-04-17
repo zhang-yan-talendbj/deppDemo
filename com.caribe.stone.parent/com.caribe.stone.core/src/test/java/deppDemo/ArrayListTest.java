@@ -1,7 +1,8 @@
 package deppDemo;
 
-import deppDemo.com.depp.dsa.adt.impl.ArrayList;
 import junit.framework.TestCase;
+
+import com.caribe.stone.dsa.adt.impl.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
