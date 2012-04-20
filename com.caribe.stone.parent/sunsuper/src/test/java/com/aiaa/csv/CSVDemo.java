@@ -4,6 +4,9 @@ import static org.junit.Assert.*;
 
 import java.io.FileWriter;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 
@@ -28,16 +31,20 @@ public class CSVDemo {
 	@Test
 	public void printer() throws Exception {
 		CSVPrinter printer = new CSVPrinter(new FileWriter("rc.csv"));
-		String[] values=new String[]{"hello,world,aa,a,a,a,a,a,a"};
-		printer.write(values);
+		String str = "Policy No	Policy Owner	Life Insured	Premium Mode	Benefit	Current Sum Insured	Current Premium	New Sum Insured(after renewal)	New Premium(after renewal)	Paid to Date	Policy Fee	Total Premium After Renewal(Inc. Policy Fee)  ";
+		String[] column = str.split("	");
+		printer.writeln(column);
+		printer.writeln(column);
+		printer.writeln(column);
+		printer.writeln(column);
+		
+		List<String> list = new ArrayList<String>();
+		list.add("111");
+		list.add("111");
+		list.add("111");
+		list.add("111");
+		String[] a = new String[3];
+		printer.writeln(list.toArray(a));
 	}
 	
-	@Test
-	public void format() throws Exception {
-		String str="Policy No	Policy Owner	Life Insured	Premium Mode	Benefit	Current Sum Insured	Current Premium	New Sum Insured(after renewal)	New Premium(after renewal)	Paid to Date	Policy Fee	Total Premium After Renewal(Inc. Policy Fee)  ";
-		String[] split = str.split("	");
-		for (String s : split) {
-			System.out.println(s);
-		}
-	}
 }
