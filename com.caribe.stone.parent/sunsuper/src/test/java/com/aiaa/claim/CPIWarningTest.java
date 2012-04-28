@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 public class CPIWarningTest extends AIAAAbstractTest {
 
 	private Logger LOG = LoggerFactory.getLogger(this.getClass());
-	private String baseUrl = "http://localhost:9083";
+	private String baseUrl = "http://cibwkdpcon007:9092";
 	private String claimNumber;
 
 	@Test
@@ -417,7 +417,7 @@ public class CPIWarningTest extends AIAAAbstractTest {
 
 	@Override
 	protected DriverType getTyep() {
-		return DriverType.html;
+		return DriverType.firefox;
 	}
 
 	private String getClaimNumber() {
