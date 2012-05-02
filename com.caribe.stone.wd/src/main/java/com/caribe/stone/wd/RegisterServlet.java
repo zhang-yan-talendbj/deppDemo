@@ -43,7 +43,7 @@ public class RegisterServlet extends HttpServlet {
 				int id=0;
 				String sql = "insert into t_user(USERNAME,PASSWORD) values('" + username + "','" + password
 						+ "') ";
-				System.out.println("Log:RegisterServlet.doPost" + sql);
+				System.out.println("Log:RegisterServlet.doPost " + sql);
 				stmt.execute(sql, Statement.RETURN_GENERATED_KEYS);
 				ResultSet generatedKeys = stmt.getGeneratedKeys();
 				if (generatedKeys.next()) {

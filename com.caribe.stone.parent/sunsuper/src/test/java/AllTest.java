@@ -6,5 +6,4 @@ import cc.openhome.BlockGossipClassRunner;
 @RunWith(BlockGossipClassRunner.class)
 @SuiteClasses({})
 public class AllTest {
-
 }

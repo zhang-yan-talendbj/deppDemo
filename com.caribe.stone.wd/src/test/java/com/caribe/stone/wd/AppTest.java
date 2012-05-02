@@ -2,16 +2,17 @@ package com.caribe.stone.wd;
 
 import static org.junit.Assert.*;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.mortbay.jetty.Server;
 import org.openqa.selenium.By;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import com.caribe.stone.junit.SeleniumScreenShotRunner;
 
+//@RunWith(SeleniumScreenShotRunner.class)
 public class AppTest extends AbstractTest {
 
-	@org.junit.Test
+	@Test
 	public void testName() throws Exception {
 		Server server = JettyUtils.buildNormalServer(8080, "/wd");
 
@@ -21,15 +22,19 @@ public class AppTest extends AbstractTest {
 
 		wd.findElement(By.linkText("Sign up")).click();
 
-		setValueByName("thinkdeeply", "username");
-		setValueByName("pw", "password");
+		wd.findElement(By.name("username")).clear();
+		wd.findElement(By.name("username")).sendKeys("thinkdeeply");
+		wd.findElement(By.name("password")).clear();
+		wd.findElement(By.name("password")).sendKeys("pw");
 		wd.findElement(By.tagName("form")).submit();
 
 		wd.get("http://localhost:8080/wd/");
 		wd.findElement(By.linkText("Log in")).click();
 
-		setValueByName("thinkdeeply", "username");
-		setValueByName("pw", "password");
+		wd.findElement(By.name("username")).clear();
+		wd.findElement(By.name("username")).sendKeys("thinkdeeply");
+		wd.findElement(By.name("password")).clear();
+		wd.findElement(By.name("password")).sendKeys("pw");
 		wd.findElement(By.tagName("form")).submit();
 
 		assertEquals("success", wd.findElement(By.id("msg")).getText());

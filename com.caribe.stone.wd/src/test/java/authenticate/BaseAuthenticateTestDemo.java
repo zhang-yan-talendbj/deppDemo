@@ -1,4 +1,4 @@
-package hello;
+package authenticate;
 
 import org.openqa.selenium.Cookie;
 import org.openqa.selenium.JavascriptExecutor;
@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.remote.DesiredCapabilities;
 
-public class BaseAuthenticateTest {
+public class BaseAuthenticateTestDemo {
 
 	public static void main(String[] args) {
 		WebDriver wd;

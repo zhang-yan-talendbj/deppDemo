@@ -420,6 +420,7 @@
 				<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName>
 				<jpa.dictionary>org.apache.openjpa.jdbc.sql.H2Dictionary</jpa.dictionary>
 				<hibernate.dialect>org.hibernate.dialect.H2Dialect</hibernate.dialect>
+				<!-- <jdbc.url>jdbc:h2:file:~/wd</jdbc.url> -->
 				<jdbc.url>jdbc:h2:tcp://localhost/~/wd</jdbc.url>
 				<jdbc.username>sa</jdbc.username>
 				<jdbc.password></jdbc.password>

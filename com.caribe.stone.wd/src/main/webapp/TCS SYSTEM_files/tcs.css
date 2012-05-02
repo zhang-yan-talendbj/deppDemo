@@ -1,0 +1,309 @@
+@CHARSET "ISO-8859-1";
+A:HOVER
+{
+	color : red;
+}
+
+A:active
+{
+	color : #0000FF;
+}
+
+P
+{
+    COLOR: #000066;
+    FONT-SIZE: 10pt;
+}
+
+H1
+{
+    FONT-FAMILY: Verdana;
+    FONT-SIZE: 18pt;
+}
+
+H2           
+{ 	color: #000066; 
+	font-family: Verdana; 
+	font-size: 11pt;
+}
+
+H3{
+	font-size : 11pt;
+	font-family : Tahoma,"Arial Narrow";
+	background-color : blue;
+	color : white;
+	padding-top : 3px;
+	padding-left : 3px;
+	padding-right : 3px;
+	padding-bottom : 3px;
+	vertical-align : middle;
+	text-align : center;
+	margin-top : 3px;
+	margin-left : 3px;
+	margin-right : 3px;
+	margin-bottom : 3px;
+}
+
+H4
+{
+	font-size : 11pt;
+	font-weight : bold;
+	font-family : Tahoma,sans-serif;
+	margin-top : 1px;
+	margin-left : 1px;
+	margin-right : 1px;
+	margin-bottom : 1px;
+}
+
+H6
+{
+	font-size : 8pt;
+	font-family : Tahoma;
+	color : black;
+	font-weight : 300;
+	margin-bottom : 0px;
+	z-index : auto;
+	padding-bottom : 0px;
+}
+
+TH
+{
+	font-family : Arial;
+	font-weight : bold;
+	color : white;
+	background-color : silver;
+	text-decoration : none;
+	font-size : 8pt;
+	background-position : center center;
+}
+
+.normal 
+{ 
+	font-family:"arial"; 
+	font-size : 18px; 
+	font-weight : bold; 
+	color:#000000;
+}
+
+.menuNormal 
+{ 
+	font-family:arial; 
+	font-size:12px; 
+	font-weight : bolder; 
+	color : #FF0000; 
+	cursor:hand;
+; font-style: normal; background-color: #99ccff
+}
+
+.menuHighlighted 
+{ 
+	font-family:arial; 
+	font-size:11pt; 
+	font-weight:bold; 
+	color:white; 
+	cursor:hand;
+}
+
+.submenuNormal
+{
+font-family: Arial; font-size: 11px; color: #000099; font-weight: bold
+
+}
+
+.submenuHighlighted
+{
+
+}
+
+.errorMessage 
+{ 
+	font-family:"Verdana", "Arial", "Helvetica", "sans-serif"; 
+	font-size : 18px; 
+	font-style : normal; 
+	font-weight : bold; 
+	color : #de1634; 
+; text-decoration: blink
+}        
+
+.labelMain 
+{ 
+	font-family:arial; 
+	font-size : 12pt; 
+	font-weight:bold; 
+	color : #003399; 
+	background-position : center center;
+}
+
+.labelHighlighted 
+{ 
+	font-family:arial; 
+	font-size : 10pt; 
+	font-weight:bold; 
+	color : blue; 
+}
+
+.labelNormal 
+{ 
+	font-family:"arial"; 
+	font-size : 14px; 
+	font-weight:normal;
+; color: #000000
+}
+
+.labelNormalInvert 
+{ 
+	font-family:arial; 
+	font-size : 8pt; 
+	font-weight:normal; 
+	color : black; 
+	background-color : #dafefe;
+}
+
+.tableLabel { 
+	font-family:"arial"; 
+	font-size : 12px; 
+	font-weight:normal;
+}
+
+.tableNormal 
+{ 
+	font-family:"arial"; 
+	font-size : 8pt; 
+	font-weight : bold;
+}
+
+.inputNormal 
+{ 
+	font-family:arial; 
+	font-size : 8pt; 
+	font-weight : bold; 
+	color:black;
+}
+
+.buttonNormal 
+{ 
+	font-family:arial; 
+	font-size : 8pt; 
+	font-weight : normal; 
+	background-color : grey; 
+	color:black;
+}
+.tabNormal {  font-family: "Arial", "Helvetica", "sans-serif"; font-size: 12px}
+.tabHilighted {  font-family: "Arial", "Helvetica", "sans-serif"; font-size: 10px; font-weight: normal}
+.seperated 
+{
+	font-family:"arial"; 
+	font-size : 8pt; 
+	font-weight : bold; 
+	background-color : #CCFFFF
+}.hilightedInfo {  font-family: "Arial", "Helvetica", "sans-serif"; font-size: 36px; color: #FF6666}
+
+TD.mainmenu
+{
+	background-color : #003366;
+}
+
+A.mainmenu
+{
+	font-family : Helvetica; 
+	FONT-SIZE : 14px; 
+	color : #CCCCCC;
+}
+A.mainmenu:HOVER
+{
+	color : red;
+	font-weight : bold; 
+}
+
+A.mainmenu:active
+{
+	color : #FFFFFF;
+	font-weight : bold; 
+}
+
+TR.TopRow
+{
+	background-color : #003366;
+}
+
+TR.MiddleRow
+{
+	background-color : #cccccc;
+}
+
+font.TopRow
+{
+	color : #FFFFFF;
+}
+ 
+.errInf
+{font-family:Arial,Helvetica, sans-serif;
+color:#FF0000;
+font-size:small;
+
+}
+
+.successInf
+{font-family:Arial,Helvetica,sans-serif;
+font-size:large;
+font-weitht:bold;
+color:#FF000;
+}
+/*
+Update  by zhangqing in 20090104.
+*/
+.tcs_index_body_bg{
+    background-Color:#3d5fa3;
+}
+.tcs_index_title {
+	color: #eeeeee;
+	font-weight: bold;
+	FONT-SIZE: 32;
+	FONT-FAMILY: Arial Unicode MS;
+}
+
+.tcs_index_title_bg{
+    background-Color:#004080;
+}
+
+.tcs_index_borderTable_bg{
+    background-Color:#3d5fa3;
+}
+
+.tcs_maintable_bg{
+    background-Color:#eeeeee;
+}
+
+.tcs_index_staff_id{
+    font-size: 10pt;
+    color:#004080;
+    font-weight:bold;
+    /*font-family: arial*/
+}
+/*update here in 20090113
+.tcs_button_TD{
+   PADDING-BOTTOM: 3px;
+}
+*/
+.tcs_index_push_button{
+	font-size: 8pt;
+}
+.tcs_index_PMA {
+    font-weight: bold;
+    font-family:arial ;
+    color:blue;
+    font-size: 12pt;
+}
+.tcs_index_dsp_current_time {
+    color:#ff0000;
+    font-size: 11pt;
+}
+.tcs_index_Address_bg {
+    background-Color:#004080;
+}
+
+.tcs_index_dsp_Address {
+    color:#cccccc;
+    font-size: 10pt;
+}
+

@@ -1,4 +1,4 @@
-package hello;
+package authenticate;
 
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
