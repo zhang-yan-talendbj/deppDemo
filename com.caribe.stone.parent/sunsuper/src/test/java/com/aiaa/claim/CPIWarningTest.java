@@ -11,9 +11,7 @@ import java.util.regex.Pattern;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
-import org.junit.After;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -22,11 +20,12 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-@RunWith(ImageRunner.class)
+
+//@RunWith(ImageRunner.class)
 public class CPIWarningTest extends AIAAAbstractTest {
 
 	private Logger LOG = LoggerFactory.getLogger(this.getClass());
-	private String baseUrl = "http://cibwkdpcon007:9092";
+	private String baseUrl = "http://localhost:9085";
 	private String claimNumber;
 
 	@Test
@@ -62,7 +61,8 @@ public class CPIWarningTest extends AIAAAbstractTest {
 
 		reversePayment(initialPayment);
 
-		checkCPIState("Yes" + now.plusYears(2).minusDays(1).toString(cedPattern));// ced 14/Mar
+		checkCPIState("Yes" + now.plusYears(2).minusDays(1).toString(cedPattern));// ced
+																					// 14/Mar
 	}
 
 	@Test
@@ -88,7 +88,6 @@ public class CPIWarningTest extends AIAAAbstractTest {
 
 	private void prepareClaim() {
 		recordClaim();
-		claimNumber = getClaimNumber();
 
 		checkCPIState("Yes");
 
@@ -299,6 +298,7 @@ public class CPIWarningTest extends AIAAAbstractTest {
 	}
 
 	private void recordClaim() {
+		login();
 		driver.get(baseUrl + "/ClaimsAdminWeb/app");
 		driver.findElement(By.name("inputClaimNumber")).clear();
 		driver.findElement(By.name("inputClaimNumber")).sendKeys("");
@@ -333,7 +333,7 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		new Select(driver.findElement(By.name("aiaEmbedded$9"))).selectByVisibleText("Monthly");
 		driver.findElement(By.name("next")).click();
 		new Select(driver.findElement(By.name("aiaEmbedded"))).selectByVisibleText("Mr");
-		new Select(driver.findElement(By.name("aiaEmbedded$7"))).selectByVisibleText("Phone");
+//		new Select(driver.findElement(By.name("aiaEmbedded$7"))).selectByVisibleText("Phone");
 		driver.findElement(By.name("aiaEmbedded$0")).clear();
 		driver.findElement(By.name("aiaEmbedded$0")).sendKeys("23478123");
 		driver.findElement(By.name("aiaEmbedded$2")).clear();
@@ -359,7 +359,7 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		driver.findElement(By.name("aiaEmbedded$4")).sendKeys("test");
 		driver.findElement(By.name("aiaEmbedded$6")).clear();
 		driver.findElement(By.name("aiaEmbedded$6")).sendKeys("test");
-		new Select(driver.findElement(By.name("aiaEmbedded$8"))).selectByVisibleText("Phone");
+//		new Select(driver.findElement(By.name("aiaEmbedded$8"))).selectByVisibleText("Phone");
 		new Select(driver.findElement(By.name("aiaEmbedded$15"))).selectByVisibleText("QLD");
 		driver.findElement(By.name("next")).click();
 		new Select(driver.findElement(By.name("aiaEmbedded$1"))).selectByVisibleText("Mr");
@@ -408,6 +408,136 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		driver.findElement(By.name("next")).click();
 		driver.findElement(By.name("confirmTask")).click();
 		driver.findElement(By.name("complete")).click();
+
+		claimNumber = getClaimNumber();
+	}
+
+	private void login() {
+		driver.get(baseUrl + "/ClaimsAdminWeb/login.jsp");
+		driver.findElement(By.id("name")).clear();
+		driver.findElement(By.id("name")).sendKeys("");
+		driver.findElement(By.id("pswd")).clear();
+		driver.findElement(By.id("pswd")).sendKeys("");
+		driver.findElement(By.id("name")).clear();
+		driver.findElement(By.id("name")).sendKeys("AITB003");
+		driver.findElement(By.id("pswd")).clear();
+		driver.findElement(By.id("pswd")).sendKeys("Ymay321y");
+		driver.findElement(By.name("action")).click();
+	}
+
+	@Test()
+	public void rehab() throws Exception {
+		recordClaim();
+
+		viewClaim();
+
+//		enableRehab();
+//		viewClaim();
+//		recordRehab();
+//
+//		rehabTab();
+//		getTable();
+////		claimNumber="20102";
+////		recordExpense("1");
+		System.out.println(claimNumber);
+	}
+
+	private void recordExpense(String amount) {
+		viewClaim();
+		driver.findElement(By.id("ExpenseTabLink")).click();
+		driver.findElement(By.id("recordExpense")).click();
+		driver.findElement(By.name("inputExpenseAmount")).clear();
+		driver.findElement(By.name("inputExpenseAmount")).sendKeys(amount);
+		driver.findElement(By.id("inputInvoiceNumber")).clear();
+		driver.findElement(By.id("inputInvoiceNumber")).sendKeys(String.valueOf(System.currentTimeMillis()));
+		new Select(driver.findElement(By.name("selectPayee"))).selectByVisibleText("WEST STATE SUPER SCHEME - Owner");
+		new Select(driver.findElement(By.name("selectAbn"))).selectByVisibleText("Create New - External");
+		new Select(driver.findElement(By.name("selectExpenseType"))).selectByVisibleText("Rehabilitation");
+		new Select(driver.findElement(By.name("selectRehab"))).selectByVisibleText("Rehab No.1");
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("confirmTask")).click();
+		
+		driver.findElement(By.name("complete")).click();
+	}
+
+	private void getTable() {
+		List<WebElement> table = driver.findElements(By.xpath("id('rehabList')/tbody/tr[@class]"));
+		// int index = getColumnIndex(table, "Rehab Number");
+		// index++;
+		// get rehab
+		for (WebElement rehab : table) {
+			System.out.println(rehab);
+			if (rehab.findElement(By.xpath("td[2]")).getText().equals("1")) {
+				WebElement findElement = rehab.findElement(By.linkText("Services and Program"));
+				System.out.println(findElement.getText());
+				findElement.click();
+				break;
+			}
+		}
+		// Add serviceApproved
+		driver.findElement(By.id("addServiceApproved")).click();
+		driver.findElement(By.name("inputFromDate")).clear();
+		driver.findElement(By.name("inputFromDate")).sendKeys("12/3/2012");
+		driver.findElement(By.name("inputToDate")).clear();
+		driver.findElement(By.name("inputToDate")).sendKeys("20101");
+		driver.findElement(By.name("inputToDate")).clear();
+		driver.findElement(By.name("inputToDate")).sendKeys("12/3/2012");
+		driver.findElement(By.name("inputFromDate")).clear();
+		driver.findElement(By.name("inputFromDate")).sendKeys("1/1/2012");
+		driver.findElement(By.name("inputToDate")).clear();
+		driver.findElement(By.name("inputToDate")).sendKeys("1/1/2013");
+		driver.findElement(By.name("inputCost")).clear();
+		driver.findElement(By.name("inputCost")).sendKeys("2000");
+		driver.findElement(By.name("confirmTask")).click();
+		driver.findElement(By.name("complete")).click();
+		driver.findElement(By.id("addServiceApproved")).click();
+		driver.findElement(By.name("inputFromDate")).clear();
+		driver.findElement(By.name("inputFromDate")).sendKeys("1/1/2012");
+		driver.findElement(By.name("inputToDate")).clear();
+		driver.findElement(By.name("inputToDate")).sendKeys("1/1/2013");
+		driver.findElement(By.name("inputCost")).clear();
+		driver.findElement(By.name("inputCost")).sendKeys("1000");
+		driver.findElement(By.name("confirmTask")).click();
+		driver.findElement(By.name("complete")).click();
+
+		// System.out.println(findElements);
+	}
+
+	private int getColumnIndex(WebElement table, String columnName) {
+		int index = 0;
+		List<WebElement> findElements = table.findElements(By.tagName("th"));
+		for (WebElement th : findElements) {
+			if (th.getText().equals(columnName)) {
+				break;
+			}
+			index++;
+		}
+		return index;
+	}
+
+	private void recordRehab() {
+		rehabTab();
+		driver.findElement(By.id("addRehab")).click();
+		driver.findElement(By.name("inputDateReferred")).clear();
+		driver.findElement(By.name("inputDateReferred")).sendKeys("21/7/2011");
+		new Select(driver.findElement(By.name("selectReferralType"))).selectByVisibleText("NEW");
+		new Select(driver.findElement(By.name("selectReferringTeam"))).selectByVisibleText("RETAIL 1");
+		new Select(driver.findElement(By.name("selectAssessor"))).selectByVisibleText("Superman");
+		new Select(driver.findElement(By.name("selectEmploymentStatus"))).selectByVisibleText("Employed");
+		driver.findElement(By.id("number")).clear();
+		driver.findElement(By.id("number")).sendKeys("e13");
+		driver.findElement(By.name("findCauseCode")).click();
+		new Select(driver.findElement(By.name("selectLanguage"))).selectByVisibleText("ENGLISH");
+		new Select(driver.findElement(By.name("selectBenefitType"))).selectByVisibleText("TPD");
+		new Select(driver.findElement(By.name("selectBenefitPeriod"))).selectByVisibleText("2");
+		new Select(driver.findElement(By.name("selectFund"))).selectByVisibleText("RETAIL");
+		new Select(driver.findElement(By.name("selectConsultantName"))).selectByVisibleText("JO LEE");
+		driver.findElement(By.name("inputInterCompleteDate")).clear();
+		driver.findElement(By.name("inputInterCompleteDate")).sendKeys("21/7/2011");
+		driver.findElement(By.name("confirmTask")).click();
+		driver.findElement(By.name("complete")).click();
+
+		assertOperation("Claim (.*) Complete");
 	}
 
 	// @After
@@ -415,9 +545,24 @@ public class CPIWarningTest extends AIAAAbstractTest {
 	// driver.close();
 	// }
 
+	private void rehabTab() {
+		viewClaim();
+		driver.findElement(By.id("RehabTabLink")).click();
+	}
+
+	private void enableRehab() {
+		driver.findElement(By.id("startEditRehabilitationTask")).click();
+		new Select(driver.findElement(By.name("selectRehabilitation"))).selectByVisibleText("Yes");
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("confirmTask")).click();
+		driver.findElement(By.name("complete")).click();
+
+		assertOperation("Edit Rehabilitation Instructed (.*) Complete");
+	}
+
 	@Override
-	protected DriverType getTyep() {
-		return DriverType.firefox;
+	protected DriverType getType() {
+		return DriverType.html;
 	}
 
 	private String getClaimNumber() {

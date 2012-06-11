@@ -20,8 +20,8 @@ public class SimpleJDBC {
 			// jdbc:h2:tcp://localhost/~/mini-web
 			// WebApplicationContext
 			// wac=WebApplicationContextUtils.getRequiredWebApplicationContext(getServletContext());
-
-			connection = DriverManager.getConnection("jdbc:h2:tcp://localhost/~/wd", "sa", "");
+			// jdbc:h2:file:~/mini-web4
+			connection = DriverManager.getConnection("jdbc:h2:file:~/wd", "sa", "");
 			Statement stmt = connection.createStatement();
 			result = callback.execute(stmt);
 		} catch (ClassNotFoundException e) {

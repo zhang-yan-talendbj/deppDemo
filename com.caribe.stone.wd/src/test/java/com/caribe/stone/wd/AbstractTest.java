@@ -2,8 +2,10 @@ package com.caribe.stone.wd;
 
 import java.util.concurrent.TimeUnit;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.mortbay.jetty.Server;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -12,17 +14,28 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 
 public abstract class AbstractTest {
-	protected static WebDriver wd;
-	private Server server = JettyUtils.buildNormalServer(8080, "/wd");
+	protected  WebDriver wd;
+	private static Server server = JettyUtils.buildNormalServer(8080, "/wd");
 
 	@AfterClass
-	public static void destoryDriver() {
-		 wd.quit();
+	public static void destoryServer() throws Exception {
+
+		server.stop();
+	}
+
+	@BeforeClass
+	public static void init() throws Exception {
+		server.start();
+	}
+
+	@After
+	public void teardown() {
+		wd.quit();
 	}
 
 	@Before
 	public void setUp() throws Exception {
-		server.start();
+
 		if (wd == null) {
 			DriverType type = getTyep();
 			switch (type) {

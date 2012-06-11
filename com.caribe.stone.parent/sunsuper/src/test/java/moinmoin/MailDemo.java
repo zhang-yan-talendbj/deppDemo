@@ -26,14 +26,14 @@ public class MailDemo {
 	public static void main(String[] args) throws MessagingException {
 		Session session = getSession();
 		
-		MimeMessage message = new MimeMessage(session);
-		message.setSubject("Hello");
-		message.setText("Word");
-		Address address=new InternetAddress("Bruce-Y.Zhang@aia.com");
-		message.setFrom(address);
-		message.setRecipient(Message.RecipientType.TO, address);
-		
-		Transport.send(message);
+//		MimeMessage message = new MimeMessage(session);
+//		message.setSubject("Hello");
+//		message.setText("Word");
+//		Address address=new InternetAddress("Bruce-Y.Zhang@aia.com");
+//		message.setFrom(address);
+//		message.setRecipient(Message.RecipientType.TO, address);
+//		
+//		Transport.send(message);
 //		
 //		System.out.println("success!");
 //		
@@ -60,7 +60,7 @@ public class MailDemo {
 		Message forward = new MimeMessage(session);
 
 		// Fill in header
-		forward.setSubject("Fwd: " + message.getSubject());
+		forward.setSubject("Fwd: test");
 		String from="Bruce-Y.Zhang@aia.com";
 		forward.setFrom(new InternetAddress(from));
 		String to="Bruce-Y.Zhang@aia.com";
@@ -74,20 +74,24 @@ public class MailDemo {
 
 		// Create a multi-part to combine the parts
 		Multipart multipart = new MimeMultipart();
-		multipart.addBodyPart(messageBodyPart);
+//		multipart.addBodyPart(messageBodyPart);
 
 		// Create and fill part for the forwarded content
-		MimeBodyPart aa = new MimeBodyPart();
-		aa.setDataHandler(new DataHandler(new FileDataSource(new File("c:/Documents and Settings/bsnpbag/My Documents/Downloads/linkTest.html"))));
-
+		MimeBodyPart attachment = new MimeBodyPart();
+		attachment.setDataHandler(new DataHandler(new FileDataSource("c:/Documents and Settings/bsnpbag/My Documents/Downloads/linkTest.html")));
+		MimeBodyPart attachment2 = new MimeBodyPart();
+		attachment2.setDataHandler(new DataHandler(new FileDataSource("c:/Documents and Settings/bsnpbag/My Documents/Downloads/linkTest2.csv")));
+		attachment2.setFileName("a.csv");
 		// Add part to multi part
-		multipart.addBodyPart(aa);
+		multipart.addBodyPart(attachment);
+		multipart.addBodyPart(attachment2);
 
 		// Associate multi-part with message
 		forward.setContent(multipart);
 
 		// Send message
 		Transport.send(forward);
+		System.out.println(123);
 	}
 
 	private static void recieveMail(Session session) throws NoSuchProviderException, MessagingException {

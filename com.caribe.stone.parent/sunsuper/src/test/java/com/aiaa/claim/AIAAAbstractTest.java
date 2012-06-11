@@ -25,7 +25,7 @@ public abstract class AIAAAbstractTest {
 	@Before
 	public void setUp() {
 		if (driver == null) {
-			DriverType type = getTyep();
+			DriverType type = getType();
 			switch (type) {
 			case ie:
 				driver = new InternetExplorerDriver();
@@ -58,7 +58,7 @@ public abstract class AIAAAbstractTest {
 		}
 	}
 
-	protected DriverType getTyep() {
+	protected DriverType getType() {
 		return DriverType.ie;
 	}
 
