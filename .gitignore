@@ -10,6 +10,8 @@ target/
 *.bak
 .metadata/
 *.class
+*.o
+*.cproject
 *.jar
 *.pst
 
@@ -17,5 +19,6 @@ logs/
 *.log
 
 bin/
+Debug/
 
 HibernateInAction/

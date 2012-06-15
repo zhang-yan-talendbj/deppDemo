@@ -11,14 +11,14 @@ public class CopySelectedFile {
 
 	public static void main(String[] args) throws IOException {
 
-		String str="e:/bruce/aia/workspace/April/PolicyNotices/";
+		String str="e:/bruce/aia/workspace/May/ITPC/Claims(Rehab)/svn/";
 		
 		BufferedReader reader = new BufferedReader(new InputStreamReader(CopySelectedFile.class.getResourceAsStream("files")));
 		String fileName=null;
 		while((fileName=reader.readLine())!=null){
 			File file = new File(str+fileName);
 			System.out.println(file.exists());
-			FileUtils.copyFile(file, new File("d:/tmp/2012-06-08/"+fileName));
+			FileUtils.copyFile(file, new File("d:/tmp/2012-06-15/"+fileName));
 		}
 	
 	}
