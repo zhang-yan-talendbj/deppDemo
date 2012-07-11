@@ -8,13 +8,13 @@
 //
 //import org.junit.Test;
 //
-//import foo.domain.AbstractTest;
+//import foo.domain.AbstractTestStub;
 //import foo.domain.entity.Address;
 //import foo.domain.entity.Customer;
 //import foo.domain.entity.one2Many.Box;
 //import foo.domain.entity.one2Many.Stuff;
 //
-//public class CRUDTest extends AbstractTest{
+//public class CRUDTest extends AbstractTestStub{
 //	@Test
 //	public void testName() throws Exception {
 //		

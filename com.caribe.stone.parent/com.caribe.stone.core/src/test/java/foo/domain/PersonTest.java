@@ -17,7 +17,7 @@
 //
 //import junit.framework.TestCase;
 //
-//public class PersonTest extends AbstractTest {
+//public class PersonTest extends AbstractTestStub {
 //	@Test
 //	public void testName() throws Exception {
 //
