@@ -7,8 +7,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-	<groupId>com.caribe.stone.datastructure</groupId>
 	<artifactId>com.caribe.stone.datastructure</artifactId>
+
+	<groupId>com.caribe.stone</groupId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 

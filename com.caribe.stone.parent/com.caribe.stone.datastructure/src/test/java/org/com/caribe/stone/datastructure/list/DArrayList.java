@@ -1,21 +1,29 @@
 package org.com.caribe.stone.datastructure.list;
 
+import java.util.Arrays;
+
 public class DArrayList implements DList {
 
-	public void add(String arg1) {
-		
+	private int size = 0;
+	private static int MAX_SIZE = 20;
+	Object[] array = null;
+
+	public DArrayList(int size) {
+		array = new Object[size];
+	}
+
+	public DArrayList() {
+		this(MAX_SIZE);
 	}
 
 	@Override
 	public int getSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		return size;
 	}
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size == 0;
 	}
 
 	@Override
@@ -32,8 +40,20 @@ public class DArrayList implements DList {
 
 	@Override
 	public void insert(int i, Object e) throws DOutOfBoundaryException {
-		// TODO Auto-generated method stub
-		
+		if (i < 0 || i >= MAX_SIZE) {
+			throw new DOutOfBoundaryException("Error, out of boundary!");
+		}
+		if (e != null) {
+			if (array[i - 1] != null) {
+				for (int j = array.length - 1; j > i - 1; j--) {
+					if (array[j] != null) {
+						array[j + 1] = array[j];
+					}
+				}
+			}
+			array[i-1]=e;
+		}
+		size++;
 	}
 
 	@Override
@@ -68,8 +88,15 @@ public class DArrayList implements DList {
 
 	@Override
 	public Object get(int i) throws DOutOfBoundaryException {
-		// TODO Auto-generated method stub
-		return "Bruce";
+		if (array[i-1] != null) {
+			return array[i-1];
+		}
+		throw new DOutOfBoundaryException("Error,out of boundary.");
+	}
+
+	@Override
+	public String toString() {
+		return "DArrayList [array=" + Arrays.toString(array) + "]";
 	}
 
 }
