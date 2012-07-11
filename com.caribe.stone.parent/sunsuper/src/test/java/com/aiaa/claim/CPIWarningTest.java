@@ -87,7 +87,7 @@ public class CPIWarningTest extends AIAAAbstractTest {
 	}
 
 	private void prepareClaim() {
-		recordClaim();
+		recordClaim("American Home (Non-life Rein)");
 
 		checkCPIState("Yes");
 
@@ -208,7 +208,9 @@ public class CPIWarningTest extends AIAAAbstractTest {
 
 	private void goHome() {
 		if (!driver.getTitle().equals("AIA Claims : Home")) {
-			driver.get(baseUrl + "/ClaimsAdminWeb/app");
+			// driver.get(baseUrl + "/ClaimsAdminWeb/app");
+			getHomePage();
+
 		}
 	}
 
@@ -297,9 +299,9 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		assertTrue(Pattern.compile(pattern).matcher(text).matches());
 	}
 
-	private void recordClaim() {
-		login();
-		driver.get(baseUrl + "/ClaimsAdminWeb/app");
+	private void recordClaim(String reinsurer) {
+		// login();
+		getHomePage();
 		driver.findElement(By.name("inputClaimNumber")).clear();
 		driver.findElement(By.name("inputClaimNumber")).sendKeys("");
 		driver.findElement(By.name("inputPolicyNumber")).clear();
@@ -314,8 +316,7 @@ public class CPIWarningTest extends AIAAAbstractTest {
 				return driver.findElement(By.name("aiaEmbedded$1")).getAttribute("value").length() > 0;
 			}
 		});
-		new Select(driver.findElement(By.name("aiaEmbedded$4")))
-				.selectByVisibleText("American Home (Non-life Rein)");
+		new Select(driver.findElement(By.name("aiaEmbedded$4"))).selectByVisibleText(reinsurer);
 		new Select(driver.findElement(By.name("aiaEmbedded$6"))).selectByVisibleText("Agreed Value");
 		new Select(driver.findElement(By.name("aiaEmbedded$7"))).selectByVisibleText("Yes");
 
@@ -333,7 +334,8 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		new Select(driver.findElement(By.name("aiaEmbedded$9"))).selectByVisibleText("Monthly");
 		driver.findElement(By.name("next")).click();
 		new Select(driver.findElement(By.name("aiaEmbedded"))).selectByVisibleText("Mr");
-//		new Select(driver.findElement(By.name("aiaEmbedded$7"))).selectByVisibleText("Phone");
+		// new
+		// Select(driver.findElement(By.name("aiaEmbedded$7"))).selectByVisibleText("Phone");
 		driver.findElement(By.name("aiaEmbedded$0")).clear();
 		driver.findElement(By.name("aiaEmbedded$0")).sendKeys("23478123");
 		driver.findElement(By.name("aiaEmbedded$2")).clear();
@@ -359,7 +361,8 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		driver.findElement(By.name("aiaEmbedded$4")).sendKeys("test");
 		driver.findElement(By.name("aiaEmbedded$6")).clear();
 		driver.findElement(By.name("aiaEmbedded$6")).sendKeys("test");
-//		new Select(driver.findElement(By.name("aiaEmbedded$8"))).selectByVisibleText("Phone");
+		// new
+		// Select(driver.findElement(By.name("aiaEmbedded$8"))).selectByVisibleText("Phone");
 		new Select(driver.findElement(By.name("aiaEmbedded$15"))).selectByVisibleText("QLD");
 		driver.findElement(By.name("next")).click();
 		new Select(driver.findElement(By.name("aiaEmbedded$1"))).selectByVisibleText("Mr");
@@ -412,6 +415,11 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		claimNumber = getClaimNumber();
 	}
 
+	private void getHomePage() {
+		// driver.get(baseUrl + "/ClaimsAdminWeb/app");
+		driver.get(baseUrl + "/claims-admin-web/app");
+	}
+
 	private void login() {
 		driver.get(baseUrl + "/ClaimsAdminWeb/login.jsp");
 		driver.findElement(By.id("name")).clear();
@@ -425,21 +433,110 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		driver.findElement(By.name("action")).click();
 	}
 
+	@Test
+	public void testName() throws Exception {
+		for (int i = 0; i < 40; i++) {
+			rehab();
+		}
+	}
+
+	@Test
+	public void releasePayment() throws Exception {
+		login();
+		goHome();
+		
+	}
+	@Test
+	public void addReview() throws Exception {
+		for (int i = 20050; i < 20080; i++) {
+			goHome();
+			addReviewByClaim(String.valueOf(i));
+		}
+	}
+
+	private void addReviewByClaim(String string) {
+		driver.findElement(By.name("inputClaimNumber")).clear();
+		driver.findElement(By.name("inputClaimNumber")).sendKeys(string);
+		driver.findElement(By.name("search")).click();
+		driver.findElement(By.linkText(string)).click();
+		driver.findElement(By.id("ReviewTabLink")).click();
+		driver.findElement(By.id("addReview")).click();
+		new Select(driver.findElement(By.id("selectReviewType")))
+				.selectByVisibleText("Initial Assessment Review");
+		driver.findElement(By.id("comment")).clear();
+		driver.findElement(By.id("comment"))
+				.sendKeys(
+						" review comment\n \n \n enter\nenter review comment\n \n \n enter\nenter review comment\n \n \n enter\nenter review comment\n \n \n enter\nenter");
+		new Select(driver.findElement(By.name("selectDecisionCorrect"))).selectByVisibleText("Yes");
+		new Select(driver.findElement(By.name("selectStrategyCorrect"))).selectByVisibleText("Yes");
+		new Select(driver.findElement(By.name("selectProcessCorrect"))).selectByVisibleText("Yes");
+		new Select(driver.findElement(By.name("selectFollowupDue"))).selectByVisibleText("6 Month");
+		new Select(driver.findElement(By.id("selectNextReviewType")))
+				.selectByVisibleText("6 month Review");
+		driver.findElement(By.id("nextComment")).clear();
+		driver.findElement(By.id("nextComment"))
+				.sendKeys(
+						"next review comment\nenter\nenternext review comment\nenter\nenternext review comment\nenter\nenternext review comment\nenter\nenternext review comment\nenter\nenternext review comment\nenter\nenternext review comment\nenter\nenternext review comment\nenter\nenter");
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("confirmTask")).click();
+		driver.findElement(By.name("complete")).click();
+	}
+
+	@Test
+	public void testRelease() throws Exception {
+		getHomePage();
+		driver.findElement(By.name("inputClaimNumber")).clear();
+		String string = "20057";
+		driver.findElement(By.name("inputClaimNumber")).sendKeys(string);
+		driver.findElement(By.name("search")).click();
+		driver.findElement(By.linkText(string)).click();
+		driver.findElement(By.id("ExpenseTabLink")).click();
+		driver.findElement(By.id("recordExpense")).click();
+		driver.findElement(By.name("inputExpenseAmount")).clear();
+		driver.findElement(By.name("inputExpenseAmount")).sendKeys("12");
+		driver.findElement(By.id("inputInvoiceNumber")).clear();
+		driver.findElement(By.id("inputInvoiceNumber")).sendKeys(
+				String.valueOf(System.currentTimeMillis()));
+		new Select(driver.findElement(By.name("selectPayee")))
+				.selectByVisibleText("WEST STATE SUPER SCHEME - Owner");
+		new Select(driver.findElement(By.name("selectAbn"))).selectByVisibleText("Create New - External");
+		new Select(driver.findElement(By.name("selectExpenseType"))).selectByVisibleText("Legal");
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("confirmTask")).click();
+		driver.findElement(By.name("complete")).click();
+		driver.findElement(By.name("complete")).click();
+		driver.findElement(By.id("startReleasePayments")).click();
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("confirmTask")).click();
+		driver.findElement(By.name("complete")).click();
+
+		String msg = driver.findElement(By.className("exception-header")).getText();
+		assertEquals("An exception has occurred.", msg);
+	}
+
 	@Test()
 	public void rehab() throws Exception {
-		recordClaim();
+		recordClaim("American Home (Non-life Rein)");
 
 		viewClaim();
 
-//		enableRehab();
-//		viewClaim();
-//		recordRehab();
-//
-//		rehabTab();
-//		getTable();
-////		claimNumber="20102";
-////		recordExpense("1");
+		// enableRehab();
+		// viewClaim();
+		// recordRehab();
+		//
+		// rehabTab();
+		// getTable();
+		// // claimNumber="20102";
+		// // recordExpense("1");
 		System.out.println(claimNumber);
+	}
+
+	@Test
+	public void recordClaimByReinsure() throws Exception {
+		for (int i = 0; i < 10; i++) {
+			recordClaim("SCOR Reinsurance");
+			System.out.println(claimNumber);
+		}
 	}
 
 	private void recordExpense(String amount) {
@@ -449,14 +546,17 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		driver.findElement(By.name("inputExpenseAmount")).clear();
 		driver.findElement(By.name("inputExpenseAmount")).sendKeys(amount);
 		driver.findElement(By.id("inputInvoiceNumber")).clear();
-		driver.findElement(By.id("inputInvoiceNumber")).sendKeys(String.valueOf(System.currentTimeMillis()));
-		new Select(driver.findElement(By.name("selectPayee"))).selectByVisibleText("WEST STATE SUPER SCHEME - Owner");
+		driver.findElement(By.id("inputInvoiceNumber")).sendKeys(
+				String.valueOf(System.currentTimeMillis()));
+		new Select(driver.findElement(By.name("selectPayee")))
+				.selectByVisibleText("WEST STATE SUPER SCHEME - Owner");
 		new Select(driver.findElement(By.name("selectAbn"))).selectByVisibleText("Create New - External");
-		new Select(driver.findElement(By.name("selectExpenseType"))).selectByVisibleText("Rehabilitation");
+		new Select(driver.findElement(By.name("selectExpenseType")))
+				.selectByVisibleText("Rehabilitation");
 		new Select(driver.findElement(By.name("selectRehab"))).selectByVisibleText("Rehab No.1");
 		driver.findElement(By.name("next")).click();
 		driver.findElement(By.name("confirmTask")).click();
-		
+
 		driver.findElement(By.name("complete")).click();
 	}
 

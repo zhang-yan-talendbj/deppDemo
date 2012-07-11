@@ -1,0 +1,51 @@
+package com.caribe.stone.domain.entities;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
+@Entity
+// comment this @entity or  spring will load this class Message why???
+public class Message {
+	@Id
+	@GeneratedValue
+	private Long id ;
+
+	private String message;
+
+	private Date created = new Date();
+
+	public Message() {
+	}
+
+	public Message(String msg) {
+		message = msg;
+	}
+
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public void setMessage(String msg) {
+		message = msg;
+	}
+
+	public String getMessage() {
+		return message;
+	}
+
+	public void setCreated(Date date) {
+		created = date;
+	}
+
+	public Date getCreated() {
+		return created;
+	}
+}

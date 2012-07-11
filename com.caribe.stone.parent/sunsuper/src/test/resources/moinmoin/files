@@ -1,6 +1,4 @@
-claims-admin-domain/src/main/java/au/com/aiaa/claims/domain/Claim.java
-claims-admin-web/src/main/java/au/com/aiaa/claims/web/viewclaim/ExpenseTab.java
-claims-admin-domain/src/main/java/au/com/aiaa/claims/domain/ReserveAdjustment.java
-claims-admin-domain/src/main/java/au/com/aiaa/claims/domain/Reserve.java
-claims-admin-domain/src/main/java/au/com/aiaa/claims/domain/importexport/ImporterExporter.java
-claims-admin-domain/src/main/java/au/com/aiaa/claims/services/AccountTransactionFactory.java
+ClaimsReportingDomain/src/au/com/aiaa/claims/reports/JasperReportRunner.java
+ClaimsReportingDomain/src/au/com/aiaa/claims/reports/reinsurance/ClaimsReinsuranceReportRunner.java
+ClaimsReportingDomain/src/au/com/aiaa/claims/reports/ReportRepositoryJPA.java
+ClaimsReportingDomain/src/au/com/aiaa/claims/reports/ReportsOrganizer.java
