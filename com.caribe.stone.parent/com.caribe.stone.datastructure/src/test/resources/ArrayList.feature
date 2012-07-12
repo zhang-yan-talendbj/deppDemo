@@ -13,5 +13,7 @@ Feature: ADT ArrayList
       | milk  | 1     |
       | bread | 2     |
       | soap  | 3     |
+    When add a element "test1" at index 1
 	Then get element from list index 1 is "milk"
+	Then get element from list index 2 is "bread"
 	Then get element from list index 3 is "soap"

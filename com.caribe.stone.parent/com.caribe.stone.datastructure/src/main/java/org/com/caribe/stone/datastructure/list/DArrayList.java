@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class DArrayList implements DList {
 
 	private int size = 0;
-	private static int MAX_SIZE = 20;
+	private static int MAX_SIZE = 8;
 	Object[] array = null;
 
 	public DArrayList(int size) {
@@ -39,19 +39,19 @@ public class DArrayList implements DList {
 	}
 
 	@Override
-	public void insert(int i, Object e) throws DOutOfBoundaryException {
-		if (i < 0 || i >= MAX_SIZE) {
+	public void insert(int index, Object e) throws DOutOfBoundaryException {
+		if (index < 0 || index >= MAX_SIZE) {
 			throw new DOutOfBoundaryException("Error, out of boundary!");
 		}
 		if (e != null) {
-			if (array[i - 1] != null) {
-				for (int j = array.length - 1; j > i - 1; j--) {
-					if (array[j] != null) {
-						array[j + 1] = array[j];
+			if (array[index - 1] != null) {
+				for (int i = array.length - 1; i > index - 1; i--) {
+					if (array[i-1] != null) {
+						array[i] = array[i-1];
 					}
 				}
 			}
-			array[i-1]=e;
+			array[index-1]=e;
 		}
 		size++;
 	}

@@ -21,11 +21,6 @@ public class ArrayListdefs {
 		list = new DArrayList();
 	}
 
-	@When("^add a element \"([^\"]*)\"$")
-	public void add_a_element(String arg1) throws Throwable {
-		list.insert(1, arg1);
-	}
-
 	@Then("^the list has (\\d+) element$")
 	public void the_list_has_element(int arg1) throws Throwable {
 		assertEquals(arg1, list.getSize());
