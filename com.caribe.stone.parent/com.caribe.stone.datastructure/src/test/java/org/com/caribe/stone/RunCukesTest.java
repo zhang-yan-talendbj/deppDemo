@@ -7,7 +7,7 @@ import cucumber.junit.Cucumber;
 
 @RunWith(Cucumber.class)
 @Cucumber.Options(
-		features={"src/test/resources/test.feature"}
+		features={"src/test/resources/ArrayList.feature"}
 //		,format = {"pretty", "html:target/cucumber"}
 		)
 public class RunCukesTest {

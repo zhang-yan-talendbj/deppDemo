@@ -15,28 +15,13 @@ import cucumber.annotation.en.When;
 
 public class ArrayListdefs {
 	private DArrayList list;
+	private Object removeElement;
 
 	@Given("^a new empty list$")
 	public void a_new_empty_list() throws Throwable {
 		list = new DArrayList();
 	}
-
-	@Then("^the list has (\\d+) element$")
-	public void the_list_has_element(int arg1) throws Throwable {
-		assertEquals(arg1, list.getSize());
-	}
-
-	@When("^add a element \"([^\"]*)\" at index (\\d+)$")
-	public void add_a_element_at_index(String arg1, int arg2) throws Throwable {
-		list.insert(arg2, arg1);
-	}
-
-	@Then("^get element from list index (\\d+) is \"([^\"]*)\"$")
-	public void get_element_from_list_index_is(int arg1, String arg2) throws Throwable {
-		Object object = list.get(arg1);
-		assertEquals(arg2, object);
-	}
-
+	
 	@Given("^a new list initialize following element:$")
 	public void a_new_list_initialize_following_element(List<ListElement> listElements) throws Throwable {
 		list=new DArrayList();
@@ -50,6 +35,51 @@ public class ArrayListdefs {
 			list.insert(e.index, e.element);
 		}
 	}
+
+	@When("^add a element \"([^\"]*)\" at index (\\d+)$")
+	public void add_a_element_at_index(String element, int index) throws Throwable {
+		list.insert(index, element);
+	}
+	
+	@When("^remove a element at index (\\d+)$")
+	public void remove_a_element_at_index(int index) throws Throwable {
+		removeElement=list.remove(index);
+	}
+	
+	@Then("^we get remove element \"([^\"]*)\"$")
+	public void we_get_remove_element(String expeElement) throws Throwable {
+		assertEquals(removeElement, expeElement);
+	}
+
+	@Then("^get element from list index (\\d+) is \"([^\"]*)\"$")
+	public void get_element_from_list_index_is(int index, String expeElement) throws Throwable {
+		Object object = list.get(index);
+		assertEquals(expeElement, object);
+	}
+
+
+	
+	@Then("^the list has (\\d+) element$")
+	public void the_list_has_element(int size) throws Throwable {
+		assertEquals(size, list.getSize());
+	}
+	
+	@Then("^index of element \"([^\"]*)\" is (\\d+)$")
+	public void index_of_element_is(String element, int index) throws Throwable {
+		assertEquals(index, list.indexOf(element));;
+	}
+	
+	@Given("^new empty list$")
+	public void new_empty_list() throws Throwable {
+		list=new DArrayList();
+	}
+
+	@Then("^has a error$")
+	public void has_a_error() throws Throwable {
+	    // Express the Regexp above with the code you wish you had
+	}
+
+	
 
 	static class ListElement{
 		public String element;

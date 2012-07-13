@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
-        <artifactId>com.caribe.stone.parent</artifactId>
-        <groupId>com.caribe.stone</groupId>
-        <version>0.0.1-SNAPSHOT</version>
-    </parent>
+		<artifactId>com.caribe.stone.parent</artifactId>
+		<groupId>com.caribe.stone</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
 
 	<artifactId>com.caribe.stone.datastructure</artifactId>
 
@@ -75,33 +76,33 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.1</version>
 		</dependency>
-			<dependency>
-				<groupId>log4j</groupId>
-				<artifactId>log4j</artifactId>
-				<version>1.2.16</version>
-				<exclusions>
-					<exclusion>
-						<groupId>javax.mail</groupId>
-						<artifactId>mail</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>javax.jms</groupId>
-						<artifactId>jms</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.sun.jdmk</groupId>
-						<artifactId>jmxtools</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>com.sun.jmx</groupId>
-						<artifactId>jmxri</artifactId>
-					</exclusion>
-					<exclusion>
-						<groupId>oro</groupId>
-						<artifactId>oro</artifactId>
-					</exclusion>
-				</exclusions>
-			</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.16</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.mail</groupId>
+					<artifactId>mail</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>javax.jms</groupId>
+					<artifactId>jms</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jdmk</groupId>
+					<artifactId>jmxtools</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>com.sun.jmx</groupId>
+					<artifactId>jmxri</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>oro</groupId>
+					<artifactId>oro</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
 		<!-- logging end -->
 
 		<dependency>
@@ -227,6 +228,28 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2-beta-5</version>
+			</plugin>
+
+			<plugin>
+
+				<groupId>org.codehaus.mojo</groupId>
+
+				<artifactId>findbugs-maven-plugin</artifactId>
+
+				<version>2.3.2</version>
+
+				<configuration>
+
+					<!-- <configLocation>${basedir}/springside-findbugs.xml</configLocation> -->
+
+					<!-- findbugs xml输出 -->
+					<findbugsXmlOutput>true</findbugsXmlOutput>
+
+					<!-- findbugs xml输出路径 -->
+					<findbugsXmlOutputDirectory>target/site</findbugsXmlOutputDirectory>
+
+				</configuration>
+
 			</plugin>
 		</plugins>
 	</build>
