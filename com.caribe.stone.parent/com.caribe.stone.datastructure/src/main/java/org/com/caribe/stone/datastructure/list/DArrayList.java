@@ -28,7 +28,14 @@ public class DArrayList implements DList {
 
 	@Override
 	public boolean contains(Object e) {
-		// TODO Auto-generated method stub
+		if (e == null) {
+			return false;
+		}
+		for (int i = 0; i < size; i++) {
+			if (e.equals(array[i])) {
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -37,7 +44,7 @@ public class DArrayList implements DList {
 		if (e != null) {
 			for (int i = 0; i < size; i++) { // 数组下标和size差1,用>可补全
 				if (e.equals(array[i]))
-					return i+1;
+					return i + 1;
 			}
 		}
 		return 0;
@@ -61,20 +68,28 @@ public class DArrayList implements DList {
 				}
 			}
 			array[index - 1] = e;
+			size++;
 		}
-		size++;
 	}
 
 	@Override
-	public boolean insertBefore(Object obj, Object e) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean insertBefore(Object obj, Object e) throws DOutOfBoundaryException {
+		int index = indexOf(obj);
+		if (index < 0) {
+			return false;
+		}
+		insert(index, e);
+		return true;
 	}
 
 	@Override
-	public boolean insertAfter(Object obj, Object e) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean insertAfter(Object obj, Object e) throws DOutOfBoundaryException {
+		int index = indexOf(obj);
+		if (index < 0) {
+			return false;
+		}
+		insert(index + 1, e);
+		return true;
 	}
 
 	@Override
@@ -93,23 +108,31 @@ public class DArrayList implements DList {
 	}
 
 	@Override
-	public boolean remove(Object e) {
-		// TODO Auto-generated method stub
+	public boolean remove(Object e) throws DOutOfBoundaryException {
+		int index = indexOf(e);
+		if (index > 0) {
+			remove(index);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public Object replace(int i, Object e) throws DOutOfBoundaryException {
-		// TODO Auto-generated method stub
-		return null;
+		if (i <= 0 || i > size) {
+			throw new DOutOfBoundaryException();
+		}
+		Object obj = array[i - 1];
+		array[i - 1] = e;
+		return obj;
 	}
 
 	@Override
 	public Object get(int i) throws DOutOfBoundaryException {
-		if (array[i - 1] != null) {
-			return array[i - 1];
+		if (i <= 0 || i > size) {
+			throw new DOutOfBoundaryException("Error, out of boundary.");
 		}
-		throw new DOutOfBoundaryException("Error,out of boundary.");
+		return array[i - 1];
 	}
 
 	@Override

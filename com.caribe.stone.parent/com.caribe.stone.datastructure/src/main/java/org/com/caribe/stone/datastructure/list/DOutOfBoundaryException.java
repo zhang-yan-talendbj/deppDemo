@@ -10,4 +10,11 @@ public class DOutOfBoundaryException extends Exception {
 	public DOutOfBoundaryException(String message) {
 		super(message);
 	}
+
+	public DOutOfBoundaryException() {
+		super("Error, out of boundary.");
+	}
+
+	
+	
 }
