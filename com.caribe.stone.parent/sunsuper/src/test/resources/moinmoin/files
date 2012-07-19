@@ -1,4 +1,0 @@
-ClaimsReportingDomain/src/au/com/aiaa/claims/reports/JasperReportRunner.java
-ClaimsReportingDomain/src/au/com/aiaa/claims/reports/reinsurance/ClaimsReinsuranceReportRunner.java
-ClaimsReportingDomain/src/au/com/aiaa/claims/reports/ReportRepositoryJPA.java
-ClaimsReportingDomain/src/au/com/aiaa/claims/reports/ReportsOrganizer.java

@@ -25,7 +25,8 @@ import org.slf4j.LoggerFactory;
 public class CPIWarningTest extends AIAAAbstractTest {
 
 	private Logger LOG = LoggerFactory.getLogger(this.getClass());
-	private String baseUrl = "http://localhost:9085";
+	private String baseUrl = "https://vmmeltlwas72";
+//	https://vmmeltlwas72/ClaimsAdminWeb/app
 	private String claimNumber;
 
 	@Test
@@ -225,7 +226,7 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		driver.findElement(By.name("inputFromDate")).clear();
 		driver.findElement(By.name("inputFromDate")).sendKeys(from);
 		driver.findElement(By.name("inputToDate")).sendKeys(to);
-		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("next1")).click();
 
 		if (isCpiWarning) {
 			String cpiWarning = driver.findElement(By.xpath("//h3[@style]")).getText();
@@ -417,7 +418,7 @@ public class CPIWarningTest extends AIAAAbstractTest {
 
 	private void getHomePage() {
 		// driver.get(baseUrl + "/ClaimsAdminWeb/app");
-		driver.get(baseUrl + "/claims-admin-web/app");
+		driver.get(baseUrl + "/ClaimsAdminWeb/app");
 	}
 
 	private void login() {
@@ -435,9 +436,7 @@ public class CPIWarningTest extends AIAAAbstractTest {
 
 	@Test
 	public void testName() throws Exception {
-		for (int i = 0; i < 40; i++) {
-			rehab();
-		}
+		recordClaimByReinsure();
 	}
 
 	@Test
@@ -516,9 +515,26 @@ public class CPIWarningTest extends AIAAAbstractTest {
 
 	@Test()
 	public void rehab() throws Exception {
-		recordClaim("American Home (Non-life Rein)");
-
+		login();
+		claimNumber="60820";
 		viewClaim();
+		
+		WebElement tabLink = driver.findElement(By.className("tab-selected"));
+		if (!tabLink.getText().equals("Assessment")) {
+			driver.findElement(By.id("AssessmentTabLink")).click();
+		}
+		
+		for (int i = 0; i < 60; i++) {
+			recordSimplePayment();
+		}
+//		driver.findElement(By.id("authorisePaymentAction")).click();
+//		recordClaim("American Home (Non-life Rein)");
+//
+//		setPayeeDetails();
+////		reserveClaim();
+//
+//		assessClaim();
+//		recordPayment("from", "to", false);
 
 		// enableRehab();
 		// viewClaim();
@@ -528,7 +544,24 @@ public class CPIWarningTest extends AIAAAbstractTest {
 		// getTable();
 		// // claimNumber="20102";
 		// // recordExpense("1");
-		System.out.println(claimNumber);
+	}
+
+	private void recordSimplePayment() {
+		driver.findElement(By.id("authorisePaymentAction")).click();
+		driver.findElement(By.name("inputAssessedBenefit")).clear();
+		driver.findElement(By.name("inputAssessedBenefit")).sendKeys("1");
+		driver.findElement(By.name("inputPaymentAmount")).clear();
+		driver.findElement(By.name("inputPaymentAmount")).sendKeys("1.00");
+		driver.findElement(By.name("inputToDate")).clear();
+		String text = driver.findElement(By.name("inputFromDate")).getAttribute("value");
+//		System.out.println(text);
+		driver.findElement(By.name("inputToDate")).sendKeys(text);
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("next")).click();
+		driver.findElement(By.name("confirmTask")).click();
+		WebElement findElement = driver.findElement(By.name("complete"));
+		System.out.println(findElement);
+		findElement.click();
 	}
 
 	@Test
