@@ -42,7 +42,7 @@ public class DArrayList implements DList {
 	@Override
 	public int indexOf(Object e) {
 		if (e != null) {
-			for (int i = 0; i < size; i++) { // 数组下标和size差1,用>可补全
+			for (int i = 0; i < size; i++) { // 数组下标和size差1,用<可补全
 				if (e.equals(array[i]))
 					return i + 1;
 			}
@@ -63,17 +63,16 @@ public class DArrayList implements DList {
 			expandSpace();
 		}
 
-		if (e != null) {
-			if (array[index - 1] != null) {
-				for (int i = size; i > index - 1; i--) {
-					// for 循环相当于数轴上的区间，i=size是从最后一个元素的后一个元素开始，到index前一位
-					// 因为index是从1开始的，和数组下标差1，so i>index-1
-					// 也可以从最后一个元素开始，到index元素，array[i+1]=array[i]
-					array[i] = array[i - 1];
-				}
+		if (array[index - 1] != null) {
+			for (int i = size; i >=index; i--) {
+				// for 循环相当于数轴上的区间，i=size是从最后一个元素（size）的后一个元素开始，到index后一位,i>=index
+				// 因为index是从1开始的，和数组下标差1，so 最后一个元素（size）的后一个元素开始从size开始
+				//index后一位-> i>=index
+				// 也可以从最后一个元素开始，到index元素，array[i+1]=array[i]
+				array[i] = array[i - 1];
 			}
-			array[index - 1] = e;
 		}
+		array[index - 1] = e;
 		size++;
 	}
 
@@ -113,7 +112,8 @@ public class DArrayList implements DList {
 		Object e = null;
 		e = array[index - 1];
 		for (int i = index - 1; i < size - 1; i++) {
-			// from index to size-1
+			//index,size 和数组下标差1
+			// from index-1 to size-2
 			array[i] = array[i + 1];
 		}
 		array[--size] = null;// last element is null
@@ -152,5 +152,4 @@ public class DArrayList implements DList {
 	public String toString() {
 		return "DArrayList [array=" + Arrays.toString(array) + "]";
 	}
-
 }
