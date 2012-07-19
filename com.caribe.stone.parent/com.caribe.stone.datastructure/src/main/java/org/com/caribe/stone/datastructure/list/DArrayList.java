@@ -58,6 +58,11 @@ public class DArrayList implements DList {
 		if (index <= 0 || index > size + 1) {
 			throw new DOutOfBoundaryException("Error, out of boundary!");
 		}
+
+		if (size == MAX_SIZE) {
+			expandSpace();
+		}
+
 		if (e != null) {
 			if (array[index - 1] != null) {
 				for (int i = size; i > index - 1; i--) {
@@ -68,8 +73,16 @@ public class DArrayList implements DList {
 				}
 			}
 			array[index - 1] = e;
-			size++;
 		}
+		size++;
+	}
+
+	private void expandSpace() {
+		Object[] newArray = new Object[array.length * 3 / 2];
+		for (int i = 0; i < array.length; i++) {
+			newArray[i] = array[i];
+		}
+		array = newArray;
 	}
 
 	@Override
