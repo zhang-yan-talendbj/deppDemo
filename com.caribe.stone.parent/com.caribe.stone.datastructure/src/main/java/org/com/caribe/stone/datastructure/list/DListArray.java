@@ -2,22 +2,22 @@ package org.com.caribe.stone.datastructure.list;
 
 import java.util.Arrays;
 
-public class DArrayList implements DList {
+public class DListArray implements DList {
 
 	private int size = 0;
 	private static int MAX_SIZE = 8;
 	Object[] array = null;
 
-	public DArrayList(int size) {
+	public DListArray(int size) {
 		array = new Object[size];
 	}
 
-	public DArrayList() {
+	public DListArray() {
 		this(MAX_SIZE);
 	}
 
 	@Override
-	public int getSize() {
+	public int size() {
 		return size;
 	}
 
@@ -150,6 +150,6 @@ public class DArrayList implements DList {
 
 	@Override
 	public String toString() {
-		return "DArrayList [array=" + Arrays.toString(array) + "]";
+		return "DListArray [array=" + Arrays.toString(array) + "]";
 	}
 }

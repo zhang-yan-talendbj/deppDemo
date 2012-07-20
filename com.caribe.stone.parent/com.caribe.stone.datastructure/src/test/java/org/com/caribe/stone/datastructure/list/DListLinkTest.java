@@ -8,15 +8,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class DArrayListTest {
+public class DListLinkTest {
 
 	private static final String GOLD_COIN = "gold coin1";
-	private DListArray list;
+	private DListLinked list;
 	private Object rmb;
 
 	@Before
 	public void setup() {
-		list = new DListArray();
+		list = new DListLinked();
 	}
 
 	@After
@@ -29,6 +29,7 @@ public class DArrayListTest {
 		addOneElementToList();
 		listSizeShouldBe(1);
 		listShouldNotBeEmpty();
+
 	}
 
 	@Test
@@ -50,12 +51,12 @@ public class DArrayListTest {
 	public void testInsertAtZero() throws Exception {
 		insertAnElementAtIndex(0, "zero");
 	}
-	
-	@Test(expected=DOutOfBoundaryException.class)
+
+	@Test(expected = DOutOfBoundaryException.class)
 	public void testRemoveOutOfBoundary() throws Exception {
 		removeIndexZero();
 	}
-	
+
 	private void removeIndexZero() throws DOutOfBoundaryException {
 		list.remove(0);
 	}
@@ -64,7 +65,7 @@ public class DArrayListTest {
 	public void testInsertIndexGreaterThenSize() throws Exception {
 		insertAnElementAtIndex(2, "two");
 	}
-	
+
 	@Test
 	public void testInsertNull() throws Exception {
 		insertAnElementAtIndex(1, null);
@@ -84,14 +85,14 @@ public class DArrayListTest {
 			assertTrue(e instanceof DOutOfBoundaryException);
 		}
 	}
-	
+
 	@Test
 	public void testContains() throws Exception {
 		givenAListWithGoldCoinAndRMB();
 		thenContainGoldCoin();
 		thenDonotContainDollar();
 	}
-	
+
 	@Test
 	public void testIndexOfList() throws Exception {
 		givenAListWithThreeElement();
@@ -99,34 +100,35 @@ public class DArrayListTest {
 		thenTwoIndexIsTwo();
 		thenOneHundredIsZero();
 	}
-	
+
 	@Test
 	public void testRemoveElementWithElement() throws Exception {
 		givenAListWithThreeElement();
 		whenRemoveOne();
 		thenListSizeIsTwo();
 	}
-	
+
 	@Test
 	public void testInserBeforElement() throws Exception {
 		givenAListWithThreeElement();
 		whenInsertZeroBeforeOne();
 		thenIndexOneIsZero();
 	}
+
 	@Test
 	public void testInserAfterElement() throws Exception {
 		givenAListWithThreeElement();
 		whenInsertFourBeforeThree();
 		thenIndexFourIsFour();
 	}
-	
+
 	@Test
 	public void testReplace() throws Exception {
 		givenAListWithGoldCoinAndRMB();
 		whenReplaceRMBToDollar();
 		thenIWillHappy();
 	}
-	
+
 	@Test
 	public void testInsertManyElement() throws Exception {
 		givenAListWithThreeElement();
@@ -134,9 +136,10 @@ public class DArrayListTest {
 		givenAListWithGoldCoinAndRMB();
 		thenAddABook();
 	}
+
 	private void thenAddABook() throws DOutOfBoundaryException {
 		list.insert(1, "book");
-		
+
 	}
 
 	private void thenIWillHappy() throws DOutOfBoundaryException {
@@ -145,7 +148,7 @@ public class DArrayListTest {
 	}
 
 	private void whenReplaceRMBToDollar() throws DOutOfBoundaryException {
-		rmb=list.replace(2, "dollar");
+		rmb = list.replace(2, "dollar");
 	}
 
 	private void thenIndexFourIsFour() throws DOutOfBoundaryException {
@@ -228,7 +231,7 @@ public class DArrayListTest {
 	}
 
 	private void getAnEmptyList() {
-		list = new DListArray(0);
+		list = new DListLinked();
 	}
 
 	private void listShouldNotBeEmpty() {
@@ -242,55 +245,5 @@ public class DArrayListTest {
 	private void addOneElementToList() throws DOutOfBoundaryException {
 		list.insert(1, "one");
 	}
-
-	// @Test
-	// public void testIsEmpty() {
-	// fail("Not yet implemented");
-	// }
-	//
-	// @Test
-	// public void testContains() {
-	// fail("Not yet implemented");
-	// }
-	//
-	// @Test
-	// public void testIndexOf() {
-	// fail("Not yet implemented");
-	// }
-	//
-	// @Test
-	// public void testInsert() {
-	// fail("Not yet implemented");
-	// }
-	//
-	// @Test
-	// public void testInsertBefore() {
-	// fail("Not yet implemented");
-	// }
-	//
-	// @Test
-	// public void testInsertAfter() {
-	// fail("Not yet implemented");
-	// }
-	//
-	// @Test
-	// public void testRemoveInt() {
-	// fail("Not yet implemented");
-	// }
-	//
-	// @Test
-	// public void testRemoveObject() {
-	// fail("Not yet implemented");
-	// }
-	//
-	// @Test
-	// public void testReplace() {
-	// fail("Not yet implemented");
-	// }
-	//
-	// @Test
-	// public void testGet() {
-	// fail("Not yet implemented");
-	// }
 
 }

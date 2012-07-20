@@ -8,7 +8,7 @@ package org.com.caribe.stone.datastructure.list;
  */
 public interface DList {
 	// 返回线性表的大小，即数据元素的个数。
-	public int getSize();
+	public int size();
 
 	// 如果线性表为空返回true，否则返回false。
 	public boolean isEmpty();

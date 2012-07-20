@@ -7,24 +7,24 @@ import java.util.Comparator;
 import java.util.List;
 
 import org.com.caribe.stone.datastructure.ArrayListdefs.ListElement;
-import org.com.caribe.stone.datastructure.list.DArrayList;
+import org.com.caribe.stone.datastructure.list.DListArray;
 
 import cucumber.annotation.en.Given;
 import cucumber.annotation.en.Then;
 import cucumber.annotation.en.When;
 
 public class ArrayListdefs {
-	private DArrayList list;
+	private DListArray list;
 	private Object removeElement;
 
 	@Given("^a new empty list$")
 	public void a_new_empty_list() throws Throwable {
-		list = new DArrayList();
+		list = new DListArray();
 	}
 	
 	@Given("^a new list initialize following element:$")
 	public void a_new_list_initialize_following_element(List<ListElement> listElements) throws Throwable {
-		list=new DArrayList();
+		list=new DListArray();
 		Collections.sort(listElements,new Comparator<ListElement>() {
 			@Override
 			public int compare(ListElement o1, ListElement o2) {
@@ -61,7 +61,7 @@ public class ArrayListdefs {
 	
 	@Then("^the list has (\\d+) element$")
 	public void the_list_has_element(int size) throws Throwable {
-		assertEquals(size, list.getSize());
+		assertEquals(size, list.size());
 	}
 	
 	@Then("^index of element \"([^\"]*)\" is (\\d+)$")
@@ -71,7 +71,7 @@ public class ArrayListdefs {
 	
 	@Given("^new empty list$")
 	public void new_empty_list() throws Throwable {
-		list=new DArrayList();
+		list=new DListArray();
 	}
 
 	@Then("^has a error$")

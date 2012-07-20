@@ -2,248 +2,107 @@ package org.com.caribe.stone.datastructure.list;
 
 import static org.junit.Assert.*;
 
-import javax.management.InstanceAlreadyExistsException;
-
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class DLinkedListTest {
 
-	private static final String GOLD_COIN = "gold coin1";
-	private DLinkedList list;
-	private Object rmb;
+	private DLinkedListDLNode list;
 
 	@Before
 	public void setup() {
-		list = new DLinkedList();
-	}
-
-	@After
-	public void teardown() {
-		list = null;
-	}
-
-	@Test
-	public void testGetListSize() throws DOutOfBoundaryException {
-		addOneElementToList();
-		listSizeShouldBe(1);
-		listShouldNotBeEmpty();
-
-	}
-
-	@Test
-	public void testEmptyList() throws Exception {
-		getAnEmptyList();
-		listShouldBeEmpty();
-	}
-
-	@Test
-	public void testInsertElementIntoList() throws Exception {
-		insertAnElementAtIndex(1, "one");
-		insertAnElementAtIndex(2, "two");
-		insertAnElementAtIndex(1, "zero");
-
-		listShouldHasThreeElement();
+		list = new DLinkedListDLNode();
 	}
 
 	@Test(expected = DOutOfBoundaryException.class)
-	public void testInsertAtZero() throws Exception {
-		insertAnElementAtIndex(0, "zero");
+	public void testFirstNodeException() throws DOutOfBoundaryException {
+		list.first();
 	}
 
 	@Test(expected = DOutOfBoundaryException.class)
-	public void testRemoveOutOfBoundary() throws Exception {
-		removeIndexZero();
-	}
-
-	private void removeIndexZero() throws DOutOfBoundaryException {
-		list.remove(0);
-	}
-
-	@Test(expected = DOutOfBoundaryException.class)
-	public void testInsertIndexGreaterThenSize() throws Exception {
-		insertAnElementAtIndex(2, "two");
+	public void testLastNodeException() throws DOutOfBoundaryException {
+		list.last();
 	}
 
 	@Test
-	public void testInsertNull() throws Exception {
-		insertAnElementAtIndex(1, null);
-		listSizeShouldBe(1);
+	public void testInsertFirst() throws Exception {
+		Node first = list.insertFirst("one");
+		assertEquals("one", first.getItem());
+		assertEquals(1, list.size());
+		assertSame(first, list.first());
 	}
 
 	@Test
-	public void testRemoveElementWithIndex() throws Exception {
-		givenAListWithThreeElement();
-		whenRemoveTheSecondElement();
-		thenListSizeIsTwo();
-		thenGetSecondElementIsThree();
-		try {
-			thenGetThreeElementIsNull();
-			fail("error.");
-		} catch (Exception e) {
-			assertTrue(e instanceof DOutOfBoundaryException);
-		}
+	public void testInsertLast() throws Exception {
+		Node last = list.insertLast("last");
+		assertEquals("last", last.getItem());
+		assertEquals(1, list.size());
+		assertFalse(list.isEmpty());
+		assertSame(last, list.last());
 	}
 
 	@Test
-	public void testContains() throws Exception {
-		givenAListWithGoldCoinAndRMB();
-		thenContainGoldCoin();
-		thenDonotContainDollar();
+	public void testInsertBefore() throws Exception {
+		Node first = list.insertFirst("one");
+		Node zero = list.insertBefore(first, "zero");
+		Node n1 = list.insertBefore(first, "-1");
+		assertEquals("-1", n1.getItem());
+		assertEquals("zero", zero.getItem());
+		assertEquals(3, list.size());
 	}
 
 	@Test
-	public void testIndexOfList() throws Exception {
-		givenAListWithThreeElement();
-		thenOneIndexIsOne();
-		thenTwoIndexIsTwo();
-		thenOneHundredIsZero();
+	public void testInsertAfter() throws Exception {
+		Node first = list.insertFirst("one");
+		Node two = list.insertAfter(first, "two");
+		assertEquals(2, list.size());
 	}
 
 	@Test
-	public void testRemoveElementWithElement() throws Exception {
-		givenAListWithThreeElement();
-		whenRemoveOne();
-		thenListSizeIsTwo();
+	public void testRemoveFirst() throws Exception {
+		list.insertFirst("one");
+		Object first = list.removeFirst();
+		assertEquals("one", first);
+		assertEquals(0, list.size());
 	}
 
 	@Test
-	public void testInserBeforElement() throws Exception {
-		givenAListWithThreeElement();
-		whenInsertZeroBeforeOne();
-		thenIndexOneIsZero();
-	}
-
-	@Test
-	public void testInserAfterElement() throws Exception {
-		givenAListWithThreeElement();
-		whenInsertFourBeforeThree();
-		thenIndexFourIsFour();
+	public void testRemoveLast() throws Exception {
+		list.insertFirst("one");
+		Object first = list.removeLast();
+		assertEquals("one", first);
+		assertEquals(0, list.size());
 	}
 
 	@Test
 	public void testReplace() throws Exception {
-		givenAListWithGoldCoinAndRMB();
-		whenReplaceRMBToDollar();
-		thenIWillHappy();
+		Node first = list.insertFirst("one");
+		Object one = list.replace(first, "zero");
+		assertEquals("one", one);
 	}
 
 	@Test
-	public void testInsertManyElement() throws Exception {
-		givenAListWithThreeElement();
-		givenAListWithThreeElement();
-		givenAListWithGoldCoinAndRMB();
-		thenAddABook();
+	public void testRemove() throws Exception {
+		Node first = list.insertFirst("one");
+		Node zero = list.insertBefore(first, "zero");
+		list.insertAfter(first, "two");
+
+		assertEquals(3, list.size());
+		list.remove(first);
+		assertEquals(2, list.size());
+		assertEquals("zero", list.first().getItem());
+		assertEquals("two", list.last().getItem());
 	}
-
-	private void thenAddABook() throws DOutOfBoundaryException {
-		list.insert(1, "book");
-
-	}
-
-	private void thenIWillHappy() throws DOutOfBoundaryException {
-		assertEquals("RMB", rmb);
-		assertEquals("dollar", list.get(2));
-	}
-
-	private void whenReplaceRMBToDollar() throws DOutOfBoundaryException {
-		rmb = list.replace(2, "dollar");
-	}
-
-	private void thenIndexFourIsFour() throws DOutOfBoundaryException {
-		assertEquals("four", list.get(4));
-	}
-
-	private void whenInsertFourBeforeThree() throws DOutOfBoundaryException {
-		list.insertAfter("three", "four");
-	}
-
-	private void thenIndexOneIsZero() throws DOutOfBoundaryException {
-		assertEquals("zero", list.get(1));
-	}
-
-	private void whenInsertZeroBeforeOne() throws DOutOfBoundaryException {
-		list.insertBefore("one", "zero");
-	}
-
-	private void whenRemoveOne() throws DOutOfBoundaryException {
-		list.remove("one");
-	}
-
-	private void thenOneHundredIsZero() {
-		assertEquals(0, list.indexOf("100"));
-	}
-
-	private void thenTwoIndexIsTwo() {
-		assertEquals(2, list.indexOf("two"));
-	}
-
-	private void thenOneIndexIsOne() {
-		assertEquals(1, list.indexOf("one"));
-	}
-
-	private void thenDonotContainDollar() {
-		assertFalse(list.contains("Dollar"));
-	}
-
-	private void thenContainGoldCoin() {
-		assertTrue(list.contains(GOLD_COIN));
-	}
-
-	private void givenAListWithGoldCoinAndRMB() throws DOutOfBoundaryException {
-		list.insert(1, GOLD_COIN);
-		list.insert(2, "RMB");
-	}
-
-	private void thenGetThreeElementIsNull() throws DOutOfBoundaryException {
-		assertEquals(null, list.get(3));
-	}
-
-	private void thenGetSecondElementIsThree() throws DOutOfBoundaryException {
-		assertEquals("three", list.get(2));
-	}
-
-	private void thenListSizeIsTwo() {
-		assertEquals(2, list.getSize());
-	}
-
-	private void whenRemoveTheSecondElement() throws DOutOfBoundaryException {
-		list.remove(2);
-	}
-
-	private void givenAListWithThreeElement() throws DOutOfBoundaryException {
-		insertAnElementAtIndex(1, "one");
-		insertAnElementAtIndex(2, "two");
-		insertAnElementAtIndex(3, "three");
-	}
-
-	private void listShouldHasThreeElement() {
-		assertEquals(3, list.getSize());
-	}
-
-	private void insertAnElementAtIndex(int index, Object e) throws DOutOfBoundaryException {
-		list.insert(index, e);
-	}
-
-	private void listShouldBeEmpty() {
-		assertEquals(true, list.isEmpty());
-	}
-
-	private void getAnEmptyList() {
-		list = new DLinkedList();
-	}
-
-	private void listShouldNotBeEmpty() {
-		assertEquals(false, list.isEmpty());
-	}
-
-	private void listSizeShouldBe(int i) {
-		assertEquals(i, list.getSize());
-	}
-
-	private void addOneElementToList() throws DOutOfBoundaryException {
-		list.insert(1, "one");
+	
+	@Test
+	public void testPreNodeAndNextNode() throws Exception {
+		Node first = list.insertFirst("one");
+		Node zero = list.insertBefore(first, "zero");
+		list.insertAfter(first, "two");
+		Node first2 = list.first();
+		assertEquals("one", list.getNext(first2).getItem());
+		
+		assertEquals("two", list.getNext(list.getNext(first2)).getItem());
 	}
 
 }
