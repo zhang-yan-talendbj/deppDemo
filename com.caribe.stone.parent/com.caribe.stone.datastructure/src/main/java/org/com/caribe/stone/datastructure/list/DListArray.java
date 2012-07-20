@@ -56,7 +56,7 @@ public class DListArray implements DList {
 	@Override
 	public void insert(int index, Object e) throws DOutOfBoundaryException {
 		if (index <= 0 || index > size + 1) {
-			throw new DOutOfBoundaryException("Error, out of boundary!");
+			throw new DOutOfBoundaryException();
 		}
 
 		if (size == MAX_SIZE) {
@@ -65,11 +65,11 @@ public class DListArray implements DList {
 
 		if (array[index - 1] != null) {
 			for (int i = size; i >=index; i--) {
-				// for 循环相当于数轴上的区间，i=size是从最后一个元素（size）的后一个元素开始，到index后一位,i>=index
+				// for 循环相当于数轴上的区间，i=size是从最后一个元素（size）的后一个元素开始，到index,i>=index
 				// 因为index是从1开始的，和数组下标差1，so 最后一个元素（size）的后一个元素开始从size开始
 				//index后一位-> i>=index
-				// 也可以从最后一个元素开始，到index元素，array[i+1]=array[i]
 				array[i] = array[i - 1];
+				// 也可以从i之后元素开始赋值为i，array[i+1]=array[i]
 			}
 		}
 		array[index - 1] = e;
@@ -107,7 +107,7 @@ public class DListArray implements DList {
 	@Override
 	public Object remove(int index) throws DOutOfBoundaryException {
 		if (index <= 0 || index > size) {
-			throw new DOutOfBoundaryException("Error,out of boundary.");
+			throw new DOutOfBoundaryException();
 		}
 		Object e = null;
 		e = array[index - 1];
@@ -143,7 +143,7 @@ public class DListArray implements DList {
 	@Override
 	public Object get(int i) throws DOutOfBoundaryException {
 		if (i <= 0 || i > size) {
-			throw new DOutOfBoundaryException("Error, out of boundary.");
+			throw new DOutOfBoundaryException();
 		}
 		return array[i - 1];
 	}

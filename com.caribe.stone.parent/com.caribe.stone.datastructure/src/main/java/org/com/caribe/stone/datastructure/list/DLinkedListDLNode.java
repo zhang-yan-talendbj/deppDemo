@@ -89,7 +89,7 @@ public class DLinkedListDLNode implements DLinkedList {
 		return newNode;
 	}
 
-	public DLNode checkPosition(Node p) throws InvalidNodeException {
+	private DLNode checkPosition(Node p) throws InvalidNodeException {
 		if (p == null)
 			throw new InvalidNodeException("错误：p为空。");
 		if (p == head)
