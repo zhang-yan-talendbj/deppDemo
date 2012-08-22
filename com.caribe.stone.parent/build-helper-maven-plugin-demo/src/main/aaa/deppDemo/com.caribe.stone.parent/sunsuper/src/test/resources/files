@@ -1,9 +1,0 @@
-PolicyNoticeDomain/JavaSource/au/com/aiaa/policynotice/advisersummary/report/AdviserEmailGenerator.java
-PolicyNoticeDomain/JavaSource/au/com/aiaa/policynotice/application/AbstractGenerator.java
-PolicyNoticeDomain/JavaSource/au/com/aiaa/report/services/MailService.java
-PolicyNoticeDomain/JavaSource/au/com/aiaa/report/services/MailServiceImpl.java
-PolicyNoticeDomain/test/au/com/aiaa/report/services/MockMailService.java
-PolicyNoticeDomain/JavaSource/au/com/aiaa/policynotice/advisersummary/report/UpcomingPolicyRenewalsCSVGenerator.java
-PolicyNoticeDomain/test/au/com/aiaa/policynotice/advisersummary/report/AdviserEmailGeneratorTest.java
-PolicyNoticeDomain/test/au/com/aiaa/policynotice/advisersummary/report/PolicyAnniversary.csv
-PolicyNoticeDomain/test/au/com/aiaa/policynotice/advisersummary/report/UpcomingPolicyRenewalsCSVGeneratorTest.java
