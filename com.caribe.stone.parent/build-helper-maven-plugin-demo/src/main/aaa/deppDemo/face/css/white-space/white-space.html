@@ -1,0 +1,80 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<meta http-equiv="Content-Language" content="zh-cn">
+	
+<style type="text/css">
+p#normal
+{
+border-style: solid ;
+white-space: normal
+}
+
+p#nowrap
+{
+border-style: solid ;
+white-space: nowrap
+}
+</style>
+</head>
+<body>
+<div>
+white-space 属性会影响到用户代理对源文档中的空格、换行和 tab 字符的处理。
+
+通过使用该属性，可以影响浏览器处理字之间和文本行之间的空白符的方式。从某种程度上讲，默认的 XHTML 处理已经完成了空白符处理：它会把所有空白符合并为一个空格。所以给定以下标记，它在 Web 浏览器中显示时，各个字之间只会显示一个空格，同时忽略元素中的换行：
+
+可以用以下声明显式地设置这种默认行为：
+<br>
+p {white-space: normal;}
+<br>
+上面的规则告诉浏览器按照平常的做法去处理：丢掉多余的空白符。如果给定这个值，换行字符（回车）会转换为空格，一行中多个空格的序列也会转换为一个空格。
+</div>
+
+<p id="normal">
+white-space: normal
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+A
+
+
+B
+A和B之间有两个空行
+</p>
+
+<p id="nowrap">
+white-space: nowrap
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+这是一些文本。
+空白
+
+
+                                         
+
+空白
+</p>
+
+
+	<a href="http://www.w3school.com.cn/css/css_border.asp">参考</a>
+</body>
+</html>
+

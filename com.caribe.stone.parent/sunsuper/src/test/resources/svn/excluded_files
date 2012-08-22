@@ -23,7 +23,10 @@ claims-services-web/.settings/org.eclipse.jdt.apt.core.prefs
 claims-services-web/.settings/org.eclipse.jdt.core.prefs
 claims-services-web/.settings/org.eclipse.wst.common.component
 claims-services-web/.settings/org.eclipse.wst.common.project.facet.core.xml
+claims-service-web-test/.project
 claims-admin-domain/.settings/org.eclipse.wst.ws.service.policy.prefs
 claims-admin-domain/.settings/org.maven.ide.eclipse.prefs
 claims-admin-ear/.settings/org.eclipse.jst.j2ee.ejb.annotations.xdoclet.prefs
 claims-admin-ear/.settings/org.eclipse.m2e.core.prefs
+ClaimsDBScript/build.properties.melaidludbcc01
+ClaimsDBScript/build.properties.vmmeldlcci03

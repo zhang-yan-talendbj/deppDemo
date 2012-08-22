@@ -54,7 +54,7 @@ public abstract class AIAAAbstractTest {
 				driver = new HtmlUnitDriver(true);
 				break;
 			}
-			driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		}
 	}
 

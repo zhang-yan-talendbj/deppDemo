@@ -46,6 +46,7 @@
 		<module>com.caribe.stone.code</module>
     <module>com.caribe.stone.jpa1</module>
     <module>com.caribe.stone.datastructure</module>
+    <module>build-helper-maven-plugin-demo</module>
   </modules>
 
 	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺�?进行查找. -->

@@ -11,7 +11,11 @@
                     source="ognl:policyRuleHistory"
                     columns="name:name,age:age,birthday:birthday" row="ognl:currentHistory" >
         <span jwcid="birthdayColumnValue@Block"  >
-            <span jwcid="birthday@Insert" value="ognl:currentHistory.birthday" format="ognl:format" />
+            <span jwcid="birthday@Insert"  />
+            <select>
+            <option>1</option>
+            <option>2</option>
+            </select>
             </span>
         </table>
         </td>

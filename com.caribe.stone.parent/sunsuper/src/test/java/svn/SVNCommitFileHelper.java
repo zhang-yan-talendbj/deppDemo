@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class SVNCommitFileHelper {
 
 	public static void main(String[] args) throws IOException {
 
-		String str = "E:/bruce/aia/workspace/May/ITPC/Claims(Rehab)/svn/";
+		String str = "d:/bruce/aia/workspace/May/ITPC/Claims(Rehab)/branch/br_reopen_status_git/br_reopen_status/";
 
 		BufferedReader reader = new BufferedReader(new InputStreamReader(
 				SVNCommitFileHelper.class.getResourceAsStream("files")));
@@ -25,14 +27,17 @@ public class SVNCommitFileHelper {
 			excludedFileList.add(fileName);
 		}
 
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		String dirsName = format.format(new Date());
+		
 		while ((fileName = reader.readLine()) != null) {
 			File file = new File(str + fileName);
 			System.out.println();
 			if (!excludedFileList.contains(fileName)) {
-				String dirsName = "2012-07-17";
 				FileUtils.copyFile(file, new File("d:/tmp/" + dirsName + "/" + fileName));
 			}
 		}
+		System.out.println("d:/tmp/" + dirsName + "/");
 
 	}
 }

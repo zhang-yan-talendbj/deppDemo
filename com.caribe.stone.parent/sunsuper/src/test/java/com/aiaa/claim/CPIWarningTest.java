@@ -24,9 +24,12 @@ import org.slf4j.LoggerFactory;
 //@RunWith(ImageRunner.class)
 public class CPIWarningTest extends AIAAAbstractTest {
 
+	private static final String CLAIMS_ADMIN_WEB_APP = "/claims-admin-web/app";
+	private static final DriverType DRIVER_TYPE = DriverType.html;
 	private Logger LOG = LoggerFactory.getLogger(this.getClass());
-	private String baseUrl = "https://vmmeltlwas72";
+	private String baseUrl = "http://cibwkdp000105:9086";
 //	https://vmmeltlwas72/ClaimsAdminWeb/app
+//	http://cibwkdp000105:9086
 	private String claimNumber;
 
 	@Test
@@ -418,7 +421,9 @@ public class CPIWarningTest extends AIAAAbstractTest {
 
 	private void getHomePage() {
 		// driver.get(baseUrl + "/ClaimsAdminWeb/app");
-		driver.get(baseUrl + "/ClaimsAdminWeb/app");
+//		driver.get(baseUrl + "/ClaimsAdminWeb/app");
+		driver.get(baseUrl + CLAIMS_ADMIN_WEB_APP);
+		System.out.println(driver.getCurrentUrl());
 	}
 
 	private void login() {
@@ -566,7 +571,7 @@ public class CPIWarningTest extends AIAAAbstractTest {
 
 	@Test
 	public void recordClaimByReinsure() throws Exception {
-		for (int i = 0; i < 10; i++) {
+		for (int i = 0; i < 1; i++) {
 			recordClaim("SCOR Reinsurance");
 			System.out.println(claimNumber);
 		}
@@ -695,7 +700,7 @@ public class CPIWarningTest extends AIAAAbstractTest {
 
 	@Override
 	protected DriverType getType() {
-		return DriverType.html;
+		return DRIVER_TYPE;
 	}
 
 	private String getClaimNumber() {
