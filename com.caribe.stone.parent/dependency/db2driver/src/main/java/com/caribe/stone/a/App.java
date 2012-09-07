@@ -1,4 +1,4 @@
-package org.com.caribe.stone.jpa1;
+package com.caribe.stone.a;
 
 /**
  * Hello world!

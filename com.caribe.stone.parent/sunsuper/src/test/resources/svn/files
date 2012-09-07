@@ -4,13 +4,10 @@ ClaimsDBScript\deleteAll.sql
 ClaimsDBScript\dropAll.sql
 claims-admin-domain\src\main\java\au\com\aiaa\claims\domain\Claim.java
 claims-admin-domain\src\main\java\au\com\aiaa\claims\domain\Expense.java
-claims-admin-domain\src\main\resources\META-INF\persistence.xml
-claims-admin-web\src\main\java\au\com\aiaa\claims\web\ClaimsAdmin.application
-claims-admin-web\src\main\java\au\com\aiaa\claims\web\viewclaim\ViewClaimPage.html
-claims-admin-web\src\main\java\au\com\aiaa\claims\web\viewclaim\ViewClaimTask.java
 claims-admin-domain\src\main\java\au\com\aiaa\claims\domain\MedicalNote.java
 claims-admin-domain\src\main\java\au\com\aiaa\claims\domain\MedicalNoteCreator.java
 claims-admin-domain\src\main\java\au\com\aiaa\claims\domain\MedicalNoteType.java
+claims-admin-web\src\main\java\au\com\aiaa\claims\web\ClaimsAdmin.application
 claims-admin-web\src\main\java\au\com\aiaa\claims\web\medical\AbstractMedicalNotesTask.java
 claims-admin-web\src\main\java\au\com\aiaa\claims\web\medical\AddEditMedicalNotesPage.html
 claims-admin-web\src\main\java\au\com\aiaa\claims\web\medical\AddEditMedicalNotesPage.page
@@ -31,3 +28,5 @@ claims-admin-web\src\main\java\au\com\aiaa\claims\web\viewclaim\MedicalNotesTab.
 claims-admin-web\src\main\java\au\com\aiaa\claims\web\viewclaim\MedicalNotesTab.java
 claims-admin-web\src\main\java\au\com\aiaa\claims\web\viewclaim\MedicalNotesTab.jwc
 claims-admin-web\src\main\java\au\com\aiaa\claims\web\viewclaim\MedicalNotesTabHelper.java
+claims-admin-web\src\main\java\au\com\aiaa\claims\web\viewclaim\ViewClaimPage.html
+claims-admin-web\src\main\java\au\com\aiaa\claims\web\viewclaim\ViewClaimTask.java

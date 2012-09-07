@@ -27,7 +27,7 @@ public class SVNCommitFileHelper {
 			excludedFileList.add(fileName);
 		}
 
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 		String dirsName = format.format(new Date());
 		
 		while ((fileName = reader.readLine()) != null) {

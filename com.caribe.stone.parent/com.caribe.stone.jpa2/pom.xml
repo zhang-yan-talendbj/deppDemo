@@ -2,14 +2,20 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<artifactId>com.caribe.stone.jpa</artifactId>
+	<parent>
+		<artifactId>com.caribe.stone.parent</artifactId>
+		<groupId>com.caribe.stone</groupId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>com.caribe.stone.jpa2</artifactId>
 	<packaging>jar</packaging>
 
-	<name>JPA demo</name>
+	<name>JPA2 Demo</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<spring.version>3.0.4.RELEASE</spring.version>
+		<hibernate.version>3.5.5-Final</hibernate.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -104,15 +110,22 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.caribe.stone</groupId>
+			<artifactId>com.caribe.stone.jpa1</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
 			<groupId>log4jdbc</groupId>
 			<artifactId>log4jdbc4</artifactId>
 			<version>1.2</version>
 		</dependency>
+
 		<dependency>
-					<groupId>org.apache.openjpa</groupId>
-					<artifactId>openjpa</artifactId>
-					<version>2.2.0</version>
-				</dependency>
+			<groupId>org.apache.openjpa</groupId>
+			<artifactId>openjpa</artifactId>
+			<version>2.2.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -223,7 +236,7 @@
 			</dependencies>
 		</profile>
 		<profile>
-			<id>jpa1</id>
+			<id>test</id>
 			<activation>
 				<activeByDefault>true</activeByDefault>
 			</activation>
@@ -232,7 +245,6 @@
 				<!-- <jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName> -->
 				<jdbc.jpa.dictionary>org.apache.openjpa.jdbc.sql.H2Dictionary</jdbc.jpa.dictionary>
 				<!-- <jdbc.url>jdbc:h2:~/test</jdbc.url> -->
-				<!-- jdbc:log4jdbc:h2:~/hibernate -->
 				<jdbc.url>jdbc:log4jdbc:h2:tcp://localhost/~/test</jdbc.url>
 				<jdbc.username>sa</jdbc.username>
 				<jdbc.password></jdbc.password>
@@ -245,44 +257,7 @@
 					<groupId>com.h2database</groupId>
 					<artifactId>h2</artifactId>
 				</dependency>
-				<!-- openjpa -->
-				<dependency>
-					<groupId>org.apache.openjpa</groupId>
-					<artifactId>openjpa</artifactId>
-					<version>1.2.2</version>
-				</dependency>
-			</dependencies>
-		</profile>
-		<profile>
-			<id>jpa2</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
-			<properties>
-				<jdbc.driverClassName>net.sf.log4jdbc.DriverSpy</jdbc.driverClassName>
-				<!-- <jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName> -->
-				<jdbc.jpa.dictionary>org.apache.openjpa.jdbc.sql.H2Dictionary</jdbc.jpa.dictionary>
-				<!-- <jdbc.url>jdbc:h2:~/test</jdbc.url> -->
-				<!-- jdbc:log4jdbc:h2:~/hibernate -->
-				<jdbc.url>jdbc:log4jdbc:h2:tcp://localhost/~/test</jdbc.url>
-				<jdbc.username>sa</jdbc.username>
-				<jdbc.password></jdbc.password>
-				<selenium.driver>firefox</selenium.driver>
-				<jpa.database>H2</jpa.database>
-				<jpa.showSql>true</jpa.showSql>
-			</properties>
-			<dependencies>
-				<dependency>
-					<groupId>com.h2database</groupId>
-					<artifactId>h2</artifactId>
-				</dependency>
-				
 			</dependencies>
 		</profile>
 	</profiles>
-	<parent>
-		<groupId>com.caribe.stone</groupId>
-		<artifactId>com.caribe.stone.parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-	</parent>
 </project>

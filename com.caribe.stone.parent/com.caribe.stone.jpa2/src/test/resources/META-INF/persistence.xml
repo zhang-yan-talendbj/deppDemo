@@ -1,13 +1,13 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
-	<persistence-unit name="crudUnit" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="teaUnit" transaction-type="RESOURCE_LOCAL">
 		<!-- ORM 类 -->
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl
 		</provider>
 		<class>com.caribe.stone.domain.entities.IdEntity</class>
+		<class>com.caribe.stone.jpa2.domain.entities.AccessEntity</class>
 		<class>com.caribe.stone.domain.entities.Message</class>
-		<class>com.caribe.stone.domain.entities.Wife</class>
-		<class>com.caribe.stone.domain.entities.Husband</class>
+		<class>com.caribe.stone.domain.entities.MessageNote</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- <property name="openjpa.ConnectionDriverName" value="org.h2.Driver" 
