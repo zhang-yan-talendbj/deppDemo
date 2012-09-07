@@ -6,10 +6,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import com.caribe.stone.domain.entities.MessageNote;
 import com.caribe.stone.jpa2.domain.entities.AccessEntity;
 
 public class AccessEntityTest {
@@ -29,15 +27,6 @@ public class AccessEntityTest {
 		AccessEntity e2 = em.find(AccessEntity.class, entity.getId());
 		assertEquals("testField", e2.getField());
 		
-		MessageNote m = new MessageNote();
-		m.setMessage("tooMany");
-
-		em.getTransaction().begin();
-		em.persist(m);
-		em.getTransaction().commit();
-
-		MessageNote m2 = em.find(MessageNote.class, m.getId());
-		assertEquals("tooMany", m2.getMessage());
 	}
 	
 

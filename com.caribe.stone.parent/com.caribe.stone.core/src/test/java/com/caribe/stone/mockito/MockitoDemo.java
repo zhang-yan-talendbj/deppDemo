@@ -30,6 +30,27 @@ public class MockitoDemo {
 	}
 
 	@Test
+	public void testRefence() throws Exception {
+		List mockedList = mock(List.class);
+
+		// using mock object
+		mockedList.add("one");
+		Person o = new Person("bruce");
+		when(mockedList.contains(o)).thenReturn(true);
+//		assertEquals(o,new Person("bruce"));
+		assertEquals(true, mockedList.contains(o));
+//		assertEquals(true, mockedList.contains(new Person("bruce")));
+	}
+
+	class Person {
+		private String name;
+
+		public Person(String name) {
+			this.name = name;
+		}
+	}
+
+	@Test
 	public void concreteClasses() throws Exception {
 		// You can mock concrete classes, not only interfaces
 		LinkedList mockedList = mock(LinkedList.class);
