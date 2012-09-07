@@ -6,17 +6,15 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import com.caribe.stone.domain.entities.MessageNote;
 import com.caribe.stone.jpa2.domain.entities.AccessEntity;
 
 public class AccessEntityTest {
 
 	@Test
-	public void t2() throws Exception {
-		EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("teaUnit");
+	public void access() throws Exception {
+		EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("accessUnit");
 		EntityManager em = emFactory.createEntityManager();
 		AccessEntity entity = new AccessEntity();
 		entity.setField("testField");
@@ -28,34 +26,5 @@ public class AccessEntityTest {
 		
 		AccessEntity e2 = em.find(AccessEntity.class, entity.getId());
 		assertEquals("testField", e2.getField());
-		
-		MessageNote m = new MessageNote();
-		m.setMessage("tooMany");
-
-		em.getTransaction().begin();
-		em.persist(m);
-		em.getTransaction().commit();
-
-		MessageNote m2 = em.find(MessageNote.class, m.getId());
-		assertEquals("tooMany", m2.getMessage());
 	}
-	
-
-
-	// @Test
-	// public void t22() throws Exception {
-	// EntityManagerFactory emf =
-	// Persistence.createEntityManagerFactory("teaUnit");
-	// EntityManager em = emf.createEntityManager();
-	// em.getTransaction().begin();
-	// Husband h = new Husband();
-	// h.setName("bruce");
-	// Wife w = new Wife();
-	// w.setName("story");
-	// w.setHusband(h);
-	// em.persist(h);
-	// em.persist(w);
-	// em.getTransaction().commit();
-	// }
-
 }
