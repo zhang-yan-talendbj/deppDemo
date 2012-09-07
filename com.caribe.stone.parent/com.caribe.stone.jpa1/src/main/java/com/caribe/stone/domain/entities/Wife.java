@@ -1,5 +1,6 @@
 package com.caribe.stone.domain.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -11,13 +12,22 @@ import javax.persistence.ManyToOne;
  * 
  */
 @Entity
-public class Wife  {
+public class Wife extends IdEntity {
 	private String name;
 
 	private Husband husband;
 
-	@ManyToOne()
-	@JoinColumn(name="husb_id")
+
+	public Wife(String name) {
+		this.name = name;
+	}
+
+	public Wife() {
+		super();
+	}
+
+	@ManyToOne(cascade={CascadeType.ALL})
+	@JoinColumn(name = "husb_id")
 	public Husband getHusband() {
 		return husband;
 	}
