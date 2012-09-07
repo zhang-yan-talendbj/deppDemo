@@ -1,13 +1,11 @@
 <persistence xmlns="http://java.sun.com/xml/ns/persistence"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.0">
-	<persistence-unit name="teaUnit" transaction-type="RESOURCE_LOCAL">
+	<persistence-unit name="accessUnit" transaction-type="RESOURCE_LOCAL">
 		<!-- ORM 类 -->
 		<provider>org.apache.openjpa.persistence.PersistenceProviderImpl
 		</provider>
 		<class>com.caribe.stone.domain.entities.IdEntity</class>
 		<class>com.caribe.stone.jpa2.domain.entities.AccessEntity</class>
-		<class>com.caribe.stone.domain.entities.Message</class>
-		<class>com.caribe.stone.domain.entities.MessageNote</class>
 		<exclude-unlisted-classes />
 		<properties>
 			<!-- <property name="openjpa.ConnectionDriverName" value="org.h2.Driver" 
@@ -22,8 +20,8 @@
 			<property name="openjpa.Log" value="DefaultLevel=INFO, Tool=INFO" />
 			<property name="openjpa.Log" value="SQL=TRACE" />
 			<property name="openjpa.Log" value="log4j" />
-			<!-- <property name="openjpa.jdbc.SchemaFactory" value="native(ForeignKeys=true)" 
-				/> <property name="openjpa.jdbc.UpdateManager" value="operation-order" /> -->
+			<property name="openjpa.jdbc.SchemaFactory" value="native(ForeignKeys=true)" />
+			<property name="openjpa.jdbc.UpdateManager" value="operation-order" />
 			<property name="openjpa.RuntimeUnenhancedClasses" value="supported" />
 			<property name="openjpa.ConnectionDriverName" value="${jdbc.driverClassName}" />
 			<property name="openjpa.ConnectionURL" value="${jdbc.url}" />
@@ -33,4 +31,5 @@
 			<property name="openjpa.FetchBatchSize" value="20" />
 		</properties>
 	</persistence-unit>
+	
 </persistence>

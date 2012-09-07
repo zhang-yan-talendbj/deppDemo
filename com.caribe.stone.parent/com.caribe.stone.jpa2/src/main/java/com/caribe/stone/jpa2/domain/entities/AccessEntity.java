@@ -10,8 +10,7 @@ import com.caribe.stone.domain.entities.IdEntity;
 
 @Entity
 @Access(AccessType.FIELD)
-public class AccessEntity extends IdEntity{
-
+public class AccessEntity extends IdEntity {
 	private static final String PHONE_PREFIX = "+86";
 	private String field;
 	@Transient
@@ -21,6 +20,7 @@ public class AccessEntity extends IdEntity{
 		return field;
 	}
 
+	
 	public String getPhone() {
 		return phone;
 	}
@@ -32,7 +32,7 @@ public class AccessEntity extends IdEntity{
 	@Access(AccessType.PROPERTY)
 	@Column(name = "phone")
 	public String getPhoneNumberForDb() {
-		return PHONE_PREFIX+phone;
+		return PHONE_PREFIX + phone;
 	}
 
 	public void setField(String field) {
@@ -40,6 +40,6 @@ public class AccessEntity extends IdEntity{
 	}
 
 	public void setPhoneNumberForDb(String string) {
-		this.phone=string;
+		this.phone = string;
 	}
 }

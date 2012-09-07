@@ -14,7 +14,7 @@ public class AccessEntityTest {
 
 	@Test
 	public void t2() throws Exception {
-		EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("teaUnit");
+		EntityManagerFactory emFactory = Persistence.createEntityManagerFactory("accessUnit");
 		EntityManager em = emFactory.createEntityManager();
 		AccessEntity entity = new AccessEntity();
 		entity.setField("testField");
