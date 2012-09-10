@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Transient;
 
-import com.caribe.stone.domain.entities.IdEntity;
-
 @Entity
 @Access(AccessType.FIELD)
 public class AccessEntity {

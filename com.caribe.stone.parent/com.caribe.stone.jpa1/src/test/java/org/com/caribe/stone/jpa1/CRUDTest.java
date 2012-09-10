@@ -13,7 +13,7 @@ import com.caribe.stone.domain.entities.Message;
 public class CRUDTest {
 
 	@Test
-	public void CRUD() throws Exception {
+	public void testCRUD() throws Exception {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("crudUnit");
 		EntityManager em = emf.createEntityManager();
 		em.getTransaction().begin();
