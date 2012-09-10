@@ -26,25 +26,5 @@ public class AccessEntityTest {
 		
 		AccessEntity e2 = em.find(AccessEntity.class, entity.getId());
 		assertEquals("testField", e2.getField());
-		
 	}
-	
-
-
-	// @Test
-	// public void t22() throws Exception {
-	// EntityManagerFactory emf =
-	// Persistence.createEntityManagerFactory("teaUnit");
-	// EntityManager em = emf.createEntityManager();
-	// em.getTransaction().begin();
-	// Husband h = new Husband();
-	// h.setName("bruce");
-	// Wife w = new Wife();
-	// w.setName("story");
-	// w.setHusband(h);
-	// em.persist(h);
-	// em.persist(w);
-	// em.getTransaction().commit();
-	// }
-
 }
