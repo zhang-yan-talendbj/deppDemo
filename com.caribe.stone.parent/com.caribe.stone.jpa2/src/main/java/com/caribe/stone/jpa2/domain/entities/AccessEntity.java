@@ -4,13 +4,28 @@ import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.Transient;
 
 import com.caribe.stone.domain.entities.IdEntity;
 
 @Entity
 @Access(AccessType.FIELD)
-public class AccessEntity extends IdEntity {
+public class AccessEntity {
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Long id;
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
 	private static final String PHONE_PREFIX = "+86";
 	private String field;
 	@Transient
@@ -20,7 +35,6 @@ public class AccessEntity extends IdEntity {
 		return field;
 	}
 
-	
 	public String getPhone() {
 		return phone;
 	}

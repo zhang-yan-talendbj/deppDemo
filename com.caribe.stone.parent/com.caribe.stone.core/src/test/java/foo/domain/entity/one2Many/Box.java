@@ -13,7 +13,7 @@ import foo.domain.entity.base.IdEntity;
 
 @Entity
 @Table(name = "T_BOX")
-public class Box extends IdEntity {
+public class Box   {
 	@Column
 	private Long boxNumber;
 	@Column

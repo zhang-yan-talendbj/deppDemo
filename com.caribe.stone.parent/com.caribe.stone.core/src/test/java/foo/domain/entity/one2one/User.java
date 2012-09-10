@@ -11,7 +11,7 @@ import foo.domain.entity.base.IdEntity;
 
 @Entity
 @Table(name="T_USER")
-public class User extends IdEntity{
+public class User  {
 
 	@Column
 	private String userName;

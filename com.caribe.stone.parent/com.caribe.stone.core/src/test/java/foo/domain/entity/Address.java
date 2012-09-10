@@ -8,7 +8,7 @@ import javax.persistence.Entity;
 import foo.domain.entity.base.IdEntity;
 
 @Entity
-public class Address extends IdEntity implements Serializable {
+public class Address   implements Serializable {
 
 	public Address() {
 	}

@@ -17,7 +17,7 @@ import foo.domain.entity.base.IdEntity;
 // String catalog() default "";
 // String schema() default "";
 // UniqueConstraint[] uniqueConstraints() default {};
-public class Customer extends IdEntity implements Serializable {
+public class Customer   implements Serializable {
 
 	public Customer() {
 	}

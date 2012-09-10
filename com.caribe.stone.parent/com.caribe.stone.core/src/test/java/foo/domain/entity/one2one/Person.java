@@ -10,7 +10,7 @@ import foo.domain.entity.base.IdEntity;
 
 @Entity
 @Table(name = "T_PERSON")
-public class Person extends IdEntity {
+public class Person   {
 	@Column
 	private String name;
 	@Column
