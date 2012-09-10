@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.caribe.stone</groupId>
@@ -36,19 +37,19 @@
 		<module>com.caribe.stone.domain</module>
 		<!--<module>com.caribe.stone.fit</module> -->
 		<module>com.caribe.stone.jsf2</module>
-   	    <module>com.caribe.stone.jwebunit</module>
-   	    <module>com.caribe.stone.tapestry3</module>
-   	    <module>com.caribe.stone.tapestry</module>
-   	    <module>com.caribe.stone.tdd</module>
+		<module>com.caribe.stone.jwebunit</module>
+		<module>com.caribe.stone.tapestry3</module>
+		<module>com.caribe.stone.tapestry</module>
+		<module>com.caribe.stone.tdd</module>
 		<module>com.caribe.stone.web</module>
 		<module>com.caribe.stone.plugin</module>
 		<module>com.caribe.stone.spring</module>
 		<module>com.caribe.stone.code</module>
-    <module>com.caribe.stone.jpa1</module>
-    <module>com.caribe.stone.datastructure</module>
-    <module>build-helper-maven-plugin-demo</module>
-    <module>com.caribe.stone.jpa2</module>
-  </modules>
+		<module>com.caribe.stone.jpa1</module>
+		<module>com.caribe.stone.datastructure</module>
+		<module>build-helper-maven-plugin-demo</module>
+		<module>com.caribe.stone.jpa2</module>
+	</modules>
 
 	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺�?进行查找. -->
 	<repositories>
@@ -895,6 +896,16 @@
 					<artifactId>maven-assembly-plugin</artifactId>
 					<version>2.2-beta-5</version>
 				</plugin>
+
+				<!-- checkstyle -->
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-checkstyle-plugin</artifactId>
+					<version>2.9.1</version>
+					<configuration>
+						<configLocation>checkstyle-bruce.xml</configLocation>
+					</configuration>
+				</plugin>
 				<!--This plugin's configuration is used to store Eclipse m2e settings 
 					only. It has no influence on the Maven build itself. -->
 				<plugin>
@@ -920,7 +931,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore/>
+										<ignore />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>

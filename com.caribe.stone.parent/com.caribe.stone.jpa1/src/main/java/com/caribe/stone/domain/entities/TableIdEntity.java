@@ -10,21 +10,15 @@ import javax.persistence.TableGenerator;
 public abstract class TableIdEntity {
 
 	private Long id;
-	
-/**
- * TableName:ID_GEN 
- *	GEN_NAME  	GEN_VAL  
- *Addr_Gen     	10100
- */
-    @TableGenerator(name="Address_Gen",
-            table="ID_GEN",
-            pkColumnName="GEN_NAME",
-            valueColumnName="GEN_VAL",
-            pkColumnValue="Addr_Gen",
-            initialValue=10000,
-            allocationSize=100)
-    @Id @GeneratedValue(strategy=GenerationType.TABLE,
-                        generator= "Address_Gen")
+
+	/**
+	 * TableName:ID_GEN GEN_NAME GEN_VAL Addr_Gen 10100. initialValue = 10000,
+	 * allocationSize = 100.
+	 */
+	@TableGenerator(name = "Address_Gen", table = "ID_GEN", pkColumnName = "GEN_NAME",
+			valueColumnName = "GEN_VAL", pkColumnValue = "Addr_Gen")
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE, generator = "Address_Gen")
 	public Long getId() {
 		return id;
 	}

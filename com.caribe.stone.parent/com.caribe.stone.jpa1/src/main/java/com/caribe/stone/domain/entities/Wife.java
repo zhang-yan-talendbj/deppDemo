@@ -8,12 +8,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
-/**
- * 我是谁
- * 
- * @author bsnpbag
- * 
- */
 @Entity
 public class Wife {
 	private Long id;

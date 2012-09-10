@@ -18,6 +18,7 @@ public class Husband {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
+
 	}
 
 	public void setId(Long id) {

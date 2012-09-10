@@ -15,14 +15,14 @@ import com.caribe.stone.domain.entities.Husband;
 import com.caribe.stone.domain.entities.Wife;
 
 public class Many2OneTest {
-
 	@Test
-	public void tableGenerator() throws Exception {
-		EntityManagerFactory emf = Persistence.createEntityManagerFactory("many2one");
+	public final void tableGenerator() throws Exception {
+		EntityManagerFactory emf = Persistence
+				.createEntityManagerFactory("many2one");
 		EntityManager em = emf.createEntityManager();
-
 		Wife w1 = new Wife("one");
 		Wife w2 = new Wife("two");
+		
 		Husband h = new Husband("king");
 		Set<Wife> wifes = new HashSet<Wife>();
 		wifes.add(w1);
