@@ -6,7 +6,7 @@
 	<artifactId>com.caribe.stone.jsf-calculator</artifactId>
 	<packaging>war</packaging>
 	<version>1.0</version>
-	<name>Demo Webapp</name>
+	<name> jsf-calculator Demo Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<jetty.version>6.1.25</jetty.version>

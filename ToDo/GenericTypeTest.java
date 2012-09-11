@@ -12,7 +12,7 @@ public class GenericTypeTest {
 		MeatRepo dao = new MeatRepo();
 		ParameterizedType genericSuperclass = (ParameterizedType) dao.getClass().getGenericSuperclass();
 		Type[] x = dao.getClass().getGenericInterfaces();
-//		System.out.println(genericSuperclass.getActualTypeArguments()[0]);
+		// System.out.println(genericSuperclass.getActualTypeArguments()[0]);
 		System.out.println(Meat.class.getGenericSuperclass());
 	}
 }
@@ -38,7 +38,7 @@ class BaseRepository<T> implements BaseInterface<T> {
 }
 
 interface BaseInterface<T> {
-	public String say();
+	 String say();
 }
 
 class MeatRepo extends BaseRepository<Meat> {

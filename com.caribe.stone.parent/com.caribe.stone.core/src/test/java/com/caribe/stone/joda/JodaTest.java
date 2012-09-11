@@ -6,6 +6,7 @@ import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import org.joda.time.DateTime;
 import org.joda.time.Period;
@@ -36,7 +37,8 @@ public class JodaTest {
 	@Test
 	public void format() throws Exception {
 		DateTime dateTime = new DateTime(2012, 12, 25, 0, 0, 0, 0);
-//		assertEquals("/25-Dec", dateTime.toString("/dd-MMM"));
+		Locale local = Locale.UK;
+		assertEquals("/25-Dec", dateTime.toString("/dd-MMM",local));
 	}
 
 	@Test

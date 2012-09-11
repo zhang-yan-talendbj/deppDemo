@@ -12,16 +12,7 @@ import org.joda.time.Period;
 import org.joda.time.PeriodType;
 
 public class DateUtils {
-	public static final DateFormat DEFAULT_TIMESTAMP_FORMAT = new SimpleDateFormat(
-			"dd-MM-yyyy HH:mm:ss (SSS) z");
-	public static final DateFormat DEFAULT_REPORT_TIMESTAMP_FORMAT = new SimpleDateFormat(
-			"dd/MM/yyyy HH:mm:ss (SSS)");
-	public static final DateFormat DEFAULT_DATE_FORMAT = new SimpleDateFormat("yyyy/MM/dd");
-	public static final DateFormat DATE_AND_TIME_FORMAT = new SimpleDateFormat("d/M/yyyy HH:mm");
-	public static final DateFormat SERVLET_DATE_FORMAT = new SimpleDateFormat("dd-MMM-yyyy");
 
-	public static final DateFormat DATE_FORMAT_YYYY = new SimpleDateFormat("yyyy");
-	public static final DateFormat DATE_FORMAT_MMMM = new SimpleDateFormat("MMMM");
 	public static final long MS_PER_DAY = 24 * 60 * 60 * 1000;
 
 	private static final int MONTH_OF_FINANCIAL_YEAR_END = 11;
@@ -91,8 +82,7 @@ public class DateUtils {
 			adjustment = 5;
 		}
 
-		return 5 * (daysBetween / 7) + (Calendar.SATURDAY - startDayOfWeek - 1) + (endDayOfWeek - 1)
-				- adjustment;
+		return 5 * (daysBetween / 7) + (Calendar.SATURDAY - startDayOfWeek - 1) + (endDayOfWeek - 1) - adjustment;
 	}
 
 	public static int getDayOfWeek(Date date) {
@@ -299,22 +289,34 @@ public class DateUtils {
 	}
 
 	public static String formattedDate(Date date) {
-		return DEFAULT_DATE_FORMAT.format(date);
+		DateFormat defaultDateFormat = getDateFormat();
+		return defaultDateFormat.format(date);
+	}
+
+	public static DateFormat getDateFormat() {
+		DateFormat defaultDateFormat = new SimpleDateFormat("yyyy/MM/dd");
+		return defaultDateFormat;
 	}
 
 	public static String formattedDateAndTime(Date date) {
-		return DATE_AND_TIME_FORMAT.format(date);
+		return getDateFormat("d/M/yyyy HH:mm").format(date);
+	}
+
+	private static DateFormat getDateFormat(String string) {
+		SimpleDateFormat sdf = new SimpleDateFormat(string);
+		return sdf;
 	}
 
 	public static Date parse(String input) throws ParseException {
 		if (input == null) {
 			return null;
 		} else {
-			return DEFAULT_DATE_FORMAT.parse(input);
+			return getDateFormat().parse(input);
 		}
 	}
-	public static Date parse(String input,String fromformat) throws ParseException {
-		if (input == null || fromformat==null) {
+
+	public static Date parse(String input, String fromformat) throws ParseException {
+		if (input == null || fromformat == null) {
 			return null;
 		} else {
 			return new SimpleDateFormat(fromformat).parse(input);

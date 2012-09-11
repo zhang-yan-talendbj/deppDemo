@@ -27,6 +27,6 @@ public abstract class ConditionalDemo extends BasePage {
         histories.add("");
         histories.add("");
         histories.add("");
-        return histories==null?false:histories.size()>1;
+        return histories.size()>1;
     }
 }

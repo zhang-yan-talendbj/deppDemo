@@ -8,12 +8,12 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.caribe.stone.plugin</groupId>
+	<groupId>com.caribe.stone</groupId>
 	<artifactId>com.caribe.stone.plugin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>Demo Domain</name>
+	<name>plugin</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>

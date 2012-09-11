@@ -114,12 +114,13 @@
 			<artifactId>com.caribe.stone.jpa1</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-
+<!-- 
 		<dependency>
 			<groupId>log4jdbc</groupId>
 			<artifactId>log4jdbc4</artifactId>
 			<version>1.2</version>
 		</dependency>
+ -->
 
 		<dependency>
 			<groupId>org.apache.openjpa</groupId>
@@ -241,11 +242,16 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
+				 <jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName> 
+				<!--
 				<jdbc.driverClassName>net.sf.log4jdbc.DriverSpy</jdbc.driverClassName>
-				<!-- <jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName> -->
+				 -->
 				<jdbc.jpa.dictionary>org.apache.openjpa.jdbc.sql.H2Dictionary</jdbc.jpa.dictionary>
 				<!-- <jdbc.url>jdbc:h2:~/test</jdbc.url> -->
-				<jdbc.url>jdbc:log4jdbc:h2:tcp://localhost/~/test</jdbc.url>
+				<jdbc.url>jdbc:h2:~/test</jdbc.url>
+	<!-- 
+	 			<jdbc.url>jdbc:log4jdbc:h2:tcp://localhost/~/test</jdbc.url>
+	 -->
 				<jdbc.username>sa</jdbc.username>
 				<jdbc.password></jdbc.password>
 				<selenium.driver>firefox</selenium.driver>
@@ -260,4 +266,6 @@
 			</dependencies>
 		</profile>
 	</profiles>
+	<groupId>com.caribe.stone</groupId>
+	<version>0.0.1-SNAPSHOT</version>
 </project>

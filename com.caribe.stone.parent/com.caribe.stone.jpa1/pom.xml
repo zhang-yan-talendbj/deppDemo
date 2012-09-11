@@ -102,12 +102,13 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 		</dependency>
-
+<!-- 
 		<dependency>
 			<groupId>log4jdbc</groupId>
 			<artifactId>log4jdbc4</artifactId>
 			<version>1.2</version>
 		</dependency>
+ -->
 		<dependency>
 			<groupId>org.apache.openjpa</groupId>
 			<artifactId>openjpa</artifactId>
@@ -233,12 +234,17 @@
 				<activeByDefault>true</activeByDefault>
 			</activation>
 			<properties>
+				<!-- 
 				<jdbc.driverClassName>net.sf.log4jdbc.DriverSpy</jdbc.driverClassName>
-				<!-- <jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName> -->
+				-->
+				<jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName> 
 				<jdbc.jpa.dictionary>org.apache.openjpa.jdbc.sql.H2Dictionary</jdbc.jpa.dictionary>
 				<!-- <jdbc.url>jdbc:h2:~/test</jdbc.url> -->
 				<!-- jdbc:log4jdbc:h2:~/hibernate -->
+				<!-- 
 				<jdbc.url>jdbc:log4jdbc:h2:tcp://localhost/~/test</jdbc.url>
+				 -->
+				<jdbc.url>jdbc:h2:~/test</jdbc.url>
 				<jdbc.username>sa</jdbc.username>
 				<jdbc.password></jdbc.password>
 				<selenium.driver>firefox</selenium.driver>
@@ -260,9 +266,6 @@
 		</profile>
 		<profile>
 			<id>jpa2</id>
-			<activation>
-				<activeByDefault>true</activeByDefault>
-			</activation>
 			<properties>
 				<jdbc.driverClassName>net.sf.log4jdbc.DriverSpy</jdbc.driverClassName>
 				<!-- <jdbc.driverClassName>org.h2.Driver</jdbc.driverClassName> -->
@@ -290,4 +293,6 @@
 		<artifactId>com.caribe.stone.parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	<version>0.0.1-SNAPSHOT</version>
+	<groupId>com.caribe.stone</groupId>
 </project>

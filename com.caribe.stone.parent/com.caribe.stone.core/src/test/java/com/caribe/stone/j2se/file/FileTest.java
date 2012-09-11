@@ -25,6 +25,10 @@ public class FileTest {
 		
 		System.out.println(fileA.equals(fileC));
 		
+		fileA.deleteOnExit();
+		fileB.deleteOnExit();
+		fileC.deleteOnExit();
+		
 		
 	}
 }

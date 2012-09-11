@@ -7,7 +7,7 @@
 		<groupId>com.caribe.stone</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<groupId>com.caribe.stone.jsf2</groupId>
+	<groupId>com.caribe.stone</groupId>
 	<artifactId>com.caribe.stone.jsf2</artifactId>
 	<packaging>war</packaging>
 	<name>com.caribe.stone.jsf2</name>

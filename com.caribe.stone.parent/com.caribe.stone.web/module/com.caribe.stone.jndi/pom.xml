@@ -5,7 +5,7 @@
 	<artifactId>com.caribe.stone.jndi</artifactId>
 	<packaging>war</packaging>
 	<version>1.0</version>
-	<name>Demo Webapp</name>
+	<name>JNDI Demo</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<jetty.version>6.1.25</jetty.version>
