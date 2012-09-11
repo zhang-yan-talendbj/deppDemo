@@ -49,6 +49,7 @@
 		<module>com.caribe.stone.core</module>
 		<module>com.caribe.stone.jpa1</module>
 		<module>com.caribe.stone.jpa2</module>
+		<module>com.caribe.stone.cucumber</module>
 		
 	</modules>
 
