@@ -7,7 +7,10 @@ import java.util.PropertyResourceBundle;
 
 import org.springframework.core.io.ClassPathResource;
 
-public class DBUtils {
+public final class DBUtils {
+	private DBUtils() {
+	}
+
 	private static InputStream inputStream = null;
 	private static PropertyResourceBundle p = null;
 
@@ -15,10 +18,8 @@ public class DBUtils {
 		inputStream = new ClassPathResource("db.properties").getInputStream();
 		// openjpa.jdbc.Schema:jpa
 		Class.forName(p.getString("openjpa.ConnectionDriverName"));
-		Connection con = DriverManager.getConnection(
-				p.getString("openjpa.ConnectionURL"),
-				p.getString("openjpa.ConnectionUserName"),
-				p.getString("openjpa.ConnectionPassword"));
+		Connection con = DriverManager.getConnection(p.getString("openjpa.ConnectionURL"),
+				p.getString("openjpa.ConnectionUserName"), p.getString("openjpa.ConnectionPassword"));
 		return con;
 	}
 
@@ -27,10 +28,8 @@ public class DBUtils {
 		p = new PropertyResourceBundle(inputStream);
 		// openjpa.jdbc.Schema:jpa
 		Class.forName(p.getString("openjpa.ConnectionDriverName"));
-		Connection con = DriverManager.getConnection(
-				p.getString("openjpa.ConnectionURL"),
-				p.getString("openjpa.ConnectionUserName"),
-				p.getString("openjpa.ConnectionPassword"));
+		Connection con = DriverManager.getConnection(p.getString("openjpa.ConnectionURL"),
+				p.getString("openjpa.ConnectionUserName"), p.getString("openjpa.ConnectionPassword"));
 		return con;
 	}
 
