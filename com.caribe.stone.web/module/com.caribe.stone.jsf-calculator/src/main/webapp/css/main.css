@@ -1,0 +1,30 @@
+.oddRow {
+	background-color: white;
+}
+
+.evenRow {
+	background-color: silver;
+}
+
+.formGrid {
+	border: solid #000 3px;
+	width: 400px;
+}
+
+.resultGrid {
+	border: solid #000 1px;
+	width: 200px;
+}
+
+.errorClass {
+	color: red;
+		
+}
+
+.infoClass {
+	color: blue;
+}
+
+.labelClass {
+	color: black;
+}
