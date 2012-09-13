@@ -6,6 +6,7 @@
 		<groupId>com.caribe.stone</groupId>
 		<artifactId>com.caribe.stone.parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../com.caribe.stone.parent</relativePath>
 	</parent>
 	<artifactId>com.caribe.stone.core</artifactId>
 	<packaging>jar</packaging>

@@ -12,7 +12,6 @@
 	<url>http://maven.apache.org</url>
 
 	<properties>
-		<!-- 主�?�?赖库的版本定义 -->
 		<springside.version>3.3.4</springside.version>
 		<spring.version>3.0.4.RELEASE</spring.version>
 		<hibernate.version>3.5.5-Final</hibernate.version>
@@ -28,37 +27,60 @@
 		<slf4j.version>1.6.1</slf4j.version>
 		<selenium.version>2.14.0</selenium.version>
 
-		<!-- Plugin的属性定义 -->
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<sonar.host.url>http://localhost:9000</sonar.host.url>
 	</properties>
-	<modules>
-		<!--
-		<module>com.caribe.stone.datastructure</module>
-		<module>com.caribe.stone.fit</module> 
-		<module>com.caribe.stone.jwebunit</module>
-		-->
-		<module>com.caribe.stone.jsf2</module>
-		<module>com.caribe.stone.web</module>
-		<module>com.caribe.stone.tapestry3</module>
-		<module>com.caribe.stone.tapestry</module>
-		<module>build-helper-maven-plugin-demo</module>
-		<module>com.caribe.stone.domain</module>
-		<module>com.caribe.stone.spring</module>
-		<module>com.caribe.stone.tdd</module>
-		<module>com.caribe.stone.core</module>
-		<module>com.caribe.stone.jpa1</module>
-		<module>com.caribe.stone.jpa2</module>
-		<module>com.caribe.stone.cucumber</module>
-		
-	</modules>
-
-	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺�?进行查找. -->
+	
+	<!-- 设定除中央仓库(repo1.maven.org/maven2/)外的其他仓库,按设定顺序进行查找. -->
 	<repositories>
-
+		<!-- 如有Nexus私服, 取消注释并指向正确的服务器地址.
+		<repository>
+			<id>nexus</id>
+			<name>Team Nexus Repository</name>
+			<url>http://localhost:8081/nexus/content/groups/public</url> 
+		</repository>
+		-->
+		<repository>
+			<id>central</id>
+			<name>Central Repository</name>
+			<url>http://repo.maven.apache.org/maven2</url>	
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		
+		<repository>
+			<id>repo.springsource.org</id>
+			<name>repo.springsource.org-releases</name>
+			<url>http://repo.springsource.org/libs-milestone-local</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+	    </repository>
+		
+		<repository>
+			<id>spy</id>
+			<name>Spy Repository</name>
+			<url>http://files.couchbase.com/maven2/</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+	    </repository>
 	</repositories>
 
-	<!-- 预定义�?赖项的version,scope与exclusions,�?项目中�?�需定义groupId 和 artifactId �?��?� -->
+	<!-- 设定插件仓库 如有Nexus私服, 取消注释并指向正确的服务器地址. 
+	<pluginRepositories> 
+		<pluginRepository> 
+			<id>nexus</id>
+			<name>Team Nexus Repository</name>
+			<url>http://localhost:8081/nexus/content/groups/public</url> 
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</pluginRepository>
+	</pluginRepositories>
+	-->
+	
 	<dependencyManagement>
 		<dependencies>
 			<!-- spring begin -->
