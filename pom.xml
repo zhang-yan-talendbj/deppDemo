@@ -40,11 +40,12 @@
 		<module>build-helper-maven-plugin-demo</module>
 		<module>com.caribe.stone.domain</module>
 		<module>com.caribe.stone.spring</module>
-		<module>com.caribe.stone.tdd</module>
 		<module>com.caribe.stone.jpa1</module>
 		<module>com.caribe.stone.jpa2</module>
-		-->
-		<module>com.caribe.stone.cucumber</module>
+			<module>com.caribe.stone.cucumber</module>
+					<module>com.caribe.stone.tdd</module>
+				-->
+
 		<module>com.caribe.stone.core</module>
 	</modules>
 

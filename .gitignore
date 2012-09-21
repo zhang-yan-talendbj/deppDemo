@@ -27,3 +27,5 @@ tmp/
 DS/
 /TapestryInAction/
 *.checkstyle
+
+.externalToolBuilders/
