@@ -266,6 +266,15 @@
 			<version>1.9.0</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.xerial</groupId>
+			<artifactId>sqlite-jdbc</artifactId>
+			<version>3.7.2</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -367,7 +376,7 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 			</plugin>
 
-				<plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-checkstyle-plugin</artifactId>
 			</plugin>
