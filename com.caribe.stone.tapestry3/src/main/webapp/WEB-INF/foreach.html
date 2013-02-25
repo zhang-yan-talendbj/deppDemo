@@ -25,5 +25,26 @@
    <td><span jwcid="@Insert" value="ognl:foreachIndex"/></td>
   </tr>
 </table>
+
+<span>
+<div>for each checkbox</div>
+<div>
+<form jwcid="@Form" >
+<table>
+   <tr jwcid="@Foreach" source="ognl:customerList" value="ognl:customer" element="tr" index="ognl:foreachIndex">
+   <td><span jwcid="@Insert" value="ognl:customer.fullName"/></td>
+   <td> <input type="checkbox" jwcid="@Checkbox" selected="ognl:customer.display" /> 
+   </td>
+  </tr>
+</table>
+</form>
+</div>
+</span>
+
+<div>
+  <ul jwcid="@Foreach" source="ognl:array" value="ognl:str" element="li" index="ognl:foreachIndex">
+<span jwcid="@Insert" value="ognl:str"/>
+  </ul>
+</div>
 </body>
 </html>

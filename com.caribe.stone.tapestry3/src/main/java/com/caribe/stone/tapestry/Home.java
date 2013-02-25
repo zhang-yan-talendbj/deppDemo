@@ -17,7 +17,5 @@ public class Home extends BasePage implements IActionListener {
 	}
 
 	public void actionTriggered(IComponent component, IRequestCycle cycle) {
-		// TODO Auto-generated method stub
-		
 	}
 }

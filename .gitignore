@@ -29,3 +29,4 @@ DS/
 *.checkstyle
 
 .externalToolBuilders/
+/com.caribe.stone.core/src/main/resources/anki.txt
