@@ -23,10 +23,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.sound.sampled.AudioSystem;
+
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
+import org.sqlite.JDBC;
 
 public class WordDemo {
 	private static String newPath;
@@ -68,8 +71,10 @@ public class WordDemo {
 		File f = new File(path);
 		addFiles(f);
 		aa();
-		
+
 		FileUtils.writeLines(ignoreFile, ignorList);
+
+		System.out.println("over~" + new Date());
 	}
 
 	public static void addFiles(File file) {
@@ -89,6 +94,7 @@ public class WordDemo {
 			word = word.replaceAll("&nbsp;", "");
 			word = word.replaceAll("\r", "");
 			word = word.replaceAll("\n", "");
+			word = word.trim();
 			while (word.indexOf("<") >= 0) {
 				word = word.replace(word.substring(word.indexOf("<"), word.indexOf(">") + 1), "");
 			}
@@ -229,7 +235,9 @@ public class WordDemo {
 		// file1.delete();
 		if (!file1.exists()) {
 			FileOutputStream out = new FileOutputStream(file1);
-			letterList.add(0, file);
+			if (file.getName().endsWith("-B.mp3") || file.getName().endsWith("-A.mp3")) {
+				letterList.add(0, file);
+			}
 			merge(letterList, out);
 		}
 	}
@@ -378,11 +386,11 @@ public class WordDemo {
 				System.out.println(e1.getMessage());
 				return;
 			}
-
+			FileOutputStream fs = null;
 			try {
 				URLConnection conn = url.openConnection();
 				InputStream inStream = conn.getInputStream();
-				FileOutputStream fs = new FileOutputStream(saveFile);
+				fs = new FileOutputStream(saveFile);
 
 				byte[] buffer = new byte[1204];
 				while ((byteread = inStream.read(buffer)) != -1) {
@@ -393,12 +401,20 @@ public class WordDemo {
 				e.printStackTrace();
 			} catch (IOException e) {
 				e.printStackTrace();
+			} finally {
+				try {
+					fs.flush();
+					fs.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 
 	public static void merge(List<File> list, FileOutputStream fos) throws IOException {
-		byte b[] = new byte[1024];
+		byte b[] = new byte[10240];
 		int len = 0;
 
 		// 将f1这个mp3的内容copy到f3中
