@@ -28,8 +28,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-public class WordDemo {
-	private static final String JDBC_URL = "c:/Users/bsnpbag/Documents/Anki/User 1/collection.anki2";
+public class FWordDemo {
+	private static final String JDBC_URL = "c:/Users/bsnpbag/Documents/Anki/fiona/collection.anki2";
 	private static String newPath;
 	private static String letterPath;
 	private static String path;
@@ -40,21 +40,17 @@ public class WordDemo {
 	private static Map<String, File> letterMaps;
 
 	private static List ignorList;
-	private static List<String> spellingCards;
-	private static String pathname;
 
 	public static void main(String[] args) throws IOException {
 
-		path = "d:/english/AnkiWord/voice/";
+		path = "d:/english/AnkiWord/fiona/";
 		voice = "d:/Program Files/Lingoes/Translator2/voice/";
 		britishVoice = "d:/english/voice/British/";
 		americanVoice = "d:/english/voice/American/";
+
 		letterPath = "d:/english/AnkiWord/voice/letter/";
 
-		pathname = "d:/english/AnkiWord/voice/ignore";
-		
-		
-		File ignoreFile = new File(pathname);
+		File ignoreFile = new File("d:/english/AnkiWord/voice/ignore");
 		ignorList = FileUtils.readLines(ignoreFile);
 		File letterFiles = new File(letterPath);
 		File[] listFiles = letterFiles.listFiles();
@@ -66,16 +62,13 @@ public class WordDemo {
 		// if(true){
 		// return ;
 		// }
-		spellingCards = getSpellingCards();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
 		newPath = path + sdf.format(new Date());
 		File file2 = new File(newPath);
 		file2.mkdirs();
 		File f = new File(path);
 		addFiles(f);
-		
-		System.out.println("spelling:"+spellingCards);
-		execute();
+		aa();
 
 		FileUtils.writeLines(ignoreFile, ignorList);
 
@@ -86,43 +79,36 @@ public class WordDemo {
 		if (file.isDirectory()) {
 			File[] listFiles = file.listFiles();
 			for (File file2 : listFiles) {
-				String name = file2.getName();
-				if (name.endsWith("-sp.mp3")) {
-					if (!spellingCards.contains(name.replace(".-sp.mp3", ""))) {
-						file2.delete();
-					}
-				}else{
-					addFiles(file2);
-				}
+				addFiles(file2);
 			}
 		} else {
 			fileList.put(file.getName(), file);
 		}
 	}
 
-	private static void execute() throws IOException {
+	private static void aa() throws IOException {
 		List<String> readLines = getCardFromDB();
 		for (String word : readLines) {
-			word = getWord(word);
+			word = word.replaceAll("&nbsp;", "");
+			word = word.replaceAll("\r", "");
+			word = word.replaceAll("\n", "");
+			word = word.trim();
 			while (word.indexOf("<") >= 0) {
 				word = word.replace(word.substring(word.indexOf("<"), word.indexOf(">") + 1), "");
 			}
 			if (word != null) {
 				downLoadVoice(word);
-				if (spellingCards.contains(word)) {
-					System.out.println(word);
-					if (word.trim().indexOf(" ") < 0 && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0) {
-						if (fileList.get(word + "-B.mp3") != null) {
-							spellWord(word, fileList.get(word + "-B.mp3"));
-						} else if (fileList.get(word + "-A.mp3") != null) {
-							spellWord(word, fileList.get(word + "-A.mp3"));
-						} else if (fileList.get(word + "-rp.mp3") != null) {
-							spellWord(word, fileList.get(word + "-rp.mp3"));
-						} else if (fileList.get(word + "-ga.mp3") != null) {
-							spellWord(word, fileList.get(word + "-ga.mp3"));
-						} else if (fileList.get(word + "-d.mp3") != null) {
-							spellWord(word, fileList.get(word + "-d.mp3"));
-						}
+				if (word.trim().indexOf(" ") < 0 && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0) {
+					if (fileList.get(word + "-B.mp3") != null) {
+						spellWord(word, fileList.get(word + "-B.mp3"));
+					} else if (fileList.get(word + "-A.mp3") != null) {
+						spellWord(word, fileList.get(word + "-A.mp3"));
+					} else if (fileList.get(word + "-rp.mp3") != null) {
+						spellWord(word, fileList.get(word + "-rp.mp3"));
+					} else if (fileList.get(word + "-ga.mp3") != null) {
+						spellWord(word, fileList.get(word + "-ga.mp3"));
+					} else if (fileList.get(word + "-d.mp3") != null) {
+						spellWord(word, fileList.get(word + "-d.mp3"));
 					}
 				}
 
@@ -130,62 +116,19 @@ public class WordDemo {
 		}
 
 		List<String> todayCards = getTodayCards();
-		System.out.println("Today:" + todayCards);
 		for (String string : todayCards) {
 			bb(string);
 		}
 	}
 
-	private static String getWord(String word) {
-		word = word.replaceAll("&nbsp;", "");
-		word = word.replaceAll("\r", "");
-		word = word.replaceAll("\n", "");
-		word = word.trim();
-		return word;
-	}
-
 	private static void bb(String word) throws IOException {
-//		 getFromB(word);
-//		getFromA(word);
-		if (fileList.get(word + "-rp.mp3") != null) {
-			File oldFile = fileList.get(word + "-rp.mp3");
+		if (fileList.get(word + "-B.mp3") != null) {
+			File oldFile = fileList.get(word + "-B.mp3");
 			File destFile = new File(newPath + oldFile.getName());
 			if (!destFile.exists()) {
 				FileUtils.moveFile(oldFile, destFile);
 			}
 		}
-		// getFromGA(word);
-		// getFromDirectionary(word);
-		if (fileList.get(word + ".wav") != null) {
-			File oldFile = fileList.get(word + ".wav");
-			File destFile = new File(newPath + oldFile.getName());
-			if (!destFile.exists()) {
-				FileUtils.moveFile(oldFile, destFile);
-			}
-		}
-	}
-
-	private static void getFromDirectionary(String word) throws IOException {
-		if (fileList.get(word + "-d.mp3") != null) {
-			File oldFile = fileList.get(word + "-d.mp3");
-			File destFile = new File(newPath + oldFile.getName());
-			if (!destFile.exists()) {
-				FileUtils.moveFile(oldFile, destFile);
-			}
-		}
-	}
-
-	private static void getFromGA(String word) throws IOException {
-		if (fileList.get(word + "-ga.mp3") != null) {
-			File oldFile = fileList.get(word + "-ga.mp3");
-			File destFile = new File(newPath + oldFile.getName());
-			if (!destFile.exists()) {
-				FileUtils.moveFile(oldFile, destFile);
-			}
-		}
-	}
-
-	private static void getFromA(String word) throws IOException {
 		if (fileList.get(word + "-A.mp3") != null) {
 			File oldFile = fileList.get(word + "-A.mp3");
 			File destFile = new File(newPath + oldFile.getName());
@@ -193,11 +136,29 @@ public class WordDemo {
 				FileUtils.moveFile(oldFile, destFile);
 			}
 		}
-	}
-
-	private static void getFromB(String word) throws IOException {
-		if (fileList.get(word + "-B.mp3") != null) {
-			File oldFile = fileList.get(word + "-B.mp3");
+		if (fileList.get(word + "-rp.mp3") != null) {
+			File oldFile = fileList.get(word + "-rp.mp3");
+			File destFile = new File(newPath + oldFile.getName());
+			if (!destFile.exists()) {
+				FileUtils.moveFile(oldFile, destFile);
+			}
+		}
+		if (fileList.get(word + "-ga.mp3") != null) {
+			File oldFile = fileList.get(word + "-ga.mp3");
+			File destFile = new File(newPath + oldFile.getName());
+			if (!destFile.exists()) {
+				FileUtils.moveFile(oldFile, destFile);
+			}
+		}
+		if (fileList.get(word + "-d.mp3") != null) {
+			File oldFile = fileList.get(word + "-d.mp3");
+			File destFile = new File(newPath + oldFile.getName());
+			if (!destFile.exists()) {
+				FileUtils.moveFile(oldFile, destFile);
+			}
+		}
+		if (fileList.get(word + ".wav") != null) {
+			File oldFile = fileList.get(word + ".wav");
 			File destFile = new File(newPath + oldFile.getName());
 			if (!destFile.exists()) {
 				FileUtils.moveFile(oldFile, destFile);
@@ -211,39 +172,10 @@ public class WordDemo {
 		Statement stat;
 		ResultSet rs;
 		try {
-			conn = getSqlConnection();
+			conn = getConnection();
 
 			stat = conn.createStatement();
-			stat.execute("select sfld from notes where id in (select nid from cards where did=1)");
-			rs = stat.getResultSet();
-			while (rs.next()) {
-				readLines.add(getWord(rs.getString(1)));
-			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return readLines;
-	}
-
-	private static List<String> getTodayCards() throws IOException {
-		List<String> readLines = new LinkedList<String>();
-		Connection conn = null;
-		Statement stat;
-		ResultSet rs;
-		try {
-			conn = getSqlConnection();
-
-			stat = conn.createStatement();
-			stat.execute("select sfld from notes where tags=' today ';");
+			stat.execute("select sfld from notes");
 			rs = stat.getResultSet();
 			while (rs.next()) {
 				readLines.add(rs.getString(1).trim());
@@ -263,7 +195,7 @@ public class WordDemo {
 		return readLines;
 	}
 
-	private static Connection getSqlConnection() throws ClassNotFoundException, SQLException {
+	private static Connection getConnection() throws ClassNotFoundException, SQLException {
 		Connection conn;
 		Class.forName("org.sqlite.JDBC");
 		conn = DriverManager.getConnection("jdbc:sqlite:" +
@@ -271,16 +203,16 @@ public class WordDemo {
 		return conn;
 	}
 
-	private static List<String> getSpellingCards() {
+	private static List<String> getTodayCards() throws IOException {
 		List<String> readLines = new LinkedList<String>();
 		Connection conn = null;
 		Statement stat;
 		ResultSet rs;
 		try {
-			conn = getSqlConnection();
+			conn = getConnection();
 
 			stat = conn.createStatement();
-			stat.execute("select sfld from notes where tags like '%marked%'");
+			stat.execute("select sfld from notes");
 			rs = stat.getResultSet();
 			while (rs.next()) {
 				readLines.add(rs.getString(1).trim());
@@ -301,16 +233,15 @@ public class WordDemo {
 	}
 
 	private static void spellWord(String word, File file) throws FileNotFoundException, IOException {
-		System.out.println(file);
 		List<File> letterList = trimWord(word);
 		String name = file.getParent() + "/" + word + "-sp.mp3";
 		File file1 = new File(name);
 		// file1.delete();
 		if (!file1.exists()) {
 			FileOutputStream out = new FileOutputStream(file1);
-//			if (file.getName().endsWith("-B.mp3") || file.getName().endsWith("-A.mp3")) {
-//				letterList.add(0, file);
-//			}
+			if (file.getName().endsWith("-B.mp3") || file.getName().endsWith("-A.mp3")) {
+				letterList.add(0, file);
+			}
 			merge(letterList, out);
 		}
 	}
@@ -346,32 +277,31 @@ public class WordDemo {
 	public static void downLoadVoice(String word) {
 
 		if (word.trim().indexOf(" ") < 0 && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0) {
-//			String fileName = word + "-d.mp3";
-//			if (fileList.get(fileName) == null) {
-//				getWordDictionary(word, "span.speaker", "-d");
-//			}
+			String fileName = word + "-d.mp3";
+			if (fileList.get(fileName) == null) {
+				getWordDictionary(word, "span.speaker", "-d");
+			}
 			String string = word + "-rp.mp3";
 			if (fileList.get(string) == null) {
 				getWordKing(word, "a.ico_sound[title=真人发音]", "-rp");
 			}
-//			String string2 = word + "-ga.mp3";
-//			if (fileList.get(string2) == null) {
-//				getWordKing(word, "a.vCri_laba", "-ga");
-//			}
+			String string2 = word + "-ga.mp3";
+			if (fileList.get(string2) == null) {
+				getWordKing(word, "a.vCri_laba", "-ga");
+			}
 		}
-//		String string3 = word + "-A.mp3";
-//		if (fileList.get(string3) == null) {
-//			File srcFile = new File(americanVoice + word.charAt(0) + "/" + word + ".mp3");
-//			File destFile = new File(newPath + string3);
-//			copyFile(srcFile, destFile);
-//
-//		}
-//		String string4 = word + "-B.mp3";
-//		if (fileList.get(string4) == null) {
-//			File srcFile = new File(britishVoice + word.charAt(0) + "/" + word + ".mp3");
-//			File destFile = new File(newPath + string4);
-//			copyFile(srcFile, destFile);
-//		}
+		String string3 = word + "-A.mp3";
+		if (fileList.get(string3) == null) {
+			File srcFile = new File(americanVoice + word.charAt(0) + "/" + word + ".mp3");
+			File destFile = new File(newPath + string3);
+			copyFile(srcFile, destFile);
+		}
+		String string4 = word + "-B.mp3";
+		if (fileList.get(string4) == null) {
+			File srcFile = new File(britishVoice + word.charAt(0) + "/" + word + ".mp3");
+			File destFile = new File(newPath + string4);
+			copyFile(srcFile, destFile);
+		}
 
 		String string5 = word + ".wav";
 		if (fileList.get(string5) == null) {
@@ -388,7 +318,6 @@ public class WordDemo {
 		if (srcFile.exists()) {
 			try {
 				FileUtils.copyFile(srcFile, destFile);
-				fileList.put(destFile.getName(), destFile);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
