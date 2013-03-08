@@ -243,7 +243,7 @@ public class WordDemo {
 			conn = getSqlConnection();
 
 			stat = conn.createStatement();
-			stat.execute("select sfld from notes where tags=' today ';");
+			stat.execute("select sfld from notes where tags like '%today%'");
 			rs = stat.getResultSet();
 			while (rs.next()) {
 				readLines.add(rs.getString(1).trim());
@@ -448,6 +448,7 @@ public class WordDemo {
 	}
 
 	public static void httpDownload(String httpUrl, String saveFile) {
+		long start = System.currentTimeMillis();
 		// 下载网络文件
 		int bytesum = 0;
 		int byteread = 0;
@@ -462,16 +463,24 @@ public class WordDemo {
 				return;
 			}
 			FileOutputStream fs = null;
+			String name = System.currentTimeMillis()+"tmp.file";
+			File file = new File(name);
 			try {
 				URLConnection conn = url.openConnection();
 				InputStream inStream = conn.getInputStream();
-				fs = new FileOutputStream(saveFile);
+				fs = new FileOutputStream(file);
 
 				byte[] buffer = new byte[1204];
 				while ((byteread = inStream.read(buffer)) != -1) {
 					bytesum += byteread;
 					fs.write(buffer, 0, byteread);
 				}
+				long end = System.currentTimeMillis();
+				long length = file.length();
+				System.out.print(length*1d/(end-start));
+				System.out.println("K/s.");
+				FileUtils.copyFile(file, new File(saveFile));
+				
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -484,7 +493,9 @@ public class WordDemo {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				file.delete();
 			}
+			
 		}
 	}
 
