@@ -52,8 +52,7 @@ public class WordDemo {
 		letterPath = "d:/english/AnkiWord/voice/letter/";
 
 		pathname = "d:/english/AnkiWord/voice/ignore";
-		
-		
+
 		File ignoreFile = new File(pathname);
 		ignorList = FileUtils.readLines(ignoreFile);
 		File letterFiles = new File(letterPath);
@@ -73,8 +72,8 @@ public class WordDemo {
 		file2.mkdirs();
 		File f = new File(path);
 		addFiles(f);
-		
-		System.out.println("spelling:"+spellingCards);
+
+		System.out.println("spelling:" + spellingCards);
 		execute();
 
 		FileUtils.writeLines(ignoreFile, ignorList);
@@ -91,7 +90,7 @@ public class WordDemo {
 					if (!spellingCards.contains(name.replace(".-sp.mp3", ""))) {
 						file2.delete();
 					}
-				}else{
+				} else {
 					addFiles(file2);
 				}
 			}
@@ -145,8 +144,8 @@ public class WordDemo {
 	}
 
 	private static void bb(String word) throws IOException {
-//		 getFromB(word);
-//		getFromA(word);
+		// getFromB(word);
+		// getFromA(word);
 		if (fileList.get(word + "-rp.mp3") != null) {
 			File oldFile = fileList.get(word + "-rp.mp3");
 			File destFile = new File(newPath + oldFile.getName());
@@ -234,56 +233,100 @@ public class WordDemo {
 		return readLines;
 	}
 
-	private static List<String> getTodayCards() throws IOException {
-		List<String> readLines = new LinkedList<String>();
-		Connection conn = null;
-		Statement stat;
-		ResultSet rs;
-		try {
-			conn = getSqlConnection();
+	// private static List<String> getTodayCards() throws IOException {
+	// List<String> readLines = new LinkedList<String>();
+	// Connection conn = null;
+	// Statement stat;
+	// ResultSet rs;
+	// try {
+	// conn = getSqlConnection();
+	//
+	// stat = conn.createStatement();
+	// stat.execute("select sfld from notes where tags like '%today%'");
+	// rs = stat.getResultSet();
+	// while (rs.next()) {
+	// readLines.add(rs.getString(1).trim());
+	// }
+	// } catch (ClassNotFoundException e) {
+	// e.printStackTrace();
+	// } catch (SQLException e) {
+	// e.printStackTrace();
+	// } finally {
+	// try {
+	// conn.close();
+	// } catch (SQLException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
+	// return readLines;
+	// }
 
-			stat = conn.createStatement();
-			stat.execute("select sfld from notes where tags like '%today%'");
-			rs = stat.getResultSet();
+	private static List<String> getTodayCards() {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String today = sdf.format(new Date());
+		List<String> list = new LinkedList<String>();
+		String string = "select n.mod, n.sfld from notes n, cards c where c.nid=n.id  order by n.mod";
+		Connection con = null;
+		try {
+			con = WordDemo.getSqlConnection();
+			Statement stmt = con.createStatement();
+			stmt.execute(string);
+			ResultSet rs = stmt.getResultSet();
 			while (rs.next()) {
-				readLines.add(rs.getString(1).trim());
+				String x = rs.getString(1) + "000";
+				Date obj = new Date(Long.valueOf(x));
+				if (today.equals(sdf.format(obj))) {
+					list.add(rs.getString(2));
+				}
 			}
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} catch (SQLException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		}
-		return readLines;
+		return list;
 	}
 
-	private static Connection getSqlConnection() throws ClassNotFoundException, SQLException {
+	public static Connection getSqlConnection() throws ClassNotFoundException, SQLException {
 		Connection conn;
 		Class.forName("org.sqlite.JDBC");
-		conn = DriverManager.getConnection("jdbc:sqlite:" +
-				JDBC_URL);
+		conn = DriverManager.getConnection("jdbc:sqlite:" + JDBC_URL);
 		return conn;
 	}
 
 	private static List<String> getSpellingCards() {
-		List<String> readLines = new LinkedList<String>();
+		List<String> list = new LinkedList<String>();
 		Connection conn = null;
 		Statement stat;
 		ResultSet rs;
 		try {
 			conn = getSqlConnection();
-
-			stat = conn.createStatement();
-			stat.execute("select sfld from notes where tags like '%marked%'");
-			rs = stat.getResultSet();
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			String today = sdf.format(new Date());
+			Connection con = WordDemo.getSqlConnection();
+			String string = "select 'marked',sfld from notes where tags like '%marked%' union all select n.id, n.sfld from notes n, cards c where c.nid=n.id ";
+			Statement stmt = con.createStatement();
+			stmt.execute(string);
+			rs = stmt.getResultSet();
 			while (rs.next()) {
-				readLines.add(rs.getString(1).trim());
+				String string2 = rs.getString(1);
+				if (string2.equals("marked")) {
+					list.add(rs.getString(2));
+				} else {
+					String x = string2;
+					Date obj = new Date(Long.valueOf(x));
+					if (today.equals(sdf.format(obj))) {
+						list.add(rs.getString(2));
+					}
+				}
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -297,7 +340,7 @@ public class WordDemo {
 				e.printStackTrace();
 			}
 		}
-		return readLines;
+		return list;
 	}
 
 	private static void spellWord(String word, File file) throws FileNotFoundException, IOException {
@@ -308,9 +351,10 @@ public class WordDemo {
 		// file1.delete();
 		if (!file1.exists()) {
 			FileOutputStream out = new FileOutputStream(file1);
-//			if (file.getName().endsWith("-B.mp3") || file.getName().endsWith("-A.mp3")) {
-//				letterList.add(0, file);
-//			}
+			// if (file.getName().endsWith("-B.mp3") ||
+			// file.getName().endsWith("-A.mp3")) {
+			// letterList.add(0, file);
+			// }
 			merge(letterList, out);
 		}
 	}
@@ -346,32 +390,34 @@ public class WordDemo {
 	public static void downLoadVoice(String word) {
 
 		if (word.trim().indexOf(" ") < 0 && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0) {
-//			String fileName = word + "-d.mp3";
-//			if (fileList.get(fileName) == null) {
-//				getWordDictionary(word, "span.speaker", "-d");
-//			}
+			// String fileName = word + "-d.mp3";
+			// if (fileList.get(fileName) == null) {
+			// getWordDictionary(word, "span.speaker", "-d");
+			// }
 			String string = word + "-rp.mp3";
 			if (fileList.get(string) == null) {
 				getWordKing(word, "a.ico_sound[title=真人发音]", "-rp");
 			}
-//			String string2 = word + "-ga.mp3";
-//			if (fileList.get(string2) == null) {
-//				getWordKing(word, "a.vCri_laba", "-ga");
-//			}
+			// String string2 = word + "-ga.mp3";
+			// if (fileList.get(string2) == null) {
+			// getWordKing(word, "a.vCri_laba", "-ga");
+			// }
 		}
-//		String string3 = word + "-A.mp3";
-//		if (fileList.get(string3) == null) {
-//			File srcFile = new File(americanVoice + word.charAt(0) + "/" + word + ".mp3");
-//			File destFile = new File(newPath + string3);
-//			copyFile(srcFile, destFile);
-//
-//		}
-//		String string4 = word + "-B.mp3";
-//		if (fileList.get(string4) == null) {
-//			File srcFile = new File(britishVoice + word.charAt(0) + "/" + word + ".mp3");
-//			File destFile = new File(newPath + string4);
-//			copyFile(srcFile, destFile);
-//		}
+		// String string3 = word + "-A.mp3";
+		// if (fileList.get(string3) == null) {
+		// File srcFile = new File(americanVoice + word.charAt(0) + "/" + word +
+		// ".mp3");
+		// File destFile = new File(newPath + string3);
+		// copyFile(srcFile, destFile);
+		//
+		// }
+		// String string4 = word + "-B.mp3";
+		// if (fileList.get(string4) == null) {
+		// File srcFile = new File(britishVoice + word.charAt(0) + "/" + word +
+		// ".mp3");
+		// File destFile = new File(newPath + string4);
+		// copyFile(srcFile, destFile);
+		// }
 
 		String string5 = word + ".wav";
 		if (fileList.get(string5) == null) {
@@ -463,7 +509,7 @@ public class WordDemo {
 				return;
 			}
 			FileOutputStream fs = null;
-			String name = System.currentTimeMillis()+"tmp.file";
+			String name = System.currentTimeMillis() + "tmp.file";
 			File file = new File(name);
 			try {
 				URLConnection conn = url.openConnection();
@@ -477,10 +523,10 @@ public class WordDemo {
 				}
 				long end = System.currentTimeMillis();
 				long length = file.length();
-				System.out.print(length*1d/(end-start));
+				System.out.print(length * 1d / (end - start));
 				System.out.println("K/s.");
 				FileUtils.copyFile(file, new File(saveFile));
-				
+
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -494,8 +540,9 @@ public class WordDemo {
 					e.printStackTrace();
 				}
 				file.delete();
+				// file.deleteOnExit();
 			}
-			
+
 		}
 	}
 
