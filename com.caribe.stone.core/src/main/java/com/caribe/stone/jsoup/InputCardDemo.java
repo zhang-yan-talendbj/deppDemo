@@ -65,7 +65,7 @@ public class InputCardDemo {
 								if (front != null && back != null && example != null) {
 									String word = split4[0].trim().replace("to ", "");
 									sb.append(word + "\t");
-									sb.append(getXX(word) + "\t");
+									sb.append(getPhonetic(word) + "\t");
 									sb.append(split4[1] + "\t");
 									sb.append(split3[1] + "\r\n");
 								}
@@ -78,7 +78,7 @@ public class InputCardDemo {
 		return sb.toString();
 	}
 
-	private static String getXX(String word) {
+	public static String getPhonetic(String word) {
 //		if(true)
 //		return "ˈkɔkteil";
 		if(word.indexOf(" ")>0){

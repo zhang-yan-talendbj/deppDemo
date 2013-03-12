@@ -13,7 +13,7 @@ import com.ibm.icu.text.SimpleDateFormat;
 public class test {
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
-		getTodayCards();
+		WordDemo.addPhonetic("apt");
 	}
 
 	private static void getTodayCards() throws ClassNotFoundException, SQLException {

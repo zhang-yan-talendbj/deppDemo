@@ -29,6 +29,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 public class WordDemo {
+	private static final String US = "";
 	private static final String JDBC_URL = "c:/Users/bsnpbag/Documents/Anki/User 1/collection.anki2";
 	private static String newPath;
 	private static String letterPath;
@@ -129,10 +130,83 @@ public class WordDemo {
 		}
 
 		List<String> todayCards = getTodayCards();
+
+		for (String card : todayCards) {
+			String content = addPhonetic(card);
+			if(content!=null){
+				updateCard(content,card);
+			}
+
+		}
 		System.out.println("Today:" + todayCards);
 		for (String string : todayCards) {
 			bb(string);
 		}
+	}
+
+	private static void updateCard(String content, String card) {
+		Connection con = null;
+		try {
+			con = getSqlConnection();
+			Statement stmt = con.createStatement();
+			stmt.execute("update notes set flds='" + content + "' where sfld='" + card + "'");
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public static String addPhonetic(String card) {
+		Connection con = null;
+		try {
+			con = getSqlConnection();
+			Statement stmt = con.createStatement();
+			stmt.execute("select flds from notes where sfld ='" + card + "'");
+			ResultSet rs = stmt.getResultSet();
+			while (rs.next()) {
+				String string = rs.getString(1);
+				String[] s = string.split("");
+				if(s.length==4){
+					
+				if (s[0].indexOf(" ") < 0) {
+					if (s[1] == null || s[1].length() == 0) {
+						String phonetic = InputCardDemo.getPhonetic(card);
+						String content = s[0] + US + phonetic + US + s[2] + US + s[3];
+						System.out.println(content);
+						return content;
+					}
+					}
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
 	}
 
 	private static String getWord(String word) {
@@ -277,7 +351,8 @@ public class WordDemo {
 				String x = rs.getString(1) + "000";
 				Date obj = new Date(Long.valueOf(x));
 				if (today.equals(sdf.format(obj))) {
-					list.add(rs.getString(2));
+					String word = rs.getString(2);
+					list.add(word);
 				}
 			}
 		} catch (Exception e) {
@@ -344,7 +419,6 @@ public class WordDemo {
 	}
 
 	private static void spellWord(String word, File file) throws FileNotFoundException, IOException {
-		System.out.println(file);
 		List<File> letterList = trimWord(word);
 		String name = file.getParent() + "/" + word + "-sp.mp3";
 		File file1 = new File(name);
