@@ -13,6 +13,7 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -104,13 +105,12 @@ public class WordDemo {
 		List<String> readLines = getCardFromDB();
 		for (String word : readLines) {
 			word = getWord(word);
-			while (word.indexOf("<") >= 0) {
+			while (word != null && word.indexOf("<") >= 0) {
 				word = word.replace(word.substring(word.indexOf("<"), word.indexOf(">") + 1), "");
 			}
 			if (word != null) {
 				downLoadVoice(word);
 				if (spellingCards.contains(word)) {
-					System.out.println(word);
 					if (word.trim().indexOf(" ") < 0 && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0) {
 						if (fileList.get(word + "-B.mp3") != null) {
 							spellWord(word, fileList.get(word + "-B.mp3"));
@@ -130,26 +130,35 @@ public class WordDemo {
 		}
 
 		List<String> todayCards = getTodayCards();
+		System.out.println("Today:" + todayCards);
 
 		for (String card : todayCards) {
+//			System.out.println(card);
 			String content = addPhonetic(card);
-			if(content!=null){
-				updateCard(content,card);
+//			System.out.println("phonetic:"+content);
+			if (content != null) {
+				updateCard(content, card);
 			}
 
 		}
-		System.out.println("Today:" + todayCards);
-		for (String string : todayCards) {
-			bb(string);
+		for (String card : todayCards) {
+			updateMap(card);
 		}
 	}
 
 	private static void updateCard(String content, String card) {
 		Connection con = null;
+		PreparedStatement stmt = null;
 		try {
 			con = getSqlConnection();
-			Statement stmt = con.createStatement();
-			stmt.execute("update notes set flds='" + content + "' where sfld='" + card + "'");
+			// String sql = "update notes set flds='" + content +
+			// "' where sfld='" + card + "'";
+			String sql = "update notes set flds= ? where sfld= ?";
+			stmt = con.prepareStatement(sql);
+			stmt.setString(1, content);
+			stmt.setString(2, card);
+			boolean result = stmt.execute();
+			System.out.println(result);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -160,6 +169,14 @@ public class WordDemo {
 			if (con != null) {
 				try {
 					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			if (stmt != null) {
+				try {
+					stmt.close();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -178,15 +195,27 @@ public class WordDemo {
 			while (rs.next()) {
 				String string = rs.getString(1);
 				String[] s = string.split("");
-				if(s.length==4){
-					
-				if (s[0].indexOf(" ") < 0) {
-					if (s[1] == null || s[1].length() == 0) {
-						String phonetic = InputCardDemo.getPhonetic(card);
-						String content = s[0] + US + phonetic + US + s[2] + US + s[3];
-						System.out.println(content);
-						return content;
-					}
+				
+				if (s.length >=1) {
+					if (s[0].indexOf(" ") < 0) {
+						if (s.length >= 2) {
+							if (s[1] == null || s[1].length() == 0) {
+								String phonetic = InputCardDemo.getPhonetic(card);
+								String content = s[0] + US + phonetic ;
+								if(s.length==3){
+									content=content+ US + s[2] ;
+								}else if(s.length==4){
+									content=content+ US + s[3];
+								}
+								System.out.println(content);
+								return content;
+							}
+						}else{
+							String phonetic = InputCardDemo.getPhonetic(card);
+							String content = s[0] + US + phonetic ;
+							System.out.println(content);
+							return content;
+						}
 					}
 				}
 			}
@@ -210,6 +239,12 @@ public class WordDemo {
 	}
 
 	private static String getWord(String word) {
+		if (word == null) {
+			return null;
+		}
+		if (word.getBytes().length != word.length()) {
+			return null;
+		}
 		word = word.replaceAll("&nbsp;", "");
 		word = word.replaceAll("\r", "");
 		word = word.replaceAll("\n", "");
@@ -217,7 +252,7 @@ public class WordDemo {
 		return word;
 	}
 
-	private static void bb(String word) throws IOException {
+	private static void updateMap(String word) throws IOException {
 		// getFromB(word);
 		// getFromA(word);
 		if (fileList.get(word + "-rp.mp3") != null) {
@@ -290,7 +325,10 @@ public class WordDemo {
 			stat.execute("select sfld from notes where id in (select nid from cards where did=1)");
 			rs = stat.getResultSet();
 			while (rs.next()) {
-				readLines.add(getWord(rs.getString(1)));
+				String word = getWord(rs.getString(1));
+				if (word != null) {
+					readLines.add(word);
+				}
 			}
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -351,8 +389,10 @@ public class WordDemo {
 				String x = rs.getString(1) + "000";
 				Date obj = new Date(Long.valueOf(x));
 				if (today.equals(sdf.format(obj))) {
-					String word = rs.getString(2);
-					list.add(word);
+					String word = getWord(rs.getString(2));
+					if (word != null) {
+						list.add(word);
+					}
 				}
 			}
 		} catch (Exception e) {
@@ -371,7 +411,12 @@ public class WordDemo {
 	}
 
 	public static Connection getSqlConnection() throws ClassNotFoundException, SQLException {
-		Connection conn;
+		Connection conn = getDBConnection();
+		return conn;
+	}
+
+	private static Connection getDBConnection() throws ClassNotFoundException, SQLException {
+		Connection conn = null;
 		Class.forName("org.sqlite.JDBC");
 		conn = DriverManager.getConnection("jdbc:sqlite:" + JDBC_URL);
 		return conn;
@@ -383,12 +428,11 @@ public class WordDemo {
 		Statement stat;
 		ResultSet rs;
 		try {
-			conn = getSqlConnection();
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 			String today = sdf.format(new Date());
-			Connection con = WordDemo.getSqlConnection();
+			conn = WordDemo.getSqlConnection();
 			String string = "select 'marked',sfld from notes where tags like '%marked%' union all select n.id, n.sfld from notes n, cards c where c.nid=n.id ";
-			Statement stmt = con.createStatement();
+			Statement stmt = conn.createStatement();
 			stmt.execute(string);
 			rs = stmt.getResultSet();
 			while (rs.next()) {
@@ -399,7 +443,10 @@ public class WordDemo {
 					String x = string2;
 					Date obj = new Date(Long.valueOf(x));
 					if (today.equals(sdf.format(obj))) {
-						list.add(rs.getString(2));
+						String word = getWord(rs.getString(2));
+						if (word != null) {
+							list.add(word);
+						}
 					}
 				}
 			}
@@ -469,13 +516,16 @@ public class WordDemo {
 			// getWordDictionary(word, "span.speaker", "-d");
 			// }
 			String string = word + "-rp.mp3";
-			if (fileList.get(string) == null) {
+			String string2 = word + "-ga.mp3";
+			if (fileList.get(string) == null && fileList.get(string2) == null) {
 				getWordKing(word, "a.ico_sound[title=真人发音]", "-rp");
+				
+				 if (fileList.get(string2) == null) {
+				 getWordKing(word, "a.vCri_laba", "-ga");
+				 }
 			}
-			// String string2 = word + "-ga.mp3";
-			// if (fileList.get(string2) == null) {
-			// getWordKing(word, "a.vCri_laba", "-ga");
-			// }
+				
+			
 		}
 		// String string3 = word + "-A.mp3";
 		// if (fileList.get(string3) == null) {
@@ -522,7 +572,7 @@ public class WordDemo {
 		try {
 			links = Jsoup.connect(url).userAgent("Mozilla").timeout(5000).get().select(position);
 		} catch (IOException e) {
-			System.out.println(word);
+			System.out.println("get voice from iciba error : " + word);
 			System.out.println(e.getMessage());
 		}
 		String saveFile = newPath + word + suffix + ".mp3";
