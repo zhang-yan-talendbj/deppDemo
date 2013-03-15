@@ -195,26 +195,32 @@ public class WordDemo {
 			while (rs.next()) {
 				String string = rs.getString(1);
 				String[] s = string.split("");
-				
-				if (s.length >=1) {
+
+				if (s.length >= 1) {
 					if (s[0].indexOf(" ") < 0) {
 						if (s.length >= 2) {
 							if (s[1] == null || s[1].length() == 0) {
 								String phonetic = InputCardDemo.getPhonetic(card);
-								String content = s[0] + US + phonetic ;
-								if(s.length==3){
-									content=content+ US + s[2] ;
-								}else if(s.length==4){
-									content=content+ US + s[3];
+								if (phonetic != null) {
+									String content = null;
+									if (s.length == 2) {
+										content = s[0] + US + phonetic + US + "" + US + "";
+									} else if (s.length == 3) {
+										content = s[0] + US + phonetic + US + s[2] + US + "";
+									} else if (s.length == 4) {
+										content = s[0] + US + phonetic + US + s[2] + US + s[3];
+									}
+									System.out.println(content);
+									return content;
 								}
+							}
+						} else {
+							String phonetic = InputCardDemo.getPhonetic(card);
+							if (phonetic != null) {
+								String content = s[0] + US + phonetic + US + "" + US;
 								System.out.println(content);
 								return content;
 							}
-						}else{
-							String phonetic = InputCardDemo.getPhonetic(card);
-							String content = s[0] + US + phonetic ;
-							System.out.println(content);
-							return content;
 						}
 					}
 				}

@@ -20,7 +20,7 @@ import org.jsoup.select.Elements;
 public class InputCardDemo {
 
 	public static void main(String[] args) throws IOException {
-		String eslNumber = "165";
+		String eslNumber = "166";
 		String cards = getCards(eslNumber);
 		// System.out.println(cards);
 		Writer output = new FileWriter("d:/test.txt");
@@ -65,7 +65,11 @@ public class InputCardDemo {
 								if (front != null && back != null && example != null) {
 									String word = split4[0].trim().replace("to ", "");
 									sb.append(word + "\t");
-									sb.append(getPhonetic(word) + "\t");
+									String phonetic = getPhonetic(word);
+									if(phonetic==null){
+										phonetic="";
+									}
+									sb.append(phonetic + "\t");
 									sb.append(split4[1] + "\t");
 									sb.append(split3[1] + "\r\n");
 								}
@@ -82,7 +86,7 @@ public class InputCardDemo {
 //		if(true)
 //		return "ˈkɔkteil";
 		if(word.indexOf(" ")>0){
-			return "";
+			return null;
 		}
 		String url = "http://www.iciba.com/search?s=" + word;
 		Elements links = null;
@@ -95,7 +99,7 @@ public class InputCardDemo {
 			System.out.println(word);
 			System.out.println(e.getMessage());
 		}
-		return "";
+		return null;
 	}
 
 	public static String getTextFromPDF(String eslNumber) {
