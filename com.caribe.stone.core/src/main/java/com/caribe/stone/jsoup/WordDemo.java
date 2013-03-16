@@ -31,14 +31,12 @@ import org.jsoup.select.Elements;
 
 public class WordDemo {
 	private static final String US = "";
-	private static final String JDBC_URL = "c:/Users/bsnpbag/Documents/Anki/User 1/collection.anki2";
+	private static String JDBC_URL;
 	private static String newPath;
 	private static String letterPath;
 	private static String path;
 	private static Map<String, File> fileList = new HashMap<String, File>();
 	private static String voice;
-	private static String britishVoice;
-	private static String americanVoice;
 	private static Map<String, File> letterMaps;
 
 	private static List ignorList;
@@ -46,14 +44,7 @@ public class WordDemo {
 	private static String pathname;
 
 	public static void main(String[] args) throws IOException {
-
-		path = "d:/english/AnkiWord/voice/";
-		voice = "d:/Program Files/Lingoes/Translator2/voice/";
-		britishVoice = "d:/english/voice/British/";
-		americanVoice = "d:/english/voice/American/";
-		letterPath = "d:/english/AnkiWord/voice/letter/";
-
-		pathname = "d:/english/AnkiWord/voice/ignore";
+		setPath(new Home());
 
 		File ignoreFile = new File(pathname);
 		ignorList = FileUtils.readLines(ignoreFile);
@@ -64,12 +55,9 @@ public class WordDemo {
 		for (File file : listFiles) {
 			letterMaps.put(file.getName().split("\\.")[0], file);
 		}
-		// if(true){
-		// return ;
-		// }
 		spellingCards = getSpellingCards();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
-		newPath = path + sdf.format(new Date());
+		newPath = path + sdf.format(new Date(System.currentTimeMillis()-1000L*60*60*4));
 		File file2 = new File(newPath);
 		file2.mkdirs();
 		File f = new File(path);
@@ -81,6 +69,16 @@ public class WordDemo {
 		FileUtils.writeLines(ignoreFile, ignorList);
 
 		System.out.println("over~" + new Date());
+	}
+
+	public static void setPath(ConfigerFile office) {
+		path = office.path;
+		voice = office.voice;
+
+		letterPath = office.letterPath;
+		pathname = office.pathname;
+		JDBC_URL = office.JDBC_URL;
+
 	}
 
 	public static void addFiles(File file) {
@@ -133,9 +131,9 @@ public class WordDemo {
 		System.out.println("Today:" + todayCards);
 
 		for (String card : todayCards) {
-//			System.out.println(card);
+			// System.out.println(card);
 			String content = addPhonetic(card);
-//			System.out.println("phonetic:"+content);
+			// System.out.println("phonetic:"+content);
 			if (content != null) {
 				updateCard(content, card);
 			}
@@ -382,7 +380,7 @@ public class WordDemo {
 
 	private static List<String> getTodayCards() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		String today = sdf.format(new Date());
+		String today = sdf.format(new Date(System.currentTimeMillis()-1000L*60*60*4));
 		List<String> list = new LinkedList<String>();
 		String string = "select n.mod, n.sfld from notes n, cards c where c.nid=n.id  order by n.mod";
 		Connection con = null;
@@ -393,7 +391,7 @@ public class WordDemo {
 			ResultSet rs = stmt.getResultSet();
 			while (rs.next()) {
 				String x = rs.getString(1) + "000";
-				Date obj = new Date(Long.valueOf(x));
+				Date obj = new Date(Long.valueOf(x)-1000L*60*60*4);
 				if (today.equals(sdf.format(obj))) {
 					String word = getWord(rs.getString(2));
 					if (word != null) {
@@ -434,8 +432,7 @@ public class WordDemo {
 		Statement stat;
 		ResultSet rs;
 		try {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-			String today = sdf.format(new Date());
+			long today = System.currentTimeMillis();
 			conn = WordDemo.getSqlConnection();
 			String string = "select 'marked',sfld from notes where tags like '%marked%' union all select n.id, n.sfld from notes n, cards c where c.nid=n.id ";
 			Statement stmt = conn.createStatement();
@@ -446,9 +443,14 @@ public class WordDemo {
 				if (string2.equals("marked")) {
 					list.add(rs.getString(2));
 				} else {
-					String x = string2;
-					Date obj = new Date(Long.valueOf(x));
-					if (today.equals(sdf.format(obj))) {
+					Long obj = Long.valueOf(string2)+1000L*60*60*24*30;
+//					if(rs.getString(2).equals("proposal")){
+//					System.out.println("nid  :"+string2);
+//					System.out.println("Long :"+valueOf);
+//					System.out.println("30day:"+obj);
+//					System.out.println("today:"+today);
+//					}
+					if (obj>=today) {
 						String word = getWord(rs.getString(2));
 						if (word != null) {
 							list.add(word);
@@ -525,13 +527,12 @@ public class WordDemo {
 			String string2 = word + "-ga.mp3";
 			if (fileList.get(string) == null && fileList.get(string2) == null) {
 				getWordKing(word, "a.ico_sound[title=真人发音]", "-rp");
-				
-				 if (fileList.get(string2) == null) {
-				 getWordKing(word, "a.vCri_laba", "-ga");
-				 }
+
+				if (fileList.get(string2) == null) {
+					getWordKing(word, "a.vCri_laba", "-ga");
+				}
 			}
-				
-			
+
 		}
 		// String string3 = word + "-A.mp3";
 		// if (fileList.get(string3) == null) {
