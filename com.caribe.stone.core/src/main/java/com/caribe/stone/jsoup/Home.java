@@ -6,7 +6,7 @@ public class Home extends ConfigerFile {
 		letterPath = "d:/English/anki/voice/letter";
 		path = "d:/English/anki/voice/";
 		voice = "d:/English/voice/";
-		pathname = "d:/English/anki/voice/letter/ignore.txt";
+		pathname = "d:/English/anki/voice/ignore.txt";
 		JDBC_URL = "f:/depp/Documents and Settings/Administrator/My Documents/Anki/User 1/collection.anki2";
 	}
 }

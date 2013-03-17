@@ -39,7 +39,7 @@ public class WordDemo {
 	private static String voice;
 	private static Map<String, File> letterMaps;
 
-	private static List ignorList;
+	private static List<String> ignorList;
 	private static List<String> spellingCards;
 	private static String pathname;
 
@@ -57,15 +57,16 @@ public class WordDemo {
 		}
 		spellingCards = getSpellingCards();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
-		newPath = path + sdf.format(new Date(System.currentTimeMillis()-1000L*60*60*4));
+		newPath = path + sdf.format(new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 4));
 		File file2 = new File(newPath);
 		file2.mkdirs();
 		File f = new File(path);
 		addFiles(f);
 
-		System.out.println("spelling:" + spellingCards);
+//		System.out.println("spelling:" + spellingCards);
 		execute();
 
+		System.out.println("ignorList"+ignorList);
 		FileUtils.writeLines(ignoreFile, ignorList);
 
 		System.out.println("over~" + new Date());
@@ -110,16 +111,10 @@ public class WordDemo {
 				downLoadVoice(word);
 				if (spellingCards.contains(word)) {
 					if (word.trim().indexOf(" ") < 0 && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0) {
-						if (fileList.get(word + "-B.mp3") != null) {
-							spellWord(word, fileList.get(word + "-B.mp3"));
-						} else if (fileList.get(word + "-A.mp3") != null) {
-							spellWord(word, fileList.get(word + "-A.mp3"));
-						} else if (fileList.get(word + "-rp.mp3") != null) {
+						 if (fileList.get(word + "-rp.mp3") != null) {
 							spellWord(word, fileList.get(word + "-rp.mp3"));
 						} else if (fileList.get(word + "-ga.mp3") != null) {
 							spellWord(word, fileList.get(word + "-ga.mp3"));
-						} else if (fileList.get(word + "-d.mp3") != null) {
-							spellWord(word, fileList.get(word + "-d.mp3"));
 						}
 					}
 				}
@@ -128,12 +123,13 @@ public class WordDemo {
 		}
 
 		List<String> todayCards = getTodayCards();
+		// List<String> todayCards = getSpellingCards();
 		System.out.println("Today:" + todayCards);
 
 		for (String card : todayCards) {
-			// System.out.println(card);
+//			System.out.println(card);
 			String content = addPhonetic(card);
-			// System.out.println("phonetic:"+content);
+//			System.out.println("phonetic:" + content);
 			if (content != null) {
 				updateCard(content, card);
 			}
@@ -195,18 +191,19 @@ public class WordDemo {
 				String[] s = string.split("");
 
 				if (s.length >= 1) {
-					if (s[0].indexOf(" ") < 0) {
+					String word = getWord(s[0]);
+					if (word.indexOf(" ") < 0) {
 						if (s.length >= 2) {
 							if (s[1] == null || s[1].length() == 0) {
 								String phonetic = InputCardDemo.getPhonetic(card);
 								if (phonetic != null) {
 									String content = null;
 									if (s.length == 2) {
-										content = s[0] + US + phonetic + US + "" + US + "";
+										content = word + US + phonetic + US + "" + US + "";
 									} else if (s.length == 3) {
-										content = s[0] + US + phonetic + US + s[2] + US + "";
+										content = word + US + phonetic + US + s[2] + US + "";
 									} else if (s.length == 4) {
-										content = s[0] + US + phonetic + US + s[2] + US + s[3];
+										content = word + US + phonetic + US + s[2] + US + s[3];
 									}
 									System.out.println(content);
 									return content;
@@ -215,7 +212,7 @@ public class WordDemo {
 						} else {
 							String phonetic = InputCardDemo.getPhonetic(card);
 							if (phonetic != null) {
-								String content = s[0] + US + phonetic + US + "" + US;
+								String content = word + US + phonetic + US + "" + US;
 								System.out.println(content);
 								return content;
 							}
@@ -380,7 +377,7 @@ public class WordDemo {
 
 	private static List<String> getTodayCards() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		String today = sdf.format(new Date(System.currentTimeMillis()-1000L*60*60*4));
+		String today = sdf.format(new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 4));
 		List<String> list = new LinkedList<String>();
 		String string = "select n.mod, n.sfld from notes n, cards c where c.nid=n.id  order by n.mod";
 		Connection con = null;
@@ -391,7 +388,7 @@ public class WordDemo {
 			ResultSet rs = stmt.getResultSet();
 			while (rs.next()) {
 				String x = rs.getString(1) + "000";
-				Date obj = new Date(Long.valueOf(x)-1000L*60*60*4);
+				Date obj = new Date(Long.valueOf(x) - 1000L * 60 * 60 * 4);
 				if (today.equals(sdf.format(obj))) {
 					String word = getWord(rs.getString(2));
 					if (word != null) {
@@ -443,14 +440,14 @@ public class WordDemo {
 				if (string2.equals("marked")) {
 					list.add(rs.getString(2));
 				} else {
-					Long obj = Long.valueOf(string2)+1000L*60*60*24*30;
-//					if(rs.getString(2).equals("proposal")){
-//					System.out.println("nid  :"+string2);
-//					System.out.println("Long :"+valueOf);
-//					System.out.println("30day:"+obj);
-//					System.out.println("today:"+today);
-//					}
-					if (obj>=today) {
+					Long obj = Long.valueOf(string2) + 1000L * 60 * 60 * 24 * 30;
+					// if(rs.getString(2).equals("proposal")){
+					// System.out.println("nid  :"+string2);
+					// System.out.println("Long :"+valueOf);
+					// System.out.println("30day:"+obj);
+					// System.out.println("today:"+today);
+					// }
+					if (obj >= today) {
 						String word = getWord(rs.getString(2));
 						if (word != null) {
 							list.add(word);
@@ -528,7 +525,7 @@ public class WordDemo {
 			if (fileList.get(string) == null && fileList.get(string2) == null) {
 				getWordKing(word, "a.ico_sound[title=真人发音]", "-rp");
 
-				if (fileList.get(string2) == null) {
+				if (fileList.get(string) == null &&fileList.get(string2) == null) {
 					getWordKing(word, "a.vCri_laba", "-ga");
 				}
 			}
@@ -574,11 +571,15 @@ public class WordDemo {
 	}
 
 	public static void getWordKing(String word, String position, String suffix) {
+		if (ignorList.contains(word+suffix)) {
+			return;
+		}
 		String url = "http://www.iciba.com/search?s=" + word;
 		Elements links = null;
 		try {
 			links = Jsoup.connect(url).userAgent("Mozilla").timeout(5000).get().select(position);
 		} catch (IOException e) {
+			ignorList.add(word+suffix);
 			System.out.println("get voice from iciba error : " + word);
 			System.out.println(e.getMessage());
 		}
