@@ -8,5 +8,7 @@ public class ConfigerFile {
 	String ignorPath = null;
 	String JDBC_URL = null;
 
+	int spellingMaxDay=30;
+
 	boolean updatePhonetic;
 }
