@@ -22,7 +22,6 @@ public class InputCardDemo {
 	public static void main(String[] args) throws IOException {
 		String eslNumber = "166";
 		String cards = getCards(eslNumber);
-		// System.out.println(cards);
 		Writer output = new FileWriter("d:/test.txt");
 		IOUtils.write(cards.getBytes(), output, "utf-8");
 		IOUtils.closeQuietly(output);
@@ -38,14 +37,12 @@ public class InputCardDemo {
 			if (string.length() > 0) {
 				if (!string.equals("\r\n")) {
 					string = string.replace("\r\n", "");
-					if (!string.equals("\r\n \r\n")
-							&& !string.startsWith(" English as a Second Language")
-							&& !string.startsWith(" ESL Podcast")
-							&& !string
-									.startsWith("These materials are copyrighted by the Center for Educational Development")) {
-//						System.out.println("----------");
-						System.out.println(string);
-
+					boolean b = !string.startsWith("These materials are copyrighted ") || string.indexOf("*") > 0;
+					if (!string.equals("\r\n \r\n") && !string.startsWith(" English as a Second Language")
+							&& !string.startsWith(" ESL Podcast") && b) {
+						if( string.startsWith("These materials are copyrighted ")&& string.indexOf("*")>0){
+							System.out.println(string);
+						}
 						String[] split3 = string.split("\\*");
 						if (split3.length >= 2) {
 
@@ -66,8 +63,8 @@ public class InputCardDemo {
 									String word = split4[0].trim().replace("to ", "");
 									sb.append(word + "\t");
 									String phonetic = getPhonetic(word);
-									if(phonetic==null){
-										phonetic="";
+									if (phonetic == null) {
+										phonetic = "";
 									}
 									sb.append(phonetic + "\t");
 									sb.append(split4[1] + "\t");
@@ -83,9 +80,9 @@ public class InputCardDemo {
 	}
 
 	public static String getPhonetic(String word) {
-//		if(true)
-//		return "ˈkɔkteil";
-		if(word.indexOf(" ")>0){
+		// if(true)
+		// return "ˈkɔkteil";
+		if (word.indexOf(" ") > 0) {
 			return null;
 		}
 		String url = "http://www.iciba.com/search?s=" + word;
@@ -93,7 +90,6 @@ public class InputCardDemo {
 		try {
 			Document document = Jsoup.connect(url).userAgent("Mozilla").timeout(5000).get();
 			links = document.select("span.fl");
-			// System.out.println(document.getElementsByClass("f1"));
 			return links.text();
 		} catch (IOException e) {
 			System.out.println(word);
