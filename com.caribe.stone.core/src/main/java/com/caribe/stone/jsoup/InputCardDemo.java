@@ -6,8 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.pdfbox.pdfparser.PDFParser;
@@ -20,7 +18,7 @@ import org.jsoup.select.Elements;
 public class InputCardDemo {
 
 	public static void main(String[] args) throws IOException {
-		String eslNumber = "166";
+		String eslNumber = "167";
 		String cards = getCards(eslNumber);
 		Writer output = new FileWriter("d:/test.txt");
 		IOUtils.write(cards.getBytes(), output, "utf-8");

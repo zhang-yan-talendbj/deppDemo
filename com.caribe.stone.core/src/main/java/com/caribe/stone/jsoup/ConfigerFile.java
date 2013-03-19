@@ -7,6 +7,8 @@ public class ConfigerFile {
 	String letterPath = null;
 	String ignorPath = null;
 	String JDBC_URL = null;
+	
+	int deckId=0;
 
 	int spellingMaxDay=30;
 

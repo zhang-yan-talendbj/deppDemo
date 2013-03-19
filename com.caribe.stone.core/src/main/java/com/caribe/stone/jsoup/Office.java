@@ -8,5 +8,6 @@ public class Office extends ConfigerFile {
 		ignorPath = "d:/english/AnkiWord/voice/ignore.txt";
 		JDBC_URL = "c:/Users/bsnpbag/Documents/Anki/User 1/collection.anki2";
 		updatePhonetic = true;
+		deckId=1;
 	}
 }

@@ -46,6 +46,7 @@ public class WordDemo {
 	private static Date date = new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 4);
 	private static boolean updatePhonetic;
 	private static int spellingMaxDay;
+	private static int deckId;
 
 	public static void main(String[] args) throws IOException {
 		setPath(new Office());
@@ -88,6 +89,7 @@ public class WordDemo {
 
 		updatePhonetic = office.updatePhonetic;
 		spellingMaxDay = office.spellingMaxDay;
+		deckId = office.deckId;
 
 	}
 
@@ -337,7 +339,12 @@ public class WordDemo {
 			conn = getSqlConnection();
 
 			stat = conn.createStatement();
-			stat.execute("select sfld from notes");
+			String sql = "select sfld from notes ";
+			if (deckId != 0) {
+				sql += " where id in (select nid from cards where did=1)";
+			}
+			System.out.println(sql);
+			stat.execute(sql);
 			rs = stat.getResultSet();
 			while (rs.next()) {
 				String word = getWord(rs.getString(1));
@@ -404,7 +411,11 @@ public class WordDemo {
 		Connection con = null;
 		try {
 			con = WordDemo.getSqlConnection();
-			String sql = "select distinct n.sfld from revlog r, notes n, cards c where r.cid=c.id and c.nid=n.id and r.id> " + time;
+			String sql = "select distinct n.sfld from revlog r, notes n, cards c where r.cid=c.id and ";
+			if (deckId != 0) {
+				sql = sql + " did=" + deckId + " and ";
+			}
+			sql = sql + " c.nid=n.id and r.id> " + time;
 			System.out.println("SQL:" + sql);
 			Statement stmt = con.createStatement();
 			stmt.execute(sql);
@@ -448,7 +459,11 @@ public class WordDemo {
 		try {
 			long today = System.currentTimeMillis();
 			conn = WordDemo.getSqlConnection();
-			String sql = "select 'marked',sfld from notes where tags like '%marked%' union all select n.id, n.sfld from notes n, cards c where c.nid=n.id ";
+			String sql = "select 'marked',sfld from notes where tags like '%marked%' " + "union all"
+					+ " select n.id, n.sfld from notes n, cards c where c.nid=n.id ";
+			if (deckId != 0) {
+				sql = sql + " and c.did=" + deckId;
+			}
 			System.out.println("SQL:" + sql);
 			Statement stmt = conn.createStatement();
 			stmt.execute(sql);
