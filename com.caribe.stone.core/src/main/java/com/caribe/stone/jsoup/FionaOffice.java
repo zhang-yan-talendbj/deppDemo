@@ -10,5 +10,6 @@ public class FionaOffice extends ConfigerFile {
 		JDBC_URL = "c:/Users/bsnpbag/Documents/Anki/fiona/collection.anki2";
 		path = "d:/english/AnkiWord/fiona/";
 		updatePhonetic=false;
+		spellingMaxDay=365;
 	}
 }

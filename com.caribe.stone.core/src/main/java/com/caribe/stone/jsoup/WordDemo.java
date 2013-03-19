@@ -44,12 +44,13 @@ public class WordDemo {
 	private static List<String> spellingCards;
 	private static String ignorePath;
 	private static Date date = new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 4);
-	private static boolean updatePhonetic ;
+	private static boolean updatePhonetic;
+	private static int spellingMaxDay;
 
 	public static void main(String[] args) throws IOException {
 		setPath(new Office());
 		File ignoreFile = new File(ignorePath);
-		if(!ignoreFile.exists()){
+		if (!ignoreFile.exists()) {
 			ignoreFile.createNewFile();
 		}
 		ignorList = FileUtils.readLines(ignoreFile);
@@ -68,7 +69,7 @@ public class WordDemo {
 		File f = new File(path);
 		addFiles(f);
 
-		// System.out.println("spelling:" + spellingCards);
+		System.out.println("spelling:" + spellingCards);
 		execute();
 
 		System.out.println("ignorList" + ignorList);
@@ -84,8 +85,9 @@ public class WordDemo {
 		letterPath = office.letterPath;
 		ignorePath = office.ignorPath;
 		JDBC_URL = office.JDBC_URL;
-		
-		updatePhonetic =office.updatePhonetic;
+
+		updatePhonetic = office.updatePhonetic;
+		spellingMaxDay = office.spellingMaxDay;
 
 	}
 
@@ -388,11 +390,12 @@ public class WordDemo {
 	// }
 
 	private static List<String> getTodayCards() {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-		String format = sdf.format(new Date());
-		long today=0;
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmdd");
+		String format = sdf.format(date);
+		System.out.println(format);
+		long time = 0;
 		try {
-			today=sdf.parse(format).getTime();
+			time = sdf.parse(format).getTime() - 1000L * 60 * 60 * 16;
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -401,9 +404,8 @@ public class WordDemo {
 		Connection con = null;
 		try {
 			con = WordDemo.getSqlConnection();
-			String sql = "select distinct n.sfld from revlog r, notes n, cards c where r.cid=c.id and c.nid=n.id and r.id> "
-					+ today+" union select n.sfld from notes n, cards c where c.nid=n.id and c.type=0";
-			System.out.println("SQL:"+sql);
+			String sql = "select distinct n.sfld from revlog r, notes n, cards c where r.cid=c.id and c.nid=n.id and r.id> " + time;
+			System.out.println("SQL:" + sql);
 			Statement stmt = con.createStatement();
 			stmt.execute(sql);
 			ResultSet rs = stmt.getResultSet();
@@ -446,16 +448,17 @@ public class WordDemo {
 		try {
 			long today = System.currentTimeMillis();
 			conn = WordDemo.getSqlConnection();
-			String string = "select 'marked',sfld from notes where tags like '%marked%' union all select n.id, n.sfld from notes n, cards c where c.nid=n.id ";
+			String sql = "select 'marked',sfld from notes where tags like '%marked%' union all select n.id, n.sfld from notes n, cards c where c.nid=n.id ";
+			System.out.println("SQL:" + sql);
 			Statement stmt = conn.createStatement();
-			stmt.execute(string);
+			stmt.execute(sql);
 			rs = stmt.getResultSet();
 			while (rs.next()) {
 				String string2 = rs.getString(1);
 				if (string2.equals("marked")) {
 					list.add(rs.getString(2));
 				} else {
-					Long obj = Long.valueOf(string2) + 1000L * 60 * 60 * 24 * 30;
+					Long obj = Long.valueOf(string2) + 1000L * 60 * 60 * 24 * spellingMaxDay;
 					// if(rs.getString(2).equals("proposal")){
 					// System.out.println("nid  :"+string2);
 					// System.out.println("Long :"+valueOf);
