@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -46,7 +47,7 @@ public class WordDemo {
 	private static boolean updatePhonetic ;
 
 	public static void main(String[] args) throws IOException {
-		setPath(new FionaOffice());
+		setPath(new Office());
 		File ignoreFile = new File(ignorePath);
 		if(!ignoreFile.exists()){
 			ignoreFile.createNewFile();
@@ -388,12 +389,21 @@ public class WordDemo {
 
 	private static List<String> getTodayCards() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		String format = sdf.format(new Date());
+		long today=0;
+		try {
+			today=sdf.parse(format).getTime();
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		List<String> list = new LinkedList<String>();
 		Connection con = null;
 		try {
 			con = WordDemo.getSqlConnection();
 			String sql = "select distinct n.sfld from revlog r, notes n, cards c where r.cid=c.id and c.nid=n.id and r.id> "
-					+ date.getTime();
+					+ today+" union select n.sfld from notes n, cards c where c.nid=n.id and c.type=0";
+			System.out.println("SQL:"+sql);
 			Statement stmt = con.createStatement();
 			stmt.execute(sql);
 			ResultSet rs = stmt.getResultSet();
