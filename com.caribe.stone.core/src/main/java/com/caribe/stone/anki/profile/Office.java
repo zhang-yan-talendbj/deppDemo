@@ -1,13 +1,16 @@
-package com.caribe.stone.jsoup;
+package com.caribe.stone.anki.profile;
+
 
 public class Office extends ConfigerFile {
-	Office() {
+	public Office() {
 		path = "d:/english/AnkiWord/voice/";
 		letterPath = "d:/english/AnkiWord/voice/letter/";
 		voice = "d:/Program Files/Lingoes/Translator2/voice/";
 		ignorPath = "d:/english/AnkiWord/voice/ignore.txt";
-		JDBC_URL = "c:/Users/bsnpbag/Documents/Anki/User 1/collection.anki2";
+		ankiPath = "c:/Users/bsnpbag/Documents/Anki/User 1/";
+		JDBC_URL = ankiPath + "collection.anki2";
+		mediaPath=ankiPath+"collection.media/";
 		updatePhonetic = true;
-		deckId=1;
+		deckId = 1;
 	}
 }

@@ -1,4 +1,5 @@
-package com.caribe.stone.jsoup;
+package com.caribe.stone.anki.profile;
+
 
 public class FionaHome extends ConfigerFile {
 	FionaHome() {

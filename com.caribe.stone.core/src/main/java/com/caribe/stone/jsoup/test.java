@@ -11,13 +11,18 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.caribe.stone.anki.profile.Office;
 import com.ibm.icu.text.SimpleDateFormat;
 
 public class test {
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException, ParseException {
-		WordDemo.setPath(new Office());
-		getTodayCards();
+		String string = " ";
+		string=" ";
+		System.out.println(string.length());
+		System.out.println(string.getBytes().length);
+//		WordDemo.setPath(new Office());
+//		getTodayCards();
 	}
 
 	private static void getTodayCards() throws ClassNotFoundException, SQLException, ParseException {

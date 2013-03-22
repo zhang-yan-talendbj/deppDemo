@@ -30,23 +30,27 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
+import com.caribe.stone.anki.profile.ConfigerFile;
+import com.caribe.stone.anki.profile.Office;
+
 public class WordDemo {
 	private static final String US = "";
 	private static String JDBC_URL;
 	private static String newPath;
 	private static String letterPath;
 	private static String path;
-	private static Map<String, File> fileList = new HashMap<String, File>();
+	private static Map<String, File> MediaFileMap = new HashMap<String, File>();
 	private static String voice;
 	private static Map<String, File> letterMaps;
 
 	private static List<String> ignorList;
-	private static List<String> spellingCards;
+	private static List<Card> spellingCards;
 	private static String ignorePath;
 	private static Date date = new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 4);
 	private static boolean updatePhonetic;
 	private static int spellingMaxDay;
 	private static int deckId;
+	private static String mediaPath;
 
 	public static void main(String[] args) throws IOException {
 		setPath(new Office());
@@ -62,7 +66,7 @@ public class WordDemo {
 		for (File file : listFiles) {
 			letterMaps.put(file.getName().split("\\.")[0], file);
 		}
-		spellingCards = getSpellingCards();
+		spellingCards = getSpellingCards(spellingMaxDay);
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd/");
 		newPath = path + sdf.format(date);
 		File file2 = new File(newPath);
@@ -80,17 +84,17 @@ public class WordDemo {
 	}
 
 	public static void setPath(ConfigerFile office) {
-		path = office.path;
-		voice = office.voice;
+		path = office.getPath();
+		voice = office.getVoice();
 
-		letterPath = office.letterPath;
-		ignorePath = office.ignorPath;
-		JDBC_URL = office.JDBC_URL;
+		letterPath = office.getLetterPath();
+		ignorePath = office.getIgnorPath();
+		JDBC_URL = office.getJDBC_URL();
 
-		updatePhonetic = office.updatePhonetic;
-		spellingMaxDay = office.spellingMaxDay;
-		deckId = office.deckId;
-
+		updatePhonetic = office.isUpdatePhonetic();
+		spellingMaxDay = office.getSpellingMaxDay();
+		deckId = office.getDeckId();
+		mediaPath = office.getMediaPath();
 	}
 
 	public static void addFiles(File file) {
@@ -107,44 +111,40 @@ public class WordDemo {
 				}
 			}
 		} else {
-			fileList.put(file.getName(), file);
+			MediaFileMap.put(file.getName(), file);
 		}
 	}
 
 	private static void execute() throws IOException {
-		List<String> readLines = getCardFromDB();
-		for (String word : readLines) {
-			word = getWord(word);
-			while (word != null && word.indexOf("<") >= 0) {
-				word = word.replace(word.substring(word.indexOf("<"), word.indexOf(">") + 1), "");
-			}
-			if (word != null) {
-				downLoadVoice(word);
-				if (spellingCards.contains(word)) {
-					if (word.trim().indexOf(" ") < 0 && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0) {
-						if (fileList.get(word + ".wav") != null) {
-							spellWord(word, fileList.get(word + ".wav"));
-						}
-					}
-				}
-			}
-		}
+		List<Card> allWord = getAllCard();
+		for (Card word : allWord) {
 
-		List<String> todayCards = getTodayCards();
-		// List<String> todayCards = getSpellingCards();
+			/*
+			 * if (word != null) { downLoadVoice(word); if
+			 * (spellingCards.contains(word)) { if (word.trim().indexOf(" ") < 0
+			 * && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0)
+			 * { if (MediaFileMap.get(word + ".wav") != null) { spellWord(word,
+			 * MediaFileMap.get(word + ".wav")); } } } }
+			 */
+		}
+		List<Card> todayCards = getTodayCards();
 		System.out.println("Today:" + todayCards.size() + "  " + todayCards);
 
+		System.out.println(allWord);
 		if (updatePhonetic) {
-			for (String card : spellingCards) {
+			for (Card card : allWord) {
 				// System.out.println(card);
+				if ("participle".equals(card)) {
+					System.out.println("-----------------------");
+				}
 				String content = getCardContent(card);
 				// System.out.println("phonetic:" + content);
 				if (content != null) {
-					addPhonetic(content, card);
+					// addPhonetic(content, card);
 				}
 			}
 		}
-		for (String card : todayCards) {
+		for (Card card : todayCards) {
 			updateMap(card);
 		}
 	}
@@ -161,7 +161,6 @@ public class WordDemo {
 			stmt.setString(1, content);
 			stmt.setString(2, card);
 			boolean result = stmt.execute();
-			System.out.println(result);
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -188,15 +187,16 @@ public class WordDemo {
 		}
 	}
 
-	public static String getCardContent(String card) {
-		if (card.length() != card.getBytes().length) {
+	public static String getCardContent(Card card) {
+		String word = card.getWord();
+		if (word.length() != word.getBytes().length) {
 			return null;
 		}
 		Connection con = null;
 		try {
 			con = getSqlConnection();
-			PreparedStatement stmt = con.prepareStatement("select flds from notes where sfld =?");
-			stmt.setString(1, card);
+			PreparedStatement stmt = con.prepareStatement("select flds from notes where id =?");
+			stmt.setLong(1, card.getId());
 			stmt.execute();
 			ResultSet rs = stmt.getResultSet();
 			while (rs.next()) {
@@ -204,35 +204,34 @@ public class WordDemo {
 
 				String[] s = string.split("");
 				if (s.length >= 1) {
-					String word = getWord(s[0]);
-					if (word != null) {
-
-						if (word.indexOf(" ") < 0) {
-							if (s.length >= 2) {
-								if (s[1] == null || s[1].length() == 0) {
-									String phonetic = InputCardDemo.getPhonetic(card);
-									if (phonetic != null) {
-										String content = null;
-										if (s.length == 2) {
-											content = word + US + phonetic + US + "" + US + "";
-										} else if (s.length == 3) {
-											content = word + US + phonetic + US + s[2] + US + "";
-										} else if (s.length == 4) {
-											content = word + US + phonetic + US + s[2] + US + s[3];
-										}
-										System.out.println(content);
-										return content;
-									}
-								}
+					// String word = getCard(s[0]);
+					if (card != null) {
+						String audio = getAudioField(card.getWord());
+						Map<Integer, String> map = new HashMap<Integer, String>();
+						for (int i = 0; i < s.length; i++) {
+							map.put(i, s[i]);
+						}
+						map.put(0, word);
+						if (null == map.get(1) || "" == map.get(1).trim()) {
+							map.put(1, InputCardDemo.getPhonetic(word));
+						}
+						// if (null == map.get(4) || "" ==
+						// map.get(4).trim()) {
+						map.put(4, audio);
+						// }
+						StringBuffer buf = new StringBuffer();
+						for (int i = 0; i < 5; i++) {
+							if (null != map.get(i)) {
+								buf.append(map.get(i));
 							} else {
-								String phonetic = InputCardDemo.getPhonetic(card);
-								if (phonetic != null) {
-									String content = word + US + phonetic + US + "" + US;
-									System.out.println(content);
-									return content;
-								}
+								buf.append("");
+							}
+							if (i != 4) {
+								buf.append(US);
 							}
 						}
+						// System.out.println(buf);
+						return buf.toString();
 					}
 				}
 			}
@@ -255,25 +254,45 @@ public class WordDemo {
 		return null;
 	}
 
-	private static String getWord(String word) {
-		if (word == null) {
+	private static String getAudioField(String word) {
+		String audio = "[sound:" + getAudioFilePath(word, "mp3") + "]";
+		return audio;
+	}
+
+	private static String getAudioFilePath(String word, String suffix) {
+		String getAudioFilePath = word + "." + suffix;
+		return getAudioFilePath;
+	}
+
+	private static Card getCard(Long id, String word) {
+		if (id == null) {
 			return null;
 		}
-		if (word.getBytes().length != word.length()) {
+		if (word == null) {
 			return null;
 		}
 		word = word.replaceAll("&nbsp;", "");
 		word = word.replaceAll("\r", "");
 		word = word.replaceAll("\n", "");
+		word = word.replaceAll(" ", "");
 		word = word.trim();
-		return word;
+		while (word.indexOf("<") >= 0) {
+			word = word.replace(word.substring(word.indexOf("<"), word.indexOf(">") + 1), "");
+		}
+
+		if (word.getBytes().length != word.length()) {
+			return null;
+		}
+
+		return new Card(id, word);
 	}
 
-	private static void updateMap(String word) throws IOException {
+	private static void updateMap(Card card) throws IOException {
 		// getFromB(word);
 		// getFromA(word);
-		if (fileList.get(word + "-rp.mp3") != null) {
-			File oldFile = fileList.get(word + "-rp.mp3");
+		String word = card.getWord();
+		if (MediaFileMap.get(word + "-rp.mp3") != null) {
+			File oldFile = MediaFileMap.get(word + "-rp.mp3");
 			File destFile = new File(newPath + oldFile.getName());
 			if (!destFile.exists()) {
 				FileUtils.moveFile(oldFile, destFile);
@@ -281,8 +300,8 @@ public class WordDemo {
 		}
 		// getFromGA(word);
 		// getFromDirectionary(word);
-		if (fileList.get(word + ".wav") != null) {
-			File oldFile = fileList.get(word + ".wav");
+		if (MediaFileMap.get(word + ".wav") != null) {
+			File oldFile = MediaFileMap.get(word + ".wav");
 			File destFile = new File(newPath + oldFile.getName());
 			if (!destFile.exists()) {
 				FileUtils.moveFile(oldFile, destFile);
@@ -291,8 +310,8 @@ public class WordDemo {
 	}
 
 	private static void getFromDirectionary(String word) throws IOException {
-		if (fileList.get(word + "-d.mp3") != null) {
-			File oldFile = fileList.get(word + "-d.mp3");
+		if (MediaFileMap.get(word + "-d.mp3") != null) {
+			File oldFile = MediaFileMap.get(word + "-d.mp3");
 			File destFile = new File(newPath + oldFile.getName());
 			if (!destFile.exists()) {
 				FileUtils.moveFile(oldFile, destFile);
@@ -301,8 +320,8 @@ public class WordDemo {
 	}
 
 	private static void getFromGA(String word) throws IOException {
-		if (fileList.get(word + "-ga.mp3") != null) {
-			File oldFile = fileList.get(word + "-ga.mp3");
+		if (MediaFileMap.get(word + "-ga.mp3") != null) {
+			File oldFile = MediaFileMap.get(word + "-ga.mp3");
 			File destFile = new File(newPath + oldFile.getName());
 			if (!destFile.exists()) {
 				FileUtils.moveFile(oldFile, destFile);
@@ -311,8 +330,8 @@ public class WordDemo {
 	}
 
 	private static void getFromA(String word) throws IOException {
-		if (fileList.get(word + "-A.mp3") != null) {
-			File oldFile = fileList.get(word + "-A.mp3");
+		if (MediaFileMap.get(word + "-A.mp3") != null) {
+			File oldFile = MediaFileMap.get(word + "-A.mp3");
 			File destFile = new File(newPath + oldFile.getName());
 			if (!destFile.exists()) {
 				FileUtils.moveFile(oldFile, destFile);
@@ -321,8 +340,8 @@ public class WordDemo {
 	}
 
 	private static void getFromB(String word) throws IOException {
-		if (fileList.get(word + "-B.mp3") != null) {
-			File oldFile = fileList.get(word + "-B.mp3");
+		if (MediaFileMap.get(word + "-B.mp3") != null) {
+			File oldFile = MediaFileMap.get(word + "-B.mp3");
 			File destFile = new File(newPath + oldFile.getName());
 			if (!destFile.exists()) {
 				FileUtils.moveFile(oldFile, destFile);
@@ -330,8 +349,8 @@ public class WordDemo {
 		}
 	}
 
-	private static List<String> getCardFromDB() throws IOException {
-		List<String> readLines = new LinkedList<String>();
+	private static List<Card> getAllCard() throws IOException {
+		List<Card> readLines = new LinkedList<Card>();
 		Connection conn = null;
 		Statement stat;
 		ResultSet rs;
@@ -339,7 +358,7 @@ public class WordDemo {
 			conn = getSqlConnection();
 
 			stat = conn.createStatement();
-			String sql = "select sfld from notes ";
+			String sql = "select id,sfld from notes ";
 			if (deckId != 0) {
 				sql += " where id in (select nid from cards where did=1)";
 			}
@@ -347,7 +366,7 @@ public class WordDemo {
 			stat.execute(sql);
 			rs = stat.getResultSet();
 			while (rs.next()) {
-				String word = getWord(rs.getString(1));
+				Card word = getCard(rs.getLong(1), rs.getString(2));
 				if (word != null) {
 					readLines.add(word);
 				}
@@ -396,7 +415,7 @@ public class WordDemo {
 	// return readLines;
 	// }
 
-	private static List<String> getTodayCards() {
+	private static List<Card> getTodayCards() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmdd");
 		String format = sdf.format(date);
 		System.out.println(format);
@@ -407,11 +426,11 @@ public class WordDemo {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		List<String> list = new LinkedList<String>();
+		List<Card> list = new LinkedList<Card>();
 		Connection con = null;
 		try {
 			con = WordDemo.getSqlConnection();
-			String sql = "select distinct n.sfld from revlog r, notes n, cards c where r.cid=c.id and ";
+			String sql = "select n.id, n.sfld from revlog r, notes n, cards c where r.cid=c.id and ";
 			if (deckId != 0) {
 				sql = sql + " did=" + deckId + " and ";
 			}
@@ -421,9 +440,7 @@ public class WordDemo {
 			stmt.execute(sql);
 			ResultSet rs = stmt.getResultSet();
 			while (rs.next()) {
-				if (getWord(rs.getString(1)) != null) {
-					list.add(getWord(rs.getString(1)));
-				}
+				list.add(getCard(rs.getLong(1), rs.getString(2)));
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -451,15 +468,13 @@ public class WordDemo {
 		return conn;
 	}
 
-	private static List<String> getSpellingCards() {
-		List<String> list = new LinkedList<String>();
+	private static List<Card> getSpellingCards(int day) {
+		List<Card> list = new LinkedList<Card>();
 		Connection conn = null;
-		Statement stat;
 		ResultSet rs;
 		try {
-			long today = System.currentTimeMillis();
 			conn = WordDemo.getSqlConnection();
-			String sql = "select 'marked',sfld from notes where tags like '%marked%' " + "union all"
+			String sql = "select id,sfld from notes where tags like '%marked%' " + "union all"
 					+ " select n.id, n.sfld from notes n, cards c where c.nid=n.id ";
 			if (deckId != 0) {
 				sql = sql + " and c.did=" + deckId;
@@ -469,25 +484,18 @@ public class WordDemo {
 			stmt.execute(sql);
 			rs = stmt.getResultSet();
 			while (rs.next()) {
-				String string2 = rs.getString(1);
-				if (string2.equals("marked")) {
-					list.add(rs.getString(2));
-				} else {
-					Long obj = Long.valueOf(string2) + 1000L * 60 * 60 * 24 * spellingMaxDay;
-					// if(rs.getString(2).equals("proposal")){
-					// System.out.println("nid  :"+string2);
-					// System.out.println("Long :"+valueOf);
-					// System.out.println("30day:"+obj);
-					// System.out.println("today:"+today);
-					// }
-					if (obj >= today) {
-						String word = getWord(rs.getString(2));
-						if (word != null) {
-							list.add(word);
-						}
-					}
+				list.add(getCard(rs.getLong(1), rs.getString(2)));
+			}
+
+			List<Card> newList = new LinkedList<Card>();
+			for (Card card : list) {
+				Long obj = Long.valueOf(card.getId()) + 1000L * 60 * 60 * 24 * day;
+				if (obj > date.getTime()) {
+					newList.add(card);
 				}
 			}
+			return newList;
+
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
@@ -500,7 +508,7 @@ public class WordDemo {
 				e.printStackTrace();
 			}
 		}
-		return list;
+		return null;
 	}
 
 	private static void spellWord(String word, File file) throws FileNotFoundException, IOException {
@@ -553,49 +561,74 @@ public class WordDemo {
 			// if (fileList.get(fileName) == null) {
 			// getWordDictionary(word, "span.speaker", "-d");
 			// }
+			File mediaFile = getMediaFilePath(word);
+
 			String string = word + "-rp.mp3";
 			String string2 = word + "-ga.mp3";
-			if (fileList.get(string) == null && fileList.get(string2) == null) {
-				getWordKing(word, "a.ico_sound[title=真人发音]", "-rp");
+			File srcFile = MediaFileMap.get(string);
+			if (MediaFileMap.get(string) == null) {
+				File wordKing = getWordKing(word, "a.ico_sound[title=真人发音]", "-rp");
+				MediaFileMap.put(string, wordKing);
+			}
+			srcFile = MediaFileMap.get(string);
+			if (MediaFileMap.get(string2) == null) {
+				File wordKing = getWordKing(word, "a.vCri_laba", "-ga");
+				MediaFileMap.put(string2, wordKing);
+			}
+			if (srcFile == null) {
+				srcFile = MediaFileMap.get(string2);
+			}
 
-				if (fileList.get(string) == null && fileList.get(string2) == null) {
-					getWordKing(word, "a.vCri_laba", "-ga");
+			// String string3 = word + "-A.mp3";
+			// if (fileList.get(string3) == null) {
+			// File srcFile = new File(americanVoice + word.charAt(0) + "/" +
+			// word +
+			// ".mp3");
+			// File destFile = new File(newPath + string3);
+			// copyFile(srcFile, destFile);
+			//
+			// }
+			// String string4 = word + "-B.mp3";
+			// if (fileList.get(string4) == null) {
+			// File srcFile = new File(britishVoice + word.charAt(0) + "/" +
+			// word +
+			// ".mp3");
+			// File destFile = new File(newPath + string4);
+			// copyFile(srcFile, destFile);
+			// }
+
+			String string5 = word + ".wav";
+			if (MediaFileMap.get(string5) == null) {
+				File mediaFileWAV = new File(voice + word.charAt(0) + "/" + string5);
+				File destFile = new File(newPath + string5);
+				copyFile(mediaFileWAV, destFile);
+			}
+
+			if (srcFile != null && !mediaFile.exists()) {
+				try {
+					FileUtils.copyFile(srcFile, mediaFile);
+					System.out.println(mediaFile);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
 			}
 
+			// getWordYouDao(word, "span.speaker", "-yd");
+			// links = Jsoup.connect(url).get().select("a.vCri_laba");
 		}
-		// String string3 = word + "-A.mp3";
-		// if (fileList.get(string3) == null) {
-		// File srcFile = new File(americanVoice + word.charAt(0) + "/" + word +
-		// ".mp3");
-		// File destFile = new File(newPath + string3);
-		// copyFile(srcFile, destFile);
-		//
-		// }
-		// String string4 = word + "-B.mp3";
-		// if (fileList.get(string4) == null) {
-		// File srcFile = new File(britishVoice + word.charAt(0) + "/" + word +
-		// ".mp3");
-		// File destFile = new File(newPath + string4);
-		// copyFile(srcFile, destFile);
-		// }
+	}
 
-		String string5 = word + ".wav";
-		if (fileList.get(string5) == null) {
-			File srcFile = new File(voice + word.charAt(0) + "/" + string5);
-			File destFile = new File(newPath + string5);
-			copyFile(srcFile, destFile);
-		}
-
-		// getWordYouDao(word, "span.speaker", "-yd");
-		// links = Jsoup.connect(url).get().select("a.vCri_laba");
+	private static File getMediaFilePath(String word) {
+		File mediaFile = new File(mediaPath + getAudioFilePath(word, "mp3"));
+		return mediaFile;
 	}
 
 	public static void copyFile(File srcFile, File destFile) {
 		if (srcFile.exists()) {
 			try {
 				FileUtils.copyFile(srcFile, destFile);
-				fileList.put(destFile.getName(), destFile);
+				MediaFileMap.put(destFile.getName(), destFile);
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -603,9 +636,9 @@ public class WordDemo {
 		}
 	}
 
-	public static void getWordKing(String word, String position, String suffix) {
+	public static File getWordKing(String word, String position, String suffix) {
 		if (ignorList.contains(word + suffix)) {
-			return;
+			return null;
 		}
 		String url = "http://www.iciba.com/search?s=" + word;
 		Elements links = null;
@@ -613,7 +646,7 @@ public class WordDemo {
 			links = Jsoup.connect(url).userAgent("Mozilla").timeout(5000).get().select(position);
 		} catch (IOException e) {
 			ignorList.add(word + suffix);
-			System.out.println("get voice from iciba error : " + word);
+			System.out.println("get voice from iciba error : " + word + suffix);
 			System.out.println(e.getMessage());
 		}
 		String saveFile = newPath + word + suffix + ".mp3";
@@ -623,8 +656,10 @@ public class WordDemo {
 				String[] split = attr.split("'");
 				System.out.println(saveFile);
 				httpDownload(split[1], saveFile);
+				return new File(saveFile);
 			}
 		}
+		return null;
 	}
 
 	public static void getWordDictionary(String word, String position, String suffix) {
@@ -687,8 +722,7 @@ public class WordDemo {
 					fs.write(buffer, 0, byteread);
 				}
 				long end = System.currentTimeMillis();
-				long length = file.length();
-				System.out.print(length * 1d / (end - start));
+				System.out.print((int) (file.length() * 1d / (end - start)));
 				System.out.println("K/s.");
 				FileUtils.copyFile(file, new File(saveFile));
 
@@ -729,5 +763,32 @@ public class WordDemo {
 		}
 		out.close();
 		fos.close();
+	}
+}
+
+class Card {
+	private Long id;
+	private String word;
+
+	public Card(Long id, String word) {
+		super();
+		this.id = id;
+		this.word = word;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getWord() {
+		return word;
+	}
+
+	public void setWord(String word) {
+		this.word = word;
 	}
 }
