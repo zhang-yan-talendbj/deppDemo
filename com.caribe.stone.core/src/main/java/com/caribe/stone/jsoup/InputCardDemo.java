@@ -78,8 +78,6 @@ public class InputCardDemo {
 	}
 
 	public static String getPhonetic(String word) {
-		// if(true)
-		// return "ˈkɔkteil";
 		if (word.indexOf(" ") > 0) {
 			return null;
 		}

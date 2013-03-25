@@ -1,5 +1,7 @@
 package com.caribe.stone.jsoup;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -11,16 +13,17 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
+
 import com.caribe.stone.anki.profile.Office;
 import com.ibm.icu.text.SimpleDateFormat;
 
 public class test {
 
-	public static void main(String[] args) throws SQLException, ClassNotFoundException, ParseException {
-		String string = " ";
-		string=" ";
-		System.out.println(string.length());
-		System.out.println(string.getBytes().length);
+	public static void main(String[] args) throws SQLException, ClassNotFoundException, ParseException, IOException {
+		File file = WordDemo.getRPFromICB("California");
+		System.out.println();
+		FileUtils.copyFile(file, new File("d:/California.mp3"));
 //		WordDemo.setPath(new Office());
 //		getTodayCards();
 	}
