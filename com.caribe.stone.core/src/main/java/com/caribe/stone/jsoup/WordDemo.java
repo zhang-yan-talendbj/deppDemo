@@ -119,48 +119,43 @@ public class WordDemo {
 		List<Card> allWord = getAllCard();
 		for (Card word : allWord) {
 
-			/*
-			 * if (word != null) { downLoadVoice(word); if
-			 * (spellingCards.contains(word)) { if (word.trim().indexOf(" ") < 0
-			 * && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0)
-			 * { if (MediaFileMap.get(word + ".wav") != null) { spellWord(word,
-			 * MediaFileMap.get(word + ".wav")); } } } }
-			 */
-		}
-		List<Card> todayCards = getTodayCards();
-		System.out.println("Today:" + todayCards.size() + "  " + todayCards);
+			if (word != null) {
+				downLoadVoice(word);
+				if (spellingCards.contains(word)) {
+					if (MediaFileMap.get(word + ".wav") != null) {
+						spellWord(word.getWord(), MediaFileMap.get(word + ".wav"));
+					}
+				}
 
-		System.out.println(allWord);
-		if (updatePhonetic) {
-			for (Card card : allWord) {
-				// System.out.println(card);
-				if ("participle".equals(card)) {
-					System.out.println("-----------------------");
+				if (updatePhonetic) {
+					String content = getCardContent(word);
+					// System.out.println("phonetic:" + content);
+					if (content != null) {
+						addPhonetic(content, word);
+					}
 				}
-				String content = getCardContent(card);
-				// System.out.println("phonetic:" + content);
-				if (content != null) {
-					// addPhonetic(content, card);
-				}
+
 			}
 		}
+		List<Card> todayCards = getTodayCards();
+
 		for (Card card : todayCards) {
 			updateMap(card);
 		}
 	}
 
-	private static void addPhonetic(String content, String card) {
+	private static void addPhonetic(String content, Card word) {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
 			con = getSqlConnection();
 			// String sql = "update notes set flds='" + content +
 			// "' where sfld='" + card + "'";
-			String sql = "update notes set flds= ? where sfld= ?";
+			String sql = "update notes set flds= ? where id= ?";
 			stmt = con.prepareStatement(sql);
 			stmt.setString(1, content);
-			stmt.setString(2, card);
-			boolean result = stmt.execute();
+			stmt.setLong(2, word.getId());
+			stmt.execute();
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -211,6 +206,10 @@ public class WordDemo {
 						for (int i = 0; i < s.length; i++) {
 							map.put(i, s[i]);
 						}
+
+						if (notNull(map.get(1)) && notNull(map.get(4))) {
+							return null;
+						}
 						map.put(0, word);
 						if (null == map.get(1) || "" == map.get(1).trim()) {
 							map.put(1, InputCardDemo.getPhonetic(word));
@@ -230,7 +229,6 @@ public class WordDemo {
 								buf.append(US);
 							}
 						}
-						// System.out.println(buf);
 						return buf.toString();
 					}
 				}
@@ -254,6 +252,10 @@ public class WordDemo {
 		return null;
 	}
 
+	private static boolean notNull(String string2) {
+		return null != string2 && "" == string2.trim();
+	}
+
 	private static String getAudioField(String word) {
 		String audio = "[sound:" + getAudioFilePath(word, "mp3") + "]";
 		return audio;
@@ -269,6 +271,16 @@ public class WordDemo {
 			return null;
 		}
 		if (word == null) {
+			return null;
+		}
+
+		if (word.indexOf("-") >= 0) {
+			return null;
+		}
+		if (word.indexOf("(") >= 0) {
+			return null;
+		}
+		if (word.indexOf(")") >= 0) {
 			return null;
 		}
 		word = word.replaceAll("&nbsp;", "");
@@ -418,7 +430,6 @@ public class WordDemo {
 	private static List<Card> getTodayCards() {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmdd");
 		String format = sdf.format(date);
-		System.out.println(format);
 		long time = 0;
 		try {
 			time = sdf.parse(format).getTime() - 1000L * 60 * 60 * 16;
@@ -440,7 +451,10 @@ public class WordDemo {
 			stmt.execute(sql);
 			ResultSet rs = stmt.getResultSet();
 			while (rs.next()) {
-				list.add(getCard(rs.getLong(1), rs.getString(2)));
+				Card card = getCard(rs.getLong(1), rs.getString(2));
+				if (card != null) {
+					list.add(card);
+				}
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -484,7 +498,10 @@ public class WordDemo {
 			stmt.execute(sql);
 			rs = stmt.getResultSet();
 			while (rs.next()) {
-				list.add(getCard(rs.getLong(1), rs.getString(2)));
+				Card card = getCard(rs.getLong(1), rs.getString(2));
+				if (card != null) {
+					list.add(card);
+				}
 			}
 
 			List<Card> newList = new LinkedList<Card>();
@@ -554,7 +571,8 @@ public class WordDemo {
 		return lists;
 	}
 
-	public static void downLoadVoice(String word) {
+	public static void downLoadVoice(Card card) {
+		String word = card.getWord();
 
 		if (word.trim().indexOf(" ") < 0 && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0) {
 			// String fileName = word + "-d.mp3";
@@ -567,12 +585,12 @@ public class WordDemo {
 			String string2 = word + "-ga.mp3";
 			File srcFile = MediaFileMap.get(string);
 			if (MediaFileMap.get(string) == null) {
-				File wordKing = getWordKing(word, "a.ico_sound[title=真人发音]", "-rp");
+				File wordKing = getWordKing(word, "a.vCri_laba", "-ga");
 				MediaFileMap.put(string, wordKing);
 			}
 			srcFile = MediaFileMap.get(string);
 			if (MediaFileMap.get(string2) == null) {
-				File wordKing = getWordKing(word, "a.vCri_laba", "-ga");
+				File wordKing = getWordKing(word, "a.ico_sound[title=真人发音]", "-rp");
 				MediaFileMap.put(string2, wordKing);
 			}
 			if (srcFile == null) {
@@ -584,7 +602,7 @@ public class WordDemo {
 			// File srcFile = new File(americanVoice + word.charAt(0) + "/" +
 			// word +
 			// ".mp3");
-			// File destFile = new File(newPath + string3);
+			// File destFile = new File(newPath + string3);t
 			// copyFile(srcFile, destFile);
 			//
 			// }
