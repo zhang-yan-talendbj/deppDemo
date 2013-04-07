@@ -31,7 +31,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import com.caribe.stone.anki.profile.ConfigerFile;
-import com.caribe.stone.anki.profile.Home;
+import com.caribe.stone.anki.profile.FionaHome;
 
 public class WordDemo {
 	private static final String US = "";
@@ -53,7 +53,7 @@ public class WordDemo {
 	private static String mediaPath;
 
 	public static void main(String[] args) throws IOException {
-		setPath(new Home());
+		setPath(new FionaHome());
 		File ignoreFile = new File(ignorePath);
 		if (!ignoreFile.exists()) {
 			ignoreFile.createNewFile();
@@ -564,6 +564,9 @@ public class WordDemo {
 	public static void downLoadVoice(Card card) {
 		String word = card.getWord();
 
+		if(word==null || word.length()==0){
+			return;
+		}
 		if (word.trim().indexOf(" ") < 0 && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0) {
 			// String fileName = word + "-d.mp3";
 			// if (fileList.get(fileName) == null) {
@@ -577,14 +580,15 @@ public class WordDemo {
 			if (MediaFileMap.get(string) == null) {
 				File wordKing = getRPFromICB(word);
 				MediaFileMap.put(string, wordKing);
+				srcFile =wordKing;
 			}
-			srcFile = MediaFileMap.get(string);
-			if (MediaFileMap.get(string2) == null) {
-				File wordKing = getGAFromICB(word);
-				MediaFileMap.put(string2, wordKing);
-			}
+		
 			if (srcFile == null) {
-				srcFile = MediaFileMap.get(string2);
+				if (MediaFileMap.get(string2) == null) {
+					File wordKing = getGAFromICB(word);
+					MediaFileMap.put(string2, wordKing);
+					srcFile =wordKing; 
+				}
 			}
 
 			// String string3 = word + "-A.mp3";
