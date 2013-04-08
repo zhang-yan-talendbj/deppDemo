@@ -585,15 +585,15 @@ public class WordDemo {
 			String string2 = word + "-ga.mp3";
 			File srcFile = MediaFileMap.get(string);
 			if (MediaFileMap.get(string) == null) {
-				File wordKing = getWordKing(word, "a.vCri_laba", "-ga");
+				File wordKing = getWordKing(word, "a.ico_sound[title=真人发音]", "-rp");
 				MediaFileMap.put(string, wordKing);
 			}
 			srcFile = MediaFileMap.get(string);
-			if (MediaFileMap.get(string2) == null) {
-				File wordKing = getWordKing(word, "a.ico_sound[title=真人发音]", "-rp");
-				MediaFileMap.put(string2, wordKing);
-			}
 			if (srcFile == null) {
+				if (MediaFileMap.get(string2) == null) {
+					File wordKing = getWordKing(word, "a.vCri_laba", "-ga");
+					MediaFileMap.put(string2, wordKing);
+				}
 				srcFile = MediaFileMap.get(string2);
 			}
 

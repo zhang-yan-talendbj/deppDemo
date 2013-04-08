@@ -5,13 +5,16 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.caribe.stone.anki.profile.ConfigerFile;
+import com.caribe.stone.anki.profile.Office;
+
 public class DeleteDumpFile {
 
 	private static Map<String, File> fileList = new HashMap<String, File>();
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException {
-		String s = "d:/English/anki/voice/2013/";
-		File path = new File(s);
+		ConfigerFile office = new Office();
+		File path = new File(office.getPath());
 		addFiles(path);
 	}
 
