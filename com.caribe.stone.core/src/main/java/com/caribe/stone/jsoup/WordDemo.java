@@ -31,7 +31,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import com.caribe.stone.anki.profile.ConfigerFile;
-import com.caribe.stone.anki.profile.FionaHome;
+import com.caribe.stone.anki.profile.Home;
 
 public class WordDemo {
 	private static final String US = "";
@@ -53,7 +53,7 @@ public class WordDemo {
 	private static String mediaPath;
 
 	public static void main(String[] args) throws IOException {
-		setPath(new FionaHome());
+		setPath(new Home());
 		File ignoreFile = new File(ignorePath);
 		if (!ignoreFile.exists()) {
 			ignoreFile.createNewFile();
@@ -118,6 +118,7 @@ public class WordDemo {
 	private static void execute() throws IOException {
 		List<Card> allWord = getAllCard();
 		for (Card card : allWord) {
+			
 			if (card != null) {
 				downLoadVoice(card);
 				if (spellingCards.contains(card)) {
@@ -135,6 +136,8 @@ public class WordDemo {
 						addPhonetic(content, card);
 					}
 				}
+				
+				getJiong(card);
 			}
 
 		}
@@ -144,6 +147,12 @@ public class WordDemo {
 		for (Card card : todayCards) {
 			updateMap(card);
 		}
+	}
+
+	private static void getJiong(Card card) {
+		String word = card.getWord();
+		File file = new File("word/" + word.charAt(0) + "/" + word + ".html");
+		System.out.println(""+file+" exist:"+file.exists());
 	}
 
 	private static void addPhonetic(String content, Card card) {
