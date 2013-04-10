@@ -28,6 +28,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.caribe.stone.anki.profile.ConfigerFile;
@@ -118,7 +119,7 @@ public class WordDemo {
 	private static void execute() throws IOException {
 		List<Card> allWord = getAllCard();
 		for (Card card : allWord) {
-			
+
 			if (card != null) {
 				downLoadVoice(card);
 				if (spellingCards.contains(card)) {
@@ -136,7 +137,7 @@ public class WordDemo {
 						addPhonetic(content, card);
 					}
 				}
-				
+
 				getJiong(card);
 			}
 
@@ -152,7 +153,7 @@ public class WordDemo {
 	private static void getJiong(Card card) {
 		String word = card.getWord();
 		File file = new File("word/" + word.charAt(0) + "/" + word + ".html");
-		System.out.println(""+file+" exist:"+file.exists());
+		System.out.println("" + file + " exist:" + file.exists());
 	}
 
 	private static void addPhonetic(String content, Card card) {
@@ -264,6 +265,99 @@ public class WordDemo {
 					e.printStackTrace();
 				}
 			}
+		}
+		return null;
+	}
+
+	public static String getCardContentJiong(Card card) {
+
+		String word = card.getWord();
+		if (word.length() != word.getBytes().length) {
+			return null;
+		}
+		if (card.getWord().indexOf(" ") > 0) {
+			return null;
+		}
+		Connection con = null;
+		try {
+			con = getSqlConnection();
+			PreparedStatement stmt = con.prepareStatement("select flds from notes where id =?");
+			stmt.setLong(1, card.getId());
+			stmt.execute();
+			ResultSet rs = stmt.getResultSet();
+			while (rs.next()) {
+				String string = rs.getString(1);
+
+				String[] s = string.split("");
+				if (s.length >= 1) {
+					// String word = getCard(s[0]);
+					if (card != null) {
+						// String audio = getAudioField(card.getWord());
+						Map<Integer, String> map = new HashMap<Integer, String>();
+						for (int i = 0; i < s.length; i++) {
+							map.put(i, s[i]);
+						}
+						map.put(0, word);
+
+						String value = getJiong(word);
+						map.put(2, s[2] + value);
+
+						StringBuffer buf = new StringBuffer();
+						for (int i = 0; i < 4; i++) {
+							if (null != map.get(i)) {
+								buf.append(map.get(i));
+							} else {
+								buf.append("");
+							}
+							if (i != 3) {
+								buf.append(US);
+							}
+						}
+						System.out.println(buf);
+						return buf.toString();
+					}
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+
+	public static String getJiong(String title) {
+		File file = new File("word/" + title.charAt(0) + "/" + title + ".html");
+		System.out.println(file.exists());
+
+		Document doc = null;
+		try {
+			doc = Jsoup.parse(file, "utf-8");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+		}
+		StringBuffer sb = new StringBuffer();
+		Elements elementsByClass = doc.getElementsByAttributeValue("style", "margin-right:5px;font-size:14px/30px;padding:10px 0px;");
+		for (Element element : elementsByClass) {
+			sb.append("<div>").append(element.text()).append("</div>");
+		}
+		Elements elementsByTag = doc.getElementsByAttributeValue("style", "max-width:100%;");
+		for (Element element : elementsByTag) {
+			String attr = element.attr("src");
+			String imgName = attr.substring(attr.lastIndexOf("/")+1,attr.length());
+			httpDownload(attr, mediaPath+"/"+imgName);
 		}
 		return null;
 	}
@@ -573,7 +667,7 @@ public class WordDemo {
 	public static void downLoadVoice(Card card) {
 		String word = card.getWord();
 
-		if(word==null || word.length()==0){
+		if (word == null || word.length() == 0) {
 			return;
 		}
 		if (word.trim().indexOf(" ") < 0 && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0) {
@@ -589,14 +683,14 @@ public class WordDemo {
 			if (MediaFileMap.get(string) == null) {
 				File wordKing = getRPFromICB(word);
 				MediaFileMap.put(string, wordKing);
-				srcFile =wordKing;
+				srcFile = wordKing;
 			}
-		
+
 			if (srcFile == null) {
 				if (MediaFileMap.get(string2) == null) {
 					File wordKing = getGAFromICB(word);
 					MediaFileMap.put(string2, wordKing);
-					srcFile =wordKing; 
+					srcFile = wordKing;
 				}
 			}
 
@@ -668,7 +762,7 @@ public class WordDemo {
 	}
 
 	public static File getWordKing(String word, String position, String suffix) {
-		if (ignorList!=null && ignorList.contains(word + suffix)) {
+		if (ignorList != null && ignorList.contains(word + suffix)) {
 			return null;
 		}
 		String url = "http://www.iciba.com/search?s=" + word;

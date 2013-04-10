@@ -11,19 +11,9 @@ import org.jsoup.select.Elements;
 public class CopyOfTools {
 
 	public static void main(String[] args) throws IOException {
-		File file = new File("E:/study/program/JavaFramework/workspace/deppDemo/com.caribe.stone.core/word/i/inspector.html");
-		System.out.println(file.exists());
-
-		Document doc = Jsoup.parse(file, "utf-8");
-
-		Elements elementsByClass = doc.getElementsByClass("play_voice");
-		for (Element element : elementsByClass) {
-			System.out.println(element.text());
-		}
-		Elements elementsByTag = doc.getElementsByTag("img");
-		for (Element element : elementsByTag) {
-			System.out.println(element.attr("src"));
-		}
+		File file = new File("E:/study/program/JavaFramework/workspace/deppDemo/com.caribe.stone.core/word/i/ink.html");
+		String attr="http://assets.baicizhan.com/cropped_images/20121016_03_23_25_766.jpg";
+		System.out.println(attr.substring(attr.lastIndexOf("/")+1,attr.length()));
 	}
 
 }
