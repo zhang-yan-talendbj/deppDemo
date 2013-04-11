@@ -12,5 +12,8 @@ public class Office extends ConfigerFile {
 		mediaPath=ankiPath+"collection.media/";
 		updatePhonetic = true;
 		deckId = 1;
+		updateJiong=true;
+		jiongPath="d:/english/AnkiWord/voice/jiong.txt";
+		jiongWordPath="d:/english/AnkiWord/voice/jiongWord.txt";
 	}
 }

@@ -17,6 +17,7 @@ public class CheckInTools {
 		String user = System.getProperty("user.name");
 		Random r = new Random();
 		int nextInt = r.nextInt(60* 10);
+		nextInt=0;
 		System.out.println("Random Number is "+ nextInt);
 		while(nextInt>0){
 			System.out.println("Please wait "+nextInt+" seconds.");

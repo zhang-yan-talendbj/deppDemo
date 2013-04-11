@@ -13,5 +13,6 @@ public class Home extends ConfigerFile {
 		mediaPath = ankiPath + "collection.media/";
 		updatePhonetic = true;
 		deckId = 1;
+		updateJiong=true;
 	}
 }

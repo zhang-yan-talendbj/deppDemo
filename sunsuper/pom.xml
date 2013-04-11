@@ -33,6 +33,14 @@
 			<version>4.8.1</version>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>net.sf.json-lib</groupId>
+			<artifactId>json-lib</artifactId>
+			<version>2.4</version>
+			<classifier>jdk15</classifier>
+		</dependency>
+
 		<dependency>
 			<groupId>org.easymock</groupId>
 			<artifactId>easymock</artifactId>
@@ -119,7 +127,7 @@
 			</exclusions>
 		</dependency>
 		<!-- logging end -->
-		
+
 		<!-- export csv file begin -->
 		<dependency>
 			<groupId>org.ostermiller</groupId>
@@ -127,20 +135,20 @@
 			<version>1.07.00</version>
 		</dependency>
 		<!-- export csv file end -->
-		
+
 		<!-- email begin -->
-			<dependency>
-				<groupId>javax.mail</groupId>
-				<artifactId>mail</artifactId>
-				<version>1.4.3</version>
-			</dependency>
-			<dependency>
-				<groupId>javax.activation</groupId>
-				<artifactId>activation</artifactId>
-				<version>1.1.1</version>
-			</dependency>
-			<!-- email end -->
-			
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.3</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.activation</groupId>
+			<artifactId>activation</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<!-- email end -->
+
 	</dependencies>
 
 	<build>

@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -28,6 +29,7 @@ import java.util.Map;
 import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.caribe.stone.anki.profile.ConfigerFile;
@@ -51,14 +53,22 @@ public class WordDemo {
 	private static int spellingMaxDay;
 	private static int deckId;
 	private static String mediaPath;
+	private static boolean updateJiong;
+	private static List<String> jiongList;
+	private static String jiongPath;
+	private static List<String> jiongWordList;
+	private static String jiongWordPath;
 
 	public static void main(String[] args) throws IOException {
 		setPath(new Office());
-		File ignoreFile = new File(ignorePath);
-		if (!ignoreFile.exists()) {
-			ignoreFile.createNewFile();
-		}
-		ignorList = FileUtils.readLines(ignoreFile);
+		 File ignoreFile = new File(ignorePath);
+		ignorList = getIgnoreFile(ignoreFile);
+
+		File jiongFile = new File(jiongPath);
+		jiongList = getIgnoreFile(jiongFile);
+
+		File jiongWordFile = new File(jiongWordPath);
+		jiongWordList = getIgnoreFile(jiongWordFile);
 
 		File[] listFiles = new File(letterPath).listFiles();
 		letterMaps = new HashMap<String, File>();
@@ -80,7 +90,20 @@ public class WordDemo {
 		System.out.println("ignorList" + ignorList);
 		FileUtils.writeLines(ignoreFile, ignorList);
 
+		System.out.println("jiongList:" + jiongList);
+		FileUtils.writeLines(jiongFile, jiongList);
+		
+		System.out.println("jiongWordList:" + jiongWordList);
+		FileUtils.writeLines(jiongWordFile, jiongWordList);
+
 		System.out.println("over~" + new Date());
+	}
+
+	private static List<String> getIgnoreFile(File file) throws IOException {
+		if (!file.exists()) {
+			file.createNewFile();
+		}
+		return FileUtils.readLines(file);
 	}
 
 	public static void setPath(ConfigerFile office) {
@@ -95,6 +118,9 @@ public class WordDemo {
 		spellingMaxDay = office.getSpellingMaxDay();
 		deckId = office.getDeckId();
 		mediaPath = office.getMediaPath();
+		updateJiong = office.isUpdateJiong();
+		jiongPath = office.getJiongPath();
+		jiongWordPath = office.getJiongWordPath();
 	}
 
 	public static void addFiles(File file) {
@@ -117,6 +143,8 @@ public class WordDemo {
 
 	private static void execute() throws IOException {
 		List<Card> allWord = getAllCard();
+		// List<Card> allWord = new ArrayList();
+		// allWord.add(new Card(1363773390905L, "aisle"));
 		for (Card card : allWord) {
 			if (card != null) {
 				downLoadVoice(card);
@@ -132,13 +160,21 @@ public class WordDemo {
 				if (updatePhonetic) {
 					String content = getCardContent(card);
 					if (content != null) {
-						addPhonetic(content, card);
+						updateWord(content, card);
 					}
 				}
+
+				if (updateJiong) {
+					String content = getCardJiongContent(card);
+					if (content != null) {
+						updateWord(content, card);
+					}
+				}
+
 			}
 
 		}
-		List<Card> todayCards = getTodayCards();
+		List<Card> todayCards = getTodayCards(0);
 		System.out.println("Today:" + todayCards.size() + "  " + todayCards);
 
 		for (Card card : todayCards) {
@@ -146,7 +182,128 @@ public class WordDemo {
 		}
 	}
 
-	private static void addPhonetic(String content, Card card) {
+	public static String getCardJiongContent(Card card) {
+
+		String word = card.getWord();
+		if (jiongList.contains(word)) {
+			return null;
+		}
+		jiongList.add(word);
+		if (word.length() != word.getBytes().length) {
+			return null;
+		}
+		if (card.getWord().indexOf(" ") > 0) {
+			return null;
+		}
+		Connection con = null;
+		try {
+			con = getSqlConnection();
+			PreparedStatement stmt = con.prepareStatement("select flds from notes where id =?");
+			stmt.setLong(1, card.getId());
+			stmt.execute();
+			ResultSet rs = stmt.getResultSet();
+			while (rs.next()) {
+				String string = rs.getString(1);
+
+				String[] s = string.split("");
+				if (s.length >= 1) {
+					if (card != null) {
+						Map<Integer, String> map = new HashMap<Integer, String>();
+
+						if (s.length >= 4) {
+							if (s[3] != null && s[3].endsWith(JiongCi.flag)) {
+								return null;
+							}
+							map.put(3, s[3] + getJiongContentFromFile(card.getWord()));
+						} else {
+							map.put(3, getJiongContentFromFile(card.getWord()));
+						}
+
+						map.put(0, word);
+
+						map.put(1, s[1]);
+						map.put(2, s[2]);
+
+						StringBuffer buf = new StringBuffer();
+						for (int i = 0; i < 4; i++) {
+							if (null != map.get(i)) {
+								buf.append(map.get(i));
+							} else {
+								buf.append("");
+							}
+							if (i != 3) {
+								buf.append(US);
+							}
+						}
+						// System.out.println(buf);
+						return buf.toString();
+					}
+				}
+			}
+		} catch (ClassNotFoundException e) {
+			System.out.println(word);
+			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println(word);
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return null;
+	}
+
+	private static String getJiongContentFromFile(String word) {
+		Office office = new Office();
+		File file = new File("word/" + word.charAt(0) + "/" + word + ".html");
+		if (file.exists()) {
+			try {
+				Document doc = Jsoup.parse(file, "utf-8");
+				Elements select = doc.getElementsByAttributeValue("style",
+						"margin-right:5px;font-size:14px/30px;padding:10px 0px;");
+				JiongCi ci = new JiongCi();
+				Elements eles = doc.getElementsByAttributeValue("style", "max-width:100%;");
+				if (eles.size() > 1 && eles.get(0) != null) {
+					Element e = eles.get(0);
+					String src = e.attr("src");
+					if (src.endsWith("png")) {
+						String imgName = src.substring(src.lastIndexOf("/") + 1, src.length());
+						WordDemo.httpDownload(src, office.getMediaPath() + "/" + imgName);
+						ci.setPng(imgName);
+						eles.remove(e);
+					}
+				}
+
+				if (eles.size() != select.size()) {
+					System.out.println("eles.size()!=select.size()");
+				}
+
+				for (int i = 0; i < select.size(); i++) {
+					JiongCiExplain explain = new JiongCiExplain();
+					explain.setExplain(select.get(i).text());
+					String src = eles.get(i).attr("src");
+					String imgName = src.substring(src.lastIndexOf("/") + 1, src.length());
+					WordDemo.httpDownload(src, office.getMediaPath() + "/" + imgName);
+					explain.setImg(imgName);
+					ci.getExplainList().add(explain);
+				}
+				return ci.getContent();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else {
+			System.out.println(word + " not exists.");
+		}
+		return null;
+	}
+
+	private static void updateWord(String content, Card card) {
 
 		Connection con = null;
 		PreparedStatement stmt = null;
@@ -235,7 +392,7 @@ public class WordDemo {
 								buf.append(US);
 							}
 						}
-						System.out.println(buf);
+						// System.out.println(buf);
 						return buf.toString();
 					}
 				}
@@ -421,9 +578,9 @@ public class WordDemo {
 	// return readLines;
 	// }
 
-	private static List<Card> getTodayCards() {
+	private static List<Card> getTodayCards(int days) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmdd");
-		String format = sdf.format(date);
+		String format = sdf.format(new Date(date.getTime()-1000L*60*60*24* days));
 		long time = 0;
 		try {
 			time = sdf.parse(format).getTime() - 1000L * 60 * 60 * 16;
@@ -591,23 +748,18 @@ public class WordDemo {
 				}
 			}
 
-			// String string3 = word + "-A.mp3";
-			// if (fileList.get(string3) == null) {
-			// File srcFile = new File(americanVoice + word.charAt(0) + "/" +
-			// word +
-			// ".mp3");
-			// File destFile = new File(newPath + string3);
-			// copyFile(srcFile, destFile);
-			//
-			// }
-			// String string4 = word + "-B.mp3";
-			// if (fileList.get(string4) == null) {
-			// File srcFile = new File(britishVoice + word.charAt(0) + "/" +
-			// word +
-			// ".mp3");
-			// File destFile = new File(newPath + string4);
-			// copyFile(srcFile, destFile);
-			// }
+			if (srcFile == null) {
+				if (!jiongWordList.contains(word)) {
+					String key = word + "-jio.mp3";
+					if (MediaFileMap.get(key) == null) {
+						String saveFile = newPath + key;
+						httpDownload("http://assets.baicizhan.com/word_audios/" + word + ".mp3", saveFile);
+						srcFile = new File(saveFile);
+						MediaFileMap.put(key, srcFile);
+						jiongWordList.add(word);
+					}
+				}
+			}
 
 			String string5 = word + ".wav";
 			if (MediaFileMap.get(string5) == null) {
@@ -625,9 +777,6 @@ public class WordDemo {
 					e.printStackTrace();
 				}
 			}
-
-			// getWordYouDao(word, "span.speaker", "-yd");
-			// links = Jsoup.connect(url).get().select("a.vCri_laba");
 		}
 	}
 
@@ -716,9 +865,12 @@ public class WordDemo {
 	}
 
 	public static void httpDownload(String httpUrl, String saveFile) {
+		File destFile = new File(saveFile);
+		if (destFile.exists()) {
+			return;
+		}
 		long start = System.currentTimeMillis();
 		// 下载网络文件
-		int bytesum = 0;
 		int byteread = 0;
 
 		if (httpUrl != null && httpUrl.trim() != "") {
@@ -735,18 +887,21 @@ public class WordDemo {
 			File file = new File(name);
 			try {
 				URLConnection conn = url.openConnection();
-				InputStream inStream = conn.getInputStream();
-				fs = new FileOutputStream(file);
+				if (conn != null) {
 
-				byte[] buffer = new byte[1204];
-				while ((byteread = inStream.read(buffer)) != -1) {
-					bytesum += byteread;
-					fs.write(buffer, 0, byteread);
+					InputStream inStream = conn.getInputStream();
+					fs = new FileOutputStream(file);
+
+					byte[] buffer = new byte[1204];
+					while ((byteread = inStream.read(buffer)) != -1) {
+						fs.write(buffer, 0, byteread);
+					}
+					long end = System.currentTimeMillis();
+					System.out.print((int) (file.length() * 1d / (end - start)));
+					System.out.println("K/s.");
+
+					FileUtils.copyFile(file, destFile);
 				}
-				long end = System.currentTimeMillis();
-				System.out.print((int) (file.length() * 1d / (end - start)));
-				System.out.println("K/s.");
-				FileUtils.copyFile(file, new File(saveFile));
 
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
@@ -754,14 +909,16 @@ public class WordDemo {
 				e.printStackTrace();
 			} finally {
 				try {
-					fs.flush();
-					fs.close();
+					if (fs != null) {
+						fs.flush();
+						fs.close();
+					}
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				file.delete();
-				// file.deleteOnExit();
+				if (file != null) {
+					file.delete();
+				}
 			}
 
 		}
