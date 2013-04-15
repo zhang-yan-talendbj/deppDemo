@@ -19,7 +19,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -27,12 +26,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.WordUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.caribe.stone.anki.profile.ConfigerFile;
+import com.caribe.stone.anki.profile.FionaOffice;
 import com.caribe.stone.anki.profile.Office;
 
 public class WordDemo {
@@ -58,10 +59,11 @@ public class WordDemo {
 	private static String jiongPath;
 	private static List<String> jiongWordList;
 	private static String jiongWordPath;
+	private static String cardType;
 
 	public static void main(String[] args) throws IOException {
-		setPath(new Office());
-		 File ignoreFile = new File(ignorePath);
+		setPath(new FionaOffice());
+		File ignoreFile = new File(ignorePath);
 		ignorList = getIgnoreFile(ignoreFile);
 
 		File jiongFile = new File(jiongPath);
@@ -92,7 +94,7 @@ public class WordDemo {
 
 		System.out.println("jiongList:" + jiongList);
 		FileUtils.writeLines(jiongFile, jiongList);
-		
+
 		System.out.println("jiongWordList:" + jiongWordList);
 		FileUtils.writeLines(jiongWordFile, jiongWordList);
 
@@ -121,6 +123,7 @@ public class WordDemo {
 		updateJiong = office.isUpdateJiong();
 		jiongPath = office.getJiongPath();
 		jiongWordPath = office.getJiongWordPath();
+		cardType = office.getCardType();
 	}
 
 	public static void addFiles(File file) {
@@ -192,7 +195,7 @@ public class WordDemo {
 		if (word.length() != word.getBytes().length) {
 			return null;
 		}
-		if (card.getWord().indexOf(" ") > 0) {
+		if (word.length() == 0) {
 			return null;
 		}
 		Connection con = null;
@@ -205,40 +208,59 @@ public class WordDemo {
 			while (rs.next()) {
 				String string = rs.getString(1);
 
-				String[] s = string.split("");
-				if (s.length >= 1) {
-					if (card != null) {
+				StringBuffer buf = new StringBuffer();
+				String[] array = string.split("");
+				if (array.length >= 1) {
+					if (card != null && word != null) {
 						Map<Integer, String> map = new HashMap<Integer, String>();
 
-						if (s.length >= 4) {
-							if (s[3] != null && s[3].endsWith(JiongCi.flag)) {
-								return null;
-							}
-							map.put(3, s[3] + getJiongContentFromFile(card.getWord()));
-						} else {
-							map.put(3, getJiongContentFromFile(card.getWord()));
-						}
-
-						map.put(0, word);
-
-						map.put(1, s[1]);
-						map.put(2, s[2]);
-
-						StringBuffer buf = new StringBuffer();
-						for (int i = 0; i < 4; i++) {
-							if (null != map.get(i)) {
-								buf.append(map.get(i));
+						if (cardType.equals("bruce")) {
+							if (array.length >= 4) {
+								if (array[3] != null && array[3].endsWith(JiongCi.flag)) {
+									return null;
+								}
+								map.put(3, array[3] + getJiongContentFromFile(card.getWord()));
 							} else {
-								buf.append("");
+								map.put(3, getJiongContentFromFile(card.getWord()));
 							}
-							if (i != 3) {
+
+							map.put(0, word);
+
+							map.put(1, array[1]);
+							map.put(2, array[2]);
+
+							// StringBuffer buf = new StringBuffer();
+							for (int i = 0; i < 4; i++) {
+								if (null != map.get(i)) {
+									buf.append(map.get(i));
+								} else {
+									buf.append("");
+								}
+								if (i != 3) {
+									buf.append(US);
+								}
+							}
+						} else if (cardType.equals("fiona")) {
+							buf.append(array[0]).append(US);
+							if (array.length >= 2) {
+								buf.append(array[1]).append(US);
+							}else{
 								buf.append(US);
 							}
+							if (array.length == 3) {
+								if (array[2] != null && array[2].endsWith(JiongCi.flag)) {
+									return null;
+								}
+								buf.append(array[2] + getJiongContentFromFile(card.getWord()));
+							} else {
+								buf.append(getJiongContentFromFile(card.getWord()));
+							}
+
 						}
-						// System.out.println(buf);
-						return buf.toString();
+
 					}
 				}
+				return buf.toString();
 			}
 		} catch (ClassNotFoundException e) {
 			System.out.println(word);
@@ -260,7 +282,6 @@ public class WordDemo {
 	}
 
 	private static String getJiongContentFromFile(String word) {
-		Office office = new Office();
 		File file = new File("word/" + word.charAt(0) + "/" + word + ".html");
 		if (file.exists()) {
 			try {
@@ -274,7 +295,7 @@ public class WordDemo {
 					String src = e.attr("src");
 					if (src.endsWith("png")) {
 						String imgName = src.substring(src.lastIndexOf("/") + 1, src.length());
-						WordDemo.httpDownload(src, office.getMediaPath() + "/" + imgName);
+						WordDemo.httpDownload(src, mediaPath + "/" + imgName);
 						ci.setPng(imgName);
 						eles.remove(e);
 					}
@@ -289,7 +310,7 @@ public class WordDemo {
 					explain.setExplain(select.get(i).text());
 					String src = eles.get(i).attr("src");
 					String imgName = src.substring(src.lastIndexOf("/") + 1, src.length());
-					WordDemo.httpDownload(src, office.getMediaPath() + "/" + imgName);
+					WordDemo.httpDownload(src, mediaPath + "/" + imgName);
 					explain.setImg(imgName);
 					ci.getExplainList().add(explain);
 				}
@@ -300,7 +321,7 @@ public class WordDemo {
 		} else {
 			System.out.println(word + " not exists.");
 		}
-		return null;
+		return "";
 	}
 
 	private static void updateWord(String content, Card card) {
@@ -580,7 +601,7 @@ public class WordDemo {
 
 	private static List<Card> getTodayCards(int days) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmdd");
-		String format = sdf.format(new Date(date.getTime()-1000L*60*60*24* days));
+		String format = sdf.format(new Date(date.getTime() - 1000L * 60 * 60 * 24 * days));
 		long time = 0;
 		try {
 			time = sdf.parse(format).getTime() - 1000L * 60 * 60 * 16;

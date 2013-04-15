@@ -14,5 +14,7 @@ public class Home extends ConfigerFile {
 		updatePhonetic = true;
 		deckId = 1;
 		updateJiong=true;
+		
+		cardType="bruce";
 	}
 }

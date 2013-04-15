@@ -9,6 +9,15 @@ public class ConfigerFile {
 	protected String JDBC_URL = null;
 	protected String jiongPath = null;
 	protected String jiongWordPath = null;
+	protected String cardType = null;
+
+	public String getCardType() {
+		return cardType;
+	}
+
+	public void setCardType(String cardType) {
+		this.cardType = cardType;
+	}
 
 	public String getJiongWordPath() {
 		return jiongWordPath;
