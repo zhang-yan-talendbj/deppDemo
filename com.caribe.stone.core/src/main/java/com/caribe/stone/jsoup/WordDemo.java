@@ -26,14 +26,12 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang.WordUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import com.caribe.stone.anki.profile.ConfigerFile;
-import com.caribe.stone.anki.profile.FionaOffice;
 import com.caribe.stone.anki.profile.Office;
 
 public class WordDemo {
@@ -62,7 +60,7 @@ public class WordDemo {
 	private static String cardType;
 
 	public static void main(String[] args) throws IOException {
-		setPath(new FionaOffice());
+		setPath(new Office());
 		File ignoreFile = new File(ignorePath);
 		ignorList = getIgnoreFile(ignoreFile);
 
