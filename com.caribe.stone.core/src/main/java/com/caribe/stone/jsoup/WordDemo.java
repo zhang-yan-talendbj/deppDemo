@@ -19,6 +19,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -143,15 +144,14 @@ public class WordDemo {
 	}
 
 	private static void execute() throws IOException {
-		List<Card> allWord = getAllCard();
-		// List<Card> allWord = new ArrayList();
-		// allWord.add(new Card(1363773390905L, "aisle"));
+//		List<Card> allWord = getAllCard();
+		 List<Card> allWord = new ArrayList();
+		 allWord.add(new Card(1358235414897L, "complete (v-link ADJ)"));
 		for (Card card : allWord) {
 			if (card != null) {
 				downLoadVoice(card);
 				if (spellingCards.contains(card)) {
-					if (card.getWord().trim().indexOf(" ") < 0 && card.getWord().trim().indexOf("-") < 0
-							&& card.getWord().trim().indexOf("(") < 0) {
+					if (card.getWord().trim().indexOf(" ") < 0 && card.getWord().trim().indexOf("-") < 0) {
 						if (MediaFileMap.get(card + ".wav") != null) {
 							spellWord(card.getWord(), MediaFileMap.get(card + ".wav"));
 						}
@@ -222,7 +222,7 @@ public class WordDemo {
 								map.put(3, getJiongContentFromFile(card.getWord()));
 							}
 
-							map.put(0, word);
+							map.put(0, array[0]);
 
 							map.put(1, array[1]);
 							map.put(2, array[2]);
@@ -242,7 +242,7 @@ public class WordDemo {
 							buf.append(array[0]).append(US);
 							if (array.length >= 2) {
 								buf.append(array[1]).append(US);
-							}else{
+							} else {
 								buf.append(US);
 							}
 							if (array.length == 3) {
@@ -367,9 +367,9 @@ public class WordDemo {
 		if (word.length() != word.getBytes().length) {
 			return null;
 		}
-		if (card.getWord().indexOf(" ") > 0) {
-			return null;
-		}
+		// if (card.getWord().indexOf(" ") > 0) {
+		// return null;
+		// }
 		Connection con = null;
 		try {
 			con = getSqlConnection();
@@ -392,7 +392,7 @@ public class WordDemo {
 						if (map.get(1) != null && map.get(1).trim().length() > 0) {
 							return null;
 						}
-						map.put(0, word);
+						map.put(0, s[0]);
 						if (null == map.get(1) || map.get(1).trim().length() == 0) {
 							String phonetic = InputCardDemo.getPhonetic(word);
 							if (phonetic == null || phonetic.length() == 0) {
@@ -457,6 +457,10 @@ public class WordDemo {
 		word = word.replaceAll("\n", "");
 		word = word.replaceAll(" ", "");
 		word = word.trim();
+		// if (word.indexOf('[') > 0) {
+		// System.out.println(word);
+		// word = word.substring(0, word.indexOf('['));
+		// }
 		while (word.indexOf("<") >= 0) {
 			word = word.replace(word.substring(word.indexOf("<"), word.indexOf(">") + 1), "");
 		}
@@ -743,7 +747,6 @@ public class WordDemo {
 		if (word == null || word.length() == 0) {
 			return;
 		}
-		if (word.trim().indexOf(" ") < 0 && word.trim().indexOf("-") < 0 && word.trim().indexOf("(") < 0) {
 			// String fileName = word + "-d.mp3";
 			// if (fileList.get(fileName) == null) {
 			// getWordDictionary(word, "span.speaker", "-d");
@@ -754,14 +757,16 @@ public class WordDemo {
 			String string2 = word + "-ga.mp3";
 			File srcFile = MediaFileMap.get(string);
 			if (MediaFileMap.get(string) == null) {
-				File wordKing = getRPFromICB(word);
+				String searchWord = getSearchWord(word);
+				File wordKing = getRPFromICB(searchWord);
 				MediaFileMap.put(string, wordKing);
 				srcFile = wordKing;
 			}
 
 			if (srcFile == null) {
 				if (MediaFileMap.get(string2) == null) {
-					File wordKing = getGAFromICB(word);
+					String searchWord = getSearchWord(word);
+					File wordKing = getGAFromICB(searchWord);
 					MediaFileMap.put(string2, wordKing);
 					srcFile = wordKing;
 				}
@@ -782,7 +787,8 @@ public class WordDemo {
 
 			String string5 = word + ".wav";
 			if (MediaFileMap.get(string5) == null) {
-				File mediaFileWAV = new File(voice + word.charAt(0) + "/" + string5);
+				String searchWord = getSearchWord(word);
+				File mediaFileWAV = new File(voice + word.charAt(0) + "/" + searchWord);
 				File destFile = new File(newPath + string5);
 				copyFile(mediaFileWAV, destFile);
 			}
@@ -797,6 +803,14 @@ public class WordDemo {
 				}
 			}
 		}
+
+	private static String getSearchWord(String word) {
+		int indexOf = word.indexOf('(');
+		String searchWord=word;
+		if (indexOf > 0) {
+			searchWord= word.substring(0, indexOf - 1);
+		}
+		return searchWord;
 	}
 
 	public static File getGAFromICB(String word) {
