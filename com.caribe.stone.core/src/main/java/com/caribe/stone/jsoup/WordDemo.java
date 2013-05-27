@@ -19,7 +19,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -144,9 +143,9 @@ public class WordDemo {
 	}
 
 	private static void execute() throws IOException {
-//		List<Card> allWord = getAllCard();
-		 List<Card> allWord = new ArrayList();
-		 allWord.add(new Card(1358235414897L, "complete (v-link ADJ)"));
+		List<Card> allWord = getAllCard();
+//		 List<Card> allWord = new ArrayList();
+//		 allWord.add(new Card(1358235414897L, "complete (v-link ADJ)"));
 		for (Card card : allWord) {
 			if (card != null) {
 				downLoadVoice(card);

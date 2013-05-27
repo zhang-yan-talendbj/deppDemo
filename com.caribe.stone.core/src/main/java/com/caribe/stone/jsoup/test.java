@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.util.LinkedList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,12 +17,9 @@ import com.caribe.stone.anki.profile.Office;
 public class test {
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException, ParseException, IOException {
-		Office office = new Office();
-		WordDemo.setPath(office);
-
-		String word = "ache";
-		getJiongContentFromFile(word);
-		// getTodayCards();
+		System.out.println(System.currentTimeMillis());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmdd");
+		System.out.println(sdf.parse("20130511000000"));
 	}
 
 	private static void getJiongContentFromFile(String word) {
