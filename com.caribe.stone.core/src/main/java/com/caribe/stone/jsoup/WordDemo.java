@@ -143,11 +143,13 @@ public class WordDemo {
 	}
 
 	private static void execute() throws IOException {
-		List<Card> allWord = getAllCard();
-//		 List<Card> allWord = new ArrayList();
-//		 allWord.add(new Card(1358235414897L, "complete (v-link ADJ)"));
+		// List<Card> allWord = getAllCard();
+		List<Card> allWord = getNDaysNewCards(4);
+		// List<Card> allWord = new ArrayList();
+		// allWord.add(new Card(1358235414897L, "complete (v-link ADJ)"));
 		for (Card card : allWord) {
 			if (card != null) {
+				updateCard(card);
 				downLoadVoice(card);
 				if (spellingCards.contains(card)) {
 					if (card.getWord().trim().indexOf(" ") < 0 && card.getWord().trim().indexOf("-") < 0) {
@@ -164,17 +166,17 @@ public class WordDemo {
 					}
 				}
 
-				if (updateJiong) {
-					String content = getCardJiongContent(card);
-					if (content != null) {
-						updateWord(content, card);
-					}
-				}
+				// if (updateJiong) {
+				// String content = getCardJiongContent(card);
+				// if (content != null) {
+				// updateWord(content, card);
+				// }
+				// }
 
 			}
 
 		}
-		List<Card> todayCards = getTodayCards(0);
+		List<Card> todayCards = getNDaysReviewedCards(0);
 		System.out.println("Today:" + todayCards.size() + "  " + todayCards);
 
 		for (Card card : todayCards) {
@@ -394,7 +396,7 @@ public class WordDemo {
 						map.put(0, s[0]);
 						if (null == map.get(1) || map.get(1).trim().length() == 0) {
 							String phonetic = InputCardDemo.getPhonetic(word);
-							if (phonetic == null || phonetic.length() == 0) {
+							if (!isDownloadAudio(phonetic)) {
 								return null;
 							}
 							map.put(1, phonetic);
@@ -444,31 +446,38 @@ public class WordDemo {
 		return getAudioFilePath;
 	}
 
-	private static Card getCard(Long id, String word) {
+	private static Card getCard(Long id, String oldWord) {
+		Card card = new Card(id, "");
+		card.setOldWord(new String(oldWord));
+
 		if (id == null) {
 			return null;
 		}
-		if (word == null) {
+		if (oldWord == null) {
 			return null;
 		}
-		word = word.replaceAll("&nbsp;", "");
-		word = word.replaceAll("\r", "");
-		word = word.replaceAll("\n", "");
-		word = word.replaceAll(" ", "");
-		word = word.trim();
-		// if (word.indexOf('[') > 0) {
-		// System.out.println(word);
-		// word = word.substring(0, word.indexOf('['));
-		// }
-		while (word.indexOf("<") >= 0) {
-			word = word.replace(word.substring(word.indexOf("<"), word.indexOf(">") + 1), "");
+		oldWord = oldWord.replaceAll("&nbsp;", "");
+		oldWord = oldWord.replaceAll("\r", "");
+		oldWord = oldWord.replaceAll("\n", "");
+		oldWord = oldWord.replaceAll(" ", "");
+		if (oldWord.indexOf("/") > 0) {
+			card.setUpdate(true);
+			oldWord = oldWord.replaceAll("/", " or ");
+		}
+		oldWord = oldWord.trim();
+		if (!isDownloadAudio(oldWord)) {
+			return null;
+		}
+		while (oldWord.indexOf("<") >= 0) {
+			oldWord = oldWord.replace(oldWord.substring(oldWord.indexOf("<"), oldWord.indexOf(">") + 1), "");
 		}
 
-		if (word.getBytes().length != word.length()) {
+		if (oldWord.getBytes().length != oldWord.length()) {
 			return null;
 		}
 
-		return new Card(id, word);
+		card.setWord(new String(oldWord));
+		return card;
 	}
 
 	private static void updateMap(Card card) throws IOException {
@@ -571,36 +580,85 @@ public class WordDemo {
 		return readLines;
 	}
 
-	// private static List<String> getTodayCards() throws IOException {
-	// List<String> readLines = new LinkedList<String>();
-	// Connection conn = null;
-	// Statement stat;
-	// ResultSet rs;
-	// try {
-	// conn = getSqlConnection();
-	//
-	// stat = conn.createStatement();
-	// stat.execute("select sfld from notes where tags like '%marked%'");
-	// rs = stat.getResultSet();
-	// while (rs.next()) {
-	// readLines.add(rs.getString(1).trim());
-	// }
-	// } catch (ClassNotFoundException e) {
-	// e.printStackTrace();
-	// } catch (SQLException e) {
-	// e.printStackTrace();
-	// } finally {
-	// try {
-	// conn.close();
-	// } catch (SQLException e) {
-	// // TODO Auto-generated catch block
-	// e.printStackTrace();
-	// }
-	// }
-	// return readLines;
-	// }
+	public static List<Card> getNDaysNewCards(int days) {
+		List<Card> list = new LinkedList<Card>();
+		Connection con = null;
+		try {
+			con = WordDemo.getSqlConnection();
+			String sql = "select n.id,n.sfld from  notes n, cards c where ";
+			if (deckId != 0) {
+				sql = sql + " did=" + deckId + " and ";
+			}
+			sql = sql + " c.nid=n.id and n.id> " + (System.currentTimeMillis() - 1000L * 60 * 60 * 24 * days);
+			System.out.println("getNDaysNewCards SQL:" + sql);
+			Statement stmt = con.createStatement();
+			stmt.execute(sql);
+			ResultSet rs = stmt.getResultSet();
+			while (rs.next()) {
+				list.add(getCard(rs.getLong(1), rs.getString(2)));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			if (con != null) {
+				try {
+					con.close();
+				} catch (SQLException e) { // TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		return list;
+	}
 
-	private static List<Card> getTodayCards(int days) {
+	public static void updateCard(Card card) {
+		if (card.isUpdate()) {
+			Connection con = null;
+			try {
+				con = WordDemo.getSqlConnection();
+				
+				PreparedStatement psmt =null;
+				psmt= con.prepareStatement("select flds from notes where id = ?");
+				psmt.setLong(1, card.getId());
+				
+				psmt.execute();
+				String flds =null;
+				ResultSet rs = psmt.getResultSet();
+				while(rs.next()){
+					flds= rs.getString(1);
+				}
+				StringBuffer buf = new StringBuffer();
+				if (flds != null) {
+					String[] s = flds.split("");
+					s[0]=card.getWord();
+					for (String str : s) {
+						buf.append(str).append("");
+					}
+				}
+				String sql = "update notes set flds= ?,sfld=? where id= ?";
+				System.out.println("updateCard SQL:" + sql);
+				System.out.println(buf);
+				psmt= con.prepareStatement(sql);
+				
+				psmt.setString(1, buf.toString());
+				psmt.setString(2, card.getWord());
+				psmt.setLong(3, card.getId());
+				psmt.execute();
+			} catch (Exception e) {
+				e.printStackTrace();
+			} finally {
+				if (con != null) {
+					try {
+						con.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+
+	public static List<Card> getNDaysReviewedCards(int days) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmdd");
 		String format = sdf.format(new Date(date.getTime() - 1000L * 60 * 60 * 24 * days));
 		long time = 0;
@@ -613,13 +671,14 @@ public class WordDemo {
 		List<Card> list = new LinkedList<Card>();
 		Connection con = null;
 		try {
+			// select n.id,n.sfld from notes n,cards c where c.did=1 and
+			// n.id=c.id and exists
+			// (select * from revlog r where r.id>1369722600000 and r.cid=c.id)
 			con = WordDemo.getSqlConnection();
-			String sql = "select n.id, n.sfld from revlog r, notes n, cards c where r.cid=c.id and ";
-			if (deckId != 0) {
-				sql = sql + " did=" + deckId + " and ";
-			}
-			sql = sql + " c.nid=n.id and r.id> " + time;
-			System.out.println("Get today card SQL:" + sql);
+			String sql = "select n.id,n.sfld from notes n,cards c where c.did=1 and n.id=c.id and exists ";
+			sql = sql + " (select * from revlog r where  r.cid=c.id and "
+					+ (deckId == 0 ? "" : " did=" + deckId + " and ") + "r.id>" + time + " ) ";
+			System.out.println("getNDaysReviewedCards SQL:" + sql);
 			Statement stmt = con.createStatement();
 			stmt.execute(sql);
 			ResultSet rs = stmt.getResultSet();
@@ -743,14 +802,14 @@ public class WordDemo {
 	public static void downLoadVoice(Card card) {
 		String word = card.getWord();
 
-		if (word == null || word.length() == 0) {
-			return;
-		}
-			// String fileName = word + "-d.mp3";
-			// if (fileList.get(fileName) == null) {
-			// getWordDictionary(word, "span.speaker", "-d");
-			// }
+		if (isDownloadAudio(word)) {
+			
 			File mediaFile = getMediaFilePath(word);
+			
+			if(mediaFile.exists()){
+				System.out.println(mediaFile+" exist.");
+				return ;
+			}
 
 			String string = word + "-rp.mp3";
 			String string2 = word + "-ga.mp3";
@@ -796,18 +855,34 @@ public class WordDemo {
 				try {
 					FileUtils.copyFile(srcFile, mediaFile);
 					System.out.println(mediaFile);
+					System.out.println(mediaFile);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
+	}
+
+	public static boolean isDownloadAudio(String word) {
+
+		if (word == null || word.length() == 0) {
+			return false;
+		}
+		if (word.indexOf("(") > 0 && !word.endsWith(")")) {
+			return false;
+		}
+		if (word.startsWith("to ")) {
+			return false;
+		}
+		return true;
+	}
 
 	private static String getSearchWord(String word) {
 		int indexOf = word.indexOf('(');
-		String searchWord=word;
+		String searchWord = word;
 		if (indexOf > 0) {
-			searchWord= word.substring(0, indexOf - 1);
+			searchWord = word.substring(0, indexOf - 1);
 		}
 		return searchWord;
 	}
@@ -848,9 +923,11 @@ public class WordDemo {
 		try {
 			links = Jsoup.connect(url).userAgent("Mozilla").timeout(5000).get().select(position);
 		} catch (IOException e) {
-			ignorList.add(word + suffix);
-			System.out.println("get voice from iciba error : " + word + suffix);
-			System.out.println(e.getMessage());
+			if (ignorList != null) {
+				ignorList.add(word + suffix);
+				System.out.println("get voice from iciba error : " + word + suffix);
+				System.out.println(e.getMessage());
+			}
 		}
 		String saveFile = newPath + word + suffix + ".mp3";
 		if (links != null) {
@@ -980,20 +1057,43 @@ public class WordDemo {
 class Card {
 	private Long id;
 	private String word;
+	private String oldWord;
 
-	public Card(Long id, String word) {
-		super();
-		this.id = id;
-		this.word = word;
+	public String getOldWord() {
+		return oldWord;
 	}
 
-	@Override
-	public String toString() {
-		return word;
+	public void setOldWord(String oldWord) {
+		this.oldWord = oldWord;
+	}
+
+	private boolean update = false;
+
+	public boolean isUpdate() {
+		return update;
+	}
+
+	public void setUpdate(boolean isUpdate) {
+		this.update = isUpdate;
+	}
+
+	public Card(Long id, String word) {
+		this(id, word, false);
+	}
+
+	public Card(Long id, String word, boolean update) {
+		this.id = id;
+		this.word = word;
+		this.update = update;
 	}
 
 	public Long getId() {
 		return id;
+	}
+
+	@Override
+	public String toString() {
+		return "Card [id=" + id + ", word=" + word + ", oldWord=" + oldWord + ", update=" + update + "]";
 	}
 
 	public void setId(Long id) {

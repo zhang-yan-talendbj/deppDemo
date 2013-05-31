@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,9 +17,35 @@ import com.caribe.stone.anki.profile.Office;
 public class test {
 
 	public static void main(String[] args) throws SQLException, ClassNotFoundException, ParseException, IOException {
-		System.out.println(System.currentTimeMillis());
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmdd");
-		System.out.println(sdf.parse("20130511000000"));
+		String str = "bond (N-COUNT,<span style=\" font-style: normal; font-weight: normal;\">BUSINESS,junk bond,premium bond</span>)When a government or company issues a bond, it borrows money from investors. The certificate which is issued to investors who lend money is also called a bond. &nbsp;【FIELD标签】：BUSINESS 商<div>Most of it will be financed by government bonds.</div><div><br /></div><div>大部分资金将通过发行政府债券来筹措。</div><div><br /></div><div>...the recent sharp decline in bond prices.</div><div><br /></div><div>最近债券价格的暴跌</div><div><br /></div>";
+		System.out.println(str);
+		StringBuffer sb = new StringBuffer();
+		boolean flag = true;
+		for (int i = 0; i < str.length(); i++) {
+			char charAt = str.charAt(i);
+			if('<'==charAt){
+				flag=false;
+			}
+			if(flag){
+				sb.append(charAt);
+			}
+			if('>'==charAt){
+				flag=true;
+			}
+		}
+		System.out.println(sb);
+
+		 List<Card> nDaysCards = WordDemo.getNDaysReviewedCards(2);
+		 System.out.println(nDaysCards);
+		// System.out.println(System.currentTimeMillis());
+		// SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmdd");
+		// System.out.println(sdf.parse("20130511000000"));
+	}
+
+	private static void getTodayNewCard() {
+		long date = System.currentTimeMillis() - 72L * 60 * 60 * 1000;
+		System.out.println(date);
+		System.out.println(new Date(date));
 	}
 
 	private static void getJiongContentFromFile(String word) {
