@@ -26,7 +26,7 @@ public class CopyOftest {
 		WordDemo.setPath(new Office());
 
 		int deckId = 1;
-		long days = 4;
+		long days = 9;
 
 		List<Card> list = new LinkedList<Card>();
 		Connection con = null;
