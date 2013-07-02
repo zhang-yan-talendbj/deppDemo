@@ -37,7 +37,11 @@ public class ConfigerFile {
 
 	protected boolean updateJiong = false;
 
-	protected int deckId = 0;
+	protected Long deckId = 0L;
+
+	public void setDeckId(Long deckId) {
+		this.deckId = deckId;
+	}
 
 	protected int spellingMaxDay = 30;
 
@@ -81,12 +85,8 @@ public class ConfigerFile {
 		JDBC_URL = jDBC_URL;
 	}
 
-	public int getDeckId() {
+	public Long getDeckId() {
 		return deckId;
-	}
-
-	public void setDeckId(int deckId) {
-		this.deckId = deckId;
 	}
 
 	public int getSpellingMaxDay() {

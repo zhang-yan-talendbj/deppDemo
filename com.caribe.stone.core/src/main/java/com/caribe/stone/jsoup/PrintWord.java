@@ -20,15 +20,14 @@ import org.jsoup.select.Elements;
 
 import com.caribe.stone.anki.profile.Office;
 
-public class CopyOftest {
+public class PrintWord {
 
 	public static void main(String[] args) throws IOException {
 		WordDemo.setPath(new Office());
 
-		int deckId = 1;
-		long days = 9;
+		long deckId = 1370831699131L;
+		long days = 1;
 
-		List<Card> list = new LinkedList<Card>();
 		Connection con = null;
 		StringBuffer sb = new StringBuffer();
 		sb.append("<html><head> <meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\"></head>");
@@ -63,7 +62,9 @@ public class CopyOftest {
 		}
 		
 		sb.append("</html>");
-		FileUtils.writeStringToFile(new File("abc.html"), sb.toString(), "UTF-8");
+		String replaceAll = sb.toString().replaceAll("<div><br /></div>", "");
+		System.out.println(replaceAll);
+		FileUtils.writeStringToFile(new File("word2013-06-20.html"), replaceAll, "UTF-8");
 	}
 
 }

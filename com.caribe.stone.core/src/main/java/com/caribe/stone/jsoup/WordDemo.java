@@ -50,7 +50,7 @@ public class WordDemo {
 	private static Date date = new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 4);
 	private static boolean updatePhonetic;
 	private static int spellingMaxDay;
-	private static int deckId;
+	private static Long deckId;
 	private static String mediaPath;
 	private static boolean updateJiong;
 	private static List<String> jiongList;
@@ -89,12 +89,6 @@ public class WordDemo {
 
 		System.out.println("ignorList" + ignorList);
 		FileUtils.writeLines(ignoreFile, ignorList);
-
-		System.out.println("jiongList:" + jiongList);
-		FileUtils.writeLines(jiongFile, jiongList);
-
-		System.out.println("jiongWordList:" + jiongWordList);
-		FileUtils.writeLines(jiongWordFile, jiongWordList);
 
 		System.out.println("over~" + new Date());
 	}
@@ -144,7 +138,9 @@ public class WordDemo {
 
 	private static void execute() throws IOException {
 		// List<Card> allWord = getAllCard();
-		List<Card> allWord = getNDaysNewCards(4);
+		List<Card> allWord = getNDaysReviewedCards(1);
+		List<Card> newWords = getNDaysNewCards(1);
+		allWord.addAll(newWords);
 		// List<Card> allWord = new ArrayList();
 		// allWord.add(new Card(1358235414897L, "complete (v-link ADJ)"));
 		for (Card card : allWord) {
@@ -166,17 +162,10 @@ public class WordDemo {
 					}
 				}
 
-				// if (updateJiong) {
-				// String content = getCardJiongContent(card);
-				// if (content != null) {
-				// updateWord(content, card);
-				// }
-				// }
-
 			}
 
 		}
-		List<Card> todayCards = getNDaysReviewedCards(0);
+		List<Card> todayCards = getNDaysReviewedCards(1);
 		System.out.println("Today:" + todayCards.size() + "  " + todayCards);
 
 		for (Card card : todayCards) {
@@ -485,20 +474,12 @@ public class WordDemo {
 			return;
 		}
 		String word = card.getWord();
-		if (MediaFileMap.get(word + "-rp.mp3") != null) {
-			File oldFile = MediaFileMap.get(word + "-rp.mp3");
-			File destFile = new File(newPath + oldFile.getName());
+
+		File file = new File(mediaPath + "/" + word + ".mp3");
+		if (file.exists()) {
+			File destFile = new File(newPath + file.getName());
 			if (!destFile.exists()) {
-				FileUtils.moveFile(oldFile, destFile);
-			}
-		}
-		// getFromGA(word);
-		// getFromDirectionary(word);
-		if (MediaFileMap.get(word + ".wav") != null) {
-			File oldFile = MediaFileMap.get(word + ".wav");
-			File destFile = new File(newPath + oldFile.getName());
-			if (!destFile.exists()) {
-				FileUtils.moveFile(oldFile, destFile);
+				FileUtils.copyFile(file, destFile);
 			}
 		}
 	}
@@ -616,21 +597,21 @@ public class WordDemo {
 			Connection con = null;
 			try {
 				con = WordDemo.getSqlConnection();
-				
-				PreparedStatement psmt =null;
-				psmt= con.prepareStatement("select flds from notes where id = ?");
+
+				PreparedStatement psmt = null;
+				psmt = con.prepareStatement("select flds from notes where id = ?");
 				psmt.setLong(1, card.getId());
-				
+
 				psmt.execute();
-				String flds =null;
+				String flds = null;
 				ResultSet rs = psmt.getResultSet();
-				while(rs.next()){
-					flds= rs.getString(1);
+				while (rs.next()) {
+					flds = rs.getString(1);
 				}
 				StringBuffer buf = new StringBuffer();
 				if (flds != null) {
 					String[] s = flds.split("");
-					s[0]=card.getWord();
+					s[0] = card.getWord();
 					for (String str : s) {
 						buf.append(str).append("");
 					}
@@ -638,8 +619,8 @@ public class WordDemo {
 				String sql = "update notes set flds= ?,sfld=? where id= ?";
 				System.out.println("updateCard SQL:" + sql);
 				System.out.println(buf);
-				psmt= con.prepareStatement(sql);
-				
+				psmt = con.prepareStatement(sql);
+
 				psmt.setString(1, buf.toString());
 				psmt.setString(2, card.getWord());
 				psmt.setLong(3, card.getId());
@@ -675,9 +656,10 @@ public class WordDemo {
 			// n.id=c.id and exists
 			// (select * from revlog r where r.id>1369722600000 and r.cid=c.id)
 			con = WordDemo.getSqlConnection();
-			String sql = "select n.id,n.sfld from notes n,cards c where c.did=1 and n.id=c.id and exists ";
-			sql = sql + " (select * from revlog r where  r.cid=c.id and "
-					+ (deckId == 0 ? "" : " did=" + deckId + " and ") + "r.id>" + time + " ) ";
+			String sql = "select n.id,n.sfld from notes n,cards c where c.did=" + deckId
+					+ " and n.id=c.nid and exists ";
+			sql = sql + " (select * from revlog r where  r.cid=c.id and " + " did=" + deckId + " and " + "r.id>" + time
+					+ " ) ";
 			System.out.println("getNDaysReviewedCards SQL:" + sql);
 			Statement stmt = con.createStatement();
 			stmt.execute(sql);
@@ -803,12 +785,12 @@ public class WordDemo {
 		String word = card.getWord();
 
 		if (isDownloadAudio(word)) {
-			
+
 			File mediaFile = getMediaFilePath(word);
-			
-			if(mediaFile.exists()){
-				System.out.println(mediaFile+" exist.");
-				return ;
+
+			if (mediaFile.exists()) {
+				System.out.println(mediaFile + " exist.");
+				return;
 			}
 
 			String string = word + "-rp.mp3";
@@ -821,26 +803,18 @@ public class WordDemo {
 				srcFile = wordKing;
 			}
 
-			if (srcFile == null) {
-				if (MediaFileMap.get(string2) == null) {
-					String searchWord = getSearchWord(word);
-					File wordKing = getGAFromICB(searchWord);
-					MediaFileMap.put(string2, wordKing);
-					srcFile = wordKing;
-				}
+			if (MediaFileMap.get(string2) == null) {
+				String searchWord = getSearchWord(word);
+				File wordKing = getGAFromICB(searchWord);
+				MediaFileMap.put(string2, wordKing);
 			}
 
-			if (srcFile == null) {
-				if (!jiongWordList.contains(word)) {
-					String key = word + "-jio.mp3";
-					if (MediaFileMap.get(key) == null) {
-						String saveFile = newPath + key;
-						httpDownload("http://assets.baicizhan.com/word_audios/" + word + ".mp3", saveFile);
-						srcFile = new File(saveFile);
-						MediaFileMap.put(key, srcFile);
-						jiongWordList.add(word);
-					}
+			if (MediaFileMap.get(string) != null && MediaFileMap.get(string2) != null) {
+				if (MediaFileMap.get(string).length() > MediaFileMap.get(string2).length()) {
+					srcFile = MediaFileMap.get(string2);
 				}
+			} else {
+				srcFile = MediaFileMap.get(string) == null ? MediaFileMap.get(string2) : MediaFileMap.get(string);
 			}
 
 			String string5 = word + ".wav";

@@ -12,7 +12,7 @@ public class Home extends ConfigerFile {
 		JDBC_URL = ankiPath + "collection.anki2";
 		mediaPath = ankiPath + "collection.media/";
 		updatePhonetic = true;
-		deckId = 1;
+		deckId = 1370831699131L;
 		updateJiong=true;
 		
 		cardType="bruce";
