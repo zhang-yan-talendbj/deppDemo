@@ -12,7 +12,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -31,12 +30,13 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import com.caribe.stone.anki.Dao;
 import com.caribe.stone.anki.profile.ConfigerFile;
 import com.caribe.stone.anki.profile.Office;
 
 public class WordDemo {
 	private static final String US = "";
-	private static String JDBC_URL;
+	public static String JDBC_URL;
 	private static String newPath;
 	private static String letterPath;
 	private static String path;
@@ -682,14 +682,7 @@ public class WordDemo {
 	}
 
 	public static Connection getSqlConnection() throws ClassNotFoundException, SQLException {
-		Connection conn = getDBConnection();
-		return conn;
-	}
-
-	private static Connection getDBConnection() throws ClassNotFoundException, SQLException {
 		Connection conn = null;
-		Class.forName("org.sqlite.JDBC");
-		conn = DriverManager.getConnection("jdbc:sqlite:" + JDBC_URL);
 		return conn;
 	}
 
