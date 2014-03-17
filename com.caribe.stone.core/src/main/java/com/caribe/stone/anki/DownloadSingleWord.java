@@ -1,31 +1,22 @@
 package com.caribe.stone.anki;
 
-import static org.junit.Assert.*;
-
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.Properties;
 
-import org.junit.Test;
 import org.springframework.core.io.ClassPathResource;
 
-public class AnkiSettingsTest {
-
+public class DownloadSingleWord {
 	private static final String ANKI_PROPERTIES_PATH = "anki.properties";
 
-	@Test
-	public void test() throws IOException, ClassNotFoundException, SQLException {
+	public static void main(String[] args) throws IOException {
 		Properties pro = new Properties();
 		pro.load(new ClassPathResource(ANKI_PROPERTIES_PATH).getInputStream());
 		AnkiSettings settings = AnkiFactory.loadAnkiSettings(pro);
 
-		Note note = new Note();
-		note.setWord("aa");
-//		settings.contain(note);
-//		
-//		assertTrue(settings.contain(note));
-//		assertFalse(settings.contain(new Note("zzzzzzzzzzzz")));
+		String mediaPath = settings.getMediaPath();
 
+		String word = "familiarize-yourself-with-sth?q=familiarise";
+		AnkiHelp.getWordFromCambridge(word, "pron-us", mediaPath, "-us");
+		AnkiHelp.getWordFromCambridge(word, "pron-uk", mediaPath, "-uk");
 	}
-
 }

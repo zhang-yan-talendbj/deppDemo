@@ -32,9 +32,38 @@ public class AnkiSettings {
 		JDBC_URL = jDBC_URL;
 	}
 
-	public boolean contain(Note note) {
-		File file = new File(getMediaPath() + note.getWord() + ".mp3");
+	public boolean containUS(Note note) {
+		File file = new File(getMediaPath() + note.getWord() + "-us.mp3");
 		return file.exists();
 	}
 
+	public boolean containUK(Note note) {
+		File file = new File(getMediaPath() + note.getWord() + "-uk.mp3");
+		return file.exists();
+	}
+
+	public boolean containYoudao(Note note) {
+		File file = new File(getMediaPath() + note.getWord() + "-yd.mp3");
+		return file.exists();
+	}
+	
+	public boolean containGA(Note note) {
+		File file = new File(getMediaPath() + note.getWord() + "-ga.mp3");
+		return file.exists();
+	}
+
+	public boolean containRP(Note note) {
+		File file = new File(getMediaPath() + note.getWord() + "-rp.mp3");
+		return file.exists();
+	}
+
+	public boolean containYGA(Note note) {
+		File file = new File(getMediaPath() + note.getWord() + "-y-ga.mp3");
+		return file.exists();
+	}
+
+	public boolean containYRP(Note note) {
+		File file = new File(getMediaPath() + note.getWord() + "-y-rp.mp3");
+		return file.exists();
+	}
 }

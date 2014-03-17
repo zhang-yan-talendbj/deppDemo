@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -33,11 +34,14 @@ public class AnkiHelp {
 		bean.setDeckId(1L);
 		List<Note> notes = dao.getAllNotesByCondition(bean);
 
+		cc(settings, dao, notes);
+
+		bean.setDeckId(1394371108962L);
+		notes = dao.getAllNotesByCondition(bean);
 		for (Note note : notes) {
-			
 			String mediaPath = settings.getMediaPath();
 
-			if (note.getFields() >=3 && hasntPhonetic(note)) {
+			if (note.getFields() >= 3 && hasntPhonetic(note)) {
 				String phonetic = getPhonetic(note.getWord());
 				if (phonetic == null) {
 					phonetic = "";
@@ -46,25 +50,124 @@ public class AnkiHelp {
 				dao.update(note);
 			}
 
-			if (!settings.contain(note)) {
-//				File gaFromICB = getGAFromICB(note.getWord(), mediaPath);
-//				if (gaFromICB == null) {
-//					File getRPFromICB = getRPFromICB(note.getWord(), mediaPath);
-//					if(getRPFromICB==null){
-						String saveFile = mediaPath + note.getWord() + ".mp3";
-						httpDownload("http://dict.youdao.com/dictvoice?audio="+note.getWord(), saveFile);
-						System.out.println(note.getWord());
-//					}
-//				}
+			if (!settings.containGA(note)) {
+				File gaFromICB = getGAFromICB(note.getWord(), mediaPath);
+			}
+			if (!settings.containRP(note)) {
+				File getRPFromICB = getRPFromICB(note.getWord(), mediaPath);
+			}
+			if (!settings.containYGA(note)) {
+				String saveFile = mediaPath + note.getWord() + "-y-ga.mp3";
+				// http://dict.youdao.com/dictvoice?audio=soon&type=1
+				httpDownload("http://dict.youdao.com/dictvoice?audio=" + note.getWord() + "&type=1", saveFile);
+			}
+			if (!settings.containYRP(note)) {
+				String saveFile = mediaPath + note.getWord() + "-y-rp.mp3";
+				httpDownload("http://dict.youdao.com/dictvoice?audio=" + note.getWord() + "&type=2", saveFile);
 			}
 		}
-		
-		System.out.println("Over!");
 
+		System.out.println("Over!");
+	}
+
+	private static void cc(AnkiSettings settings, Dao dao, List<Note> notes) {
+		for (Note note : notes) {
+			String mediaPath = settings.getMediaPath();
+			if (note.getFields() >= 3 && hasntPhonetic(note)) {
+				String phonetic = getPhonetic(note.getWord());
+				if (phonetic == null) {
+					phonetic = "";
+				}
+				note.setPhonetic(phonetic);
+				dao.update(note);
+			}
+			if (note.getWord().indexOf(" ") < 0 && !settings.containYoudao(note)) {
+				if (!settings.containUS(note)) {
+					File mp3File;
+					mp3File = getWordFromCambridge(note.getWord(), "pron-us", mediaPath, "-us");
+					if(mp3File==null){
+						File getRPFromICB = getRPFromICB(note.getWord(), mediaPath);
+						if(getRPFromICB!=null){
+							
+						try {
+							String saveFile = mediaPath + note.getWord() + "-us" + ".mp3";
+							FileUtils.moveFile(getRPFromICB, new File(saveFile));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						}
+					}
+				}
+				if (!settings.containUK(note)) {
+					File mp3File;
+					mp3File = getWordFromCambridge(note.getWord(), "pron-uk", mediaPath, "-uk");
+					if(mp3File==null){
+						File gaFromICB = getGAFromICB(note.getWord(), mediaPath);
+						if(gaFromICB!=null){
+							
+						try {
+							String saveFile = mediaPath + note.getWord() + "-uk" + ".mp3";
+							FileUtils.moveFile(gaFromICB, new File(saveFile));
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private static void aa() throws IOException {
+		Properties pro = new Properties();
+		pro.load(new ClassPathResource(ANKI_PROPERTIES_PATH).getInputStream());
+		AnkiSettings settings = AnkiFactory.loadAnkiSettings(pro);
+
+		DBUtils db = new DBUtils(settings);
+		Dao dao = new Dao(db);
+		QueryBean bean = new QueryBean();
+		bean.setDeckId(1L);
+		List<Note> notes = dao.getAllNotesByCondition(bean);
+
+		for (Note note : notes) {
+
+			String mediaPath = settings.getMediaPath();
+
+			if (note.getFields() >= 3 && hasntPhonetic(note)) {
+				String phonetic = getPhonetic(note.getWord());
+				if (phonetic == null) {
+					phonetic = "";
+				}
+				note.setPhonetic(phonetic);
+				dao.update(note);
+			}
+
+			if (!settings.containGA(note)) {
+				File gaFromICB = getGAFromICB(note.getWord(), mediaPath);
+			}
+			if (!settings.containRP(note)) {
+				File getRPFromICB = getRPFromICB(note.getWord(), mediaPath);
+			}
+			if (!settings.containYGA(note)) {
+				String saveFile = mediaPath + note.getWord() + "-y-ga.mp3";
+				// http://dict.youdao.com/dictvoice?audio=soon&type=1
+				httpDownload("http://dict.youdao.com/dictvoice?audio=" + note.getWord() + "&type=1", saveFile);
+			}
+			if (!settings.containYRP(note)) {
+				String saveFile = mediaPath + note.getWord() + "-y-rp.mp3";
+				httpDownload("http://dict.youdao.com/dictvoice?audio=" + note.getWord() + "&type=2", saveFile);
+			}
+		}
+
+		System.out.println("Over!");
+	}
+
+	private static File getUKFromCambridge(String word, String mediaPath) {
+		return getWordKing(word, "a.vCri_laba", mediaPath, "-ga");
 	}
 
 	private static boolean hasntPhonetic(Note note) {
-		return note.getPhonetic() == null || note.getPhonetic().length()==0 || note.getPhonetic().replace("", "").length()==0;
+		return note.getPhonetic() == null || note.getPhonetic().length() == 0 || note.getPhonetic().replace("", "").length() == 0;
 	}
 
 	public static String getPhonetic(String word) {
@@ -86,15 +189,15 @@ public class AnkiHelp {
 		return null;
 	}
 
-	private static File getWordKing(String word, String position, String newPath) {
+	private static File getWordKing(String word, String selecter, String path, String suffix) {
 		String url = "http://www.iciba.com/search?s=" + word;
 		Elements links = null;
 		try {
-			links = Jsoup.connect(url).userAgent("Mozilla").timeout(5000).get().select(position);
+			links = Jsoup.connect(url).userAgent("Mozilla").timeout(5000).get().select(selecter);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		String saveFile = newPath + word + ".mp3";
+		String saveFile = path + word + suffix + ".mp3";
 		if (links != null) {
 			String attr = links.attr("onclick");
 			if (attr != null && attr.indexOf("'") >= 0) {
@@ -107,12 +210,33 @@ public class AnkiHelp {
 		return null;
 	}
 
+	static File getWordFromCambridge(String word, String selecter, String path, String suffix) {
+		String url = "http://dictionary.cambridge.org/dictionary/british/" + word.toLowerCase();
+		Elements links = null;
+		try {
+			links = Jsoup.connect(url).userAgent("Mozilla").timeout(5000).get().getElementsByClass(selecter);
+
+			// //*[@id="entryContent"]/div[1]/div[1]/span/a[1]
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		String saveFile = path + word + suffix + ".mp3";
+		if (links != null) {
+			String mp3File = links.attr("data-src-mp3");
+			if (mp3File != null && mp3File.length() > 0) {
+				httpDownload(mp3File, saveFile);
+				return new File(saveFile);
+			}
+		}
+		return null;
+	}
+
 	public static File getGAFromICB(String word, String mediaPath) {
-		return getWordKing(word, "a.vCri_laba", mediaPath);
+		return getWordKing(word, "a.vCri_laba", mediaPath, "-ga");
 	}
 
 	public static File getRPFromICB(String word, String mediaPath) {
-		return getWordKing(word, "a.ico_sound[title=真人发音]", mediaPath);
+		return getWordKing(word, "a.ico_sound[title=真人发音]", mediaPath, "-rp");
 	}
 
 	public static void httpDownload(String httpUrl, String saveFile) {
@@ -148,8 +272,9 @@ public class AnkiHelp {
 						fs.write(buffer, 0, byteread);
 					}
 					long end = System.currentTimeMillis();
-					System.out.print((int) (file.length() * 1d / (end - start)));
-					System.out.println("K/s.");
+					// System.out.print((int) (file.length() * 1d / (end -
+					// start)));
+					// System.out.println("K/s.");
 
 					FileUtils.copyFile(file, destFile);
 				}

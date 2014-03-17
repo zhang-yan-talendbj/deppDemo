@@ -4,8 +4,8 @@ public class Note {
 	private long id;
 	private String word;
 	private String content;
-	
-	private boolean isChange=false;
+
+	private boolean isChange = false;
 
 	private String example;
 	private String phonetic;
@@ -16,7 +16,7 @@ public class Note {
 	private static final Character US = '';
 
 	public Note(String word) {
-		this.word=word;
+		this.word = word;
 	}
 
 	public Note() {
@@ -42,10 +42,14 @@ public class Note {
 	public String getContent() {
 		if (isChange) {
 			StringBuffer buf = new StringBuffer();
-			buf.append($(front)).append(US);
-			buf.append($(phonetic)).append(US);
-			buf.append($(back)).append(US);
-			buf.append($(example)).append(US);
+			if (fieldCount >= 3) {
+				buf.append($(front)).append(US);
+				buf.append($(phonetic)).append(US);
+				buf.append($(back)).append(US);
+			}
+			if (fieldCount == 4) {
+				buf.append($(example)).append(US);
+			}
 			buf.deleteCharAt(buf.length() - 1);
 			return buf.toString();
 		} else {
@@ -54,7 +58,7 @@ public class Note {
 	}
 
 	private String $(String str) {
-		return str==null?"":str;
+		return str == null ? "" : str;
 	}
 
 	public void setContent(String content) {
@@ -63,16 +67,16 @@ public class Note {
 
 		String[] fields = content.split(US.toString());
 		int length = fields.length;
-		if (length >0) {
+		if (length > 0) {
 			this.front = fields[0];
 		}
-		if (length >1) {
+		if (length > 1) {
 			this.phonetic = fields[1];
 		}
-		if (length >2) {
+		if (length > 2) {
 			this.back = fields[2];
 		}
-		if (length >3) {
+		if (length > 3) {
 			this.example = fields[3];
 		}
 	}
@@ -142,5 +146,13 @@ public class Note {
 
 	public void setChange(boolean isChange) {
 		this.isChange = isChange;
+	}
+
+	public int getFieldCount() {
+		return fieldCount;
+	}
+
+	public void setFieldCount(int fieldCount) {
+		this.fieldCount = fieldCount;
 	}
 }
