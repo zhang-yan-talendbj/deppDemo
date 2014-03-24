@@ -31,41 +31,10 @@ public class AnkiHelp {
 		DBUtils db = new DBUtils(settings);
 		Dao dao = new Dao(db);
 		QueryBean bean = new QueryBean();
-		bean.setDeckId(1L);
+		bean.setDeckId(1394371108962L);
 		List<Note> notes = dao.getAllNotesByCondition(bean);
 
 		cc(settings, dao, notes);
-
-		bean.setDeckId(1394371108962L);
-		notes = dao.getAllNotesByCondition(bean);
-		for (Note note : notes) {
-			String mediaPath = settings.getMediaPath();
-
-			if (note.getFields() >= 3 && hasntPhonetic(note)) {
-				String phonetic = getPhonetic(note.getWord());
-				if (phonetic == null) {
-					phonetic = "";
-				}
-				note.setPhonetic(phonetic);
-				dao.update(note);
-			}
-
-			if (!settings.containGA(note)) {
-				File gaFromICB = getGAFromICB(note.getWord(), mediaPath);
-			}
-			if (!settings.containRP(note)) {
-				File getRPFromICB = getRPFromICB(note.getWord(), mediaPath);
-			}
-			if (!settings.containYGA(note)) {
-				String saveFile = mediaPath + note.getWord() + "-y-ga.mp3";
-				// http://dict.youdao.com/dictvoice?audio=soon&type=1
-				httpDownload("http://dict.youdao.com/dictvoice?audio=" + note.getWord() + "&type=1", saveFile);
-			}
-			if (!settings.containYRP(note)) {
-				String saveFile = mediaPath + note.getWord() + "-y-rp.mp3";
-				httpDownload("http://dict.youdao.com/dictvoice?audio=" + note.getWord() + "&type=2", saveFile);
-			}
-		}
 
 		System.out.println("Over!");
 	}
@@ -84,33 +53,41 @@ public class AnkiHelp {
 			if (note.getWord().indexOf(" ") < 0 && !settings.containYoudao(note)) {
 				if (!settings.containUS(note)) {
 					File mp3File;
+					String saveFile = mediaPath + note.getWord() + "-us" + ".mp3";
 					mp3File = getWordFromCambridge(note.getWord(), "pron-us", mediaPath, "-us");
-					if(mp3File==null){
-						File getRPFromICB = getRPFromICB(note.getWord(), mediaPath);
-						if(getRPFromICB!=null){
-							
-						try {
-							String saveFile = mediaPath + note.getWord() + "-us" + ".mp3";
-							FileUtils.moveFile(getRPFromICB, new File(saveFile));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+					if (mp3File == null) {
+
+						File ga = getGAFromICB(note.getWord(), mediaPath);
+						if (ga != null) {
+
+							try {
+								// String saveFile = mediaPath + note.getWord()
+								// + "-us" + ".mp3";
+								File destFile = new File(saveFile);
+								FileUtils.moveFile(ga, destFile);
+
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							httpDownload("http://dict.youdao.com/dictvoice?audio=" + note.getWord() + "&type=2", saveFile);
 						}
 					}
 				}
 				if (!settings.containUK(note)) {
 					File mp3File;
 					mp3File = getWordFromCambridge(note.getWord(), "pron-uk", mediaPath, "-uk");
-					if(mp3File==null){
-						File gaFromICB = getGAFromICB(note.getWord(), mediaPath);
-						if(gaFromICB!=null){
-							
-						try {
-							String saveFile = mediaPath + note.getWord() + "-uk" + ".mp3";
-							FileUtils.moveFile(gaFromICB, new File(saveFile));
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+					if (mp3File == null) {
+						String saveFile = mediaPath + note.getWord() + "-uk" + ".mp3";
+						File be = getRPFromICB(note.getWord(), mediaPath);
+						if (be != null) {
+							try {
+								FileUtils.moveFile(be, new File(saveFile));
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						} else {
+							httpDownload("http://dict.youdao.com/dictvoice?audio=" + note.getWord() + "&type=1", saveFile);
 						}
 					}
 				}
@@ -167,6 +144,7 @@ public class AnkiHelp {
 	}
 
 	private static boolean hasntPhonetic(Note note) {
+//		return true;
 		return note.getPhonetic() == null || note.getPhonetic().length() == 0 || note.getPhonetic().replace("", "").length() == 0;
 	}
 
