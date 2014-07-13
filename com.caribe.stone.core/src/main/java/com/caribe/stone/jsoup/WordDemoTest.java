@@ -1,8 +1,9 @@
 package com.caribe.stone.jsoup;
 
+import org.junit.Test;
+
 import static org.junit.Assert.*;
 
-import org.junit.Test;
 
 public class WordDemoTest {
 

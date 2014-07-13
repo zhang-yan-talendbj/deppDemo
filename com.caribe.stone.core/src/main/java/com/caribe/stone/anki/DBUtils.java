@@ -24,7 +24,16 @@ public class DBUtils {
 
 	public Connection getDBConnection() {
 		return this.conn;
-
 	}
+
+    public void closeConnection(Connection conn) {
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
 
 }

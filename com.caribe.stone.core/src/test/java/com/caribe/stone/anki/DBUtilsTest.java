@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Properties;
 
 import org.junit.Test;
+import org.mockito.Mockito;
 import org.springframework.core.io.ClassPathResource;
 
 public class DBUtilsTest {
@@ -16,7 +17,7 @@ public class DBUtilsTest {
 	public void test() throws IOException, ClassNotFoundException, SQLException {
 		Properties pro = new Properties();
 		pro.load(new ClassPathResource(ANKI_PROPERTIES_PATH).getInputStream());
-		AnkiSettings settings = AnkiFactory.loadAnkiSettings(pro);
+		AnkiSettings settings = new AnkiSettings(pro);
 
 		DBUtils db = new DBUtils(settings);
 		Dao dao = new Dao(db);
@@ -38,5 +39,16 @@ public class DBUtilsTest {
 		dao.update(tmpNote);
 
 	}
+
+    @Test
+    public void testDBUtils() {
+        AnkiSettings settings = Mockito.mock(AnkiSettings.class);
+
+
+        Mockito.when(settings.getAnkiPath()).thenReturn("/Users/thinkdeeply/Documents/Anki/User 1");
+        Mockito.when(settings.getJDBC_URL()).thenReturn("/Users/thinkdeeply/Documents/Anki/User 1/collection.anki2");
+        DBUtils dbu = new DBUtils(settings);
+
+    }
 
 }

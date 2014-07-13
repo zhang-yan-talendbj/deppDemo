@@ -32,4 +32,18 @@ public class NoteTest {
 		assertEquals(0, n.getFields());
 	}
 
+    @Test
+    public void testPhonetic() {
+        Note note = new Note();
+        assertTrue(note.hasntPhonetic());
+        note.setPhonetic("");
+        assertTrue(note.hasntPhonetic());
+        note.setPhonetic(" ");
+        assertTrue(note.hasntPhonetic());
+
+        note.setPhonetic("əu'netik");
+        assertFalse(note.hasntPhonetic());
+    }
+
+
 }

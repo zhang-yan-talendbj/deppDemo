@@ -76,7 +76,8 @@ public class Dao {
 				note.setId(rs.getLong("id"));
 				note.setWord(rs.getString("sfld"));
 				note.setContent(rs.getString("flds"));
-				result.add(note);
+                note.setDeckId(bean.getDeckId());
+                result.add(note);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

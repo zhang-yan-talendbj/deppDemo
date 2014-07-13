@@ -14,16 +14,32 @@ public class Note {
 	private int fieldCount;
 
 	private static final Character US = '';
+    private Long deckId;
 
-	public Note(String word) {
+    public Note(String word) {
 		this.word = word;
 	}
 
 	public Note() {
-		// TODO Auto-generated constructor stub
 	}
 
-	public long getId() {
+    public String getFilePath(String mediaPath) {
+        return mediaPath + getWord() + "-us" + ".mp3";
+    }
+
+    public boolean needToAddVoice() {
+        return getFieldCount() >= 3 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0;
+    }
+
+    public boolean needToUpdatePhonetic() {
+        return getFields() >= 3 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0 && hasntPhonetic();
+    }
+
+    public boolean hasntPhonetic() {
+		return getPhonetic() == null || getPhonetic().length() == 0 || getPhonetic().replace(" ", "").length() == 0;
+	}
+
+    public long getId() {
 		return id;
 	}
 
@@ -155,4 +171,12 @@ public class Note {
 	public void setFieldCount(int fieldCount) {
 		this.fieldCount = fieldCount;
 	}
+
+    public Long getDeckId() {
+        return deckId;
+    }
+
+    public void setDeckId(Long deckId) {
+        this.deckId=deckId;
+    }
 }

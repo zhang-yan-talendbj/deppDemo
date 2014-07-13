@@ -12,7 +12,7 @@ public class DownloadSingleWord {
 	public static void main(String[] args) throws IOException {
 		Properties pro = new Properties();
 		pro.load(new ClassPathResource(ANKI_PROPERTIES_PATH).getInputStream());
-		AnkiSettings settings = AnkiFactory.loadAnkiSettings(pro);
+		AnkiSettings settings = new AnkiSettings(pro);
 
 		String mediaPath = settings.getMediaPath();
 
@@ -23,12 +23,12 @@ public class DownloadSingleWord {
 		String word2 = "match up";
 		String saveFile = mediaPath + word2 + "-y-ga.mp3";
 		// http://dict.youdao.com/dictvoice?audio=soon&type=1
-		AnkiHelp.httpDownload("http://dict.youdao.com/dictvoice?audio=" + word2 + "&type=1", saveFile);
+		DownLoadService.httpDownload("http://dict.youdao.com/dictvoice?audio=" + word2 + "&type=1", saveFile);
 		String saveFile1 = mediaPath + word2 + "-y-rp.mp3";
-		AnkiHelp.httpDownload("http://dict.youdao.com/dictvoice?audio=" + word2 + "&type=2", saveFile1);
+		DownLoadService.httpDownload("http://dict.youdao.com/dictvoice?audio=" + word2 + "&type=2", saveFile1);
 	
-		File gaFromICB = AnkiHelp.getGAFromICB(word2, mediaPath);
-		File getRPFromICB =AnkiHelp. getRPFromICB(word2, mediaPath);
+//		File gaFromICB = IcibaVoiceService.getGAFromICB(word2, mediaPath);
+//		File getRPFromICB = IcibaVoiceService. getRPFromICB(word2, mediaPath);
 	
 	}
 }
