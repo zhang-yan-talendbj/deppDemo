@@ -36,6 +36,7 @@ public class AnkiHelp {
 
         for (Note note : notes) {
             String mediaPath = settings.getMediaPath();
+            if(note.getFront().indexOf(" ")<0)     {
             if (note.needToUpdatePhonetic()) {
 
                 String phonetic = service.getPhonetic(note);
@@ -89,7 +90,7 @@ public class AnkiHelp {
                     }
                 }
             }
-        }
+        }          }
 
         System.out.println("Over!");
 	}
