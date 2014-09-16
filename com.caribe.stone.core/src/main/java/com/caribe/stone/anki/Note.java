@@ -34,10 +34,16 @@ public class Note {
     public boolean needToUpdatePhonetic() {
         return getFields() >= 3 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0 && hasntPhonetic();
     }
+    public boolean needToUpdateExplain() {
+    	return getFields() >= 3 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0 && hasntPhonetic();
+    }
 
-    public boolean hasntPhonetic() {
-		return getPhonetic() == null || getPhonetic().length() == 0 || getPhonetic().replace(" ", "").length() == 0;
+    public boolean hasntExplain() {
+		return getBack() == null || getBack().length() == 0 || getBack().replace(" ", "").length() == 0;
 	}
+    public boolean hasntPhonetic() {
+    	return getPhonetic() == null || getPhonetic().length() == 0 || getPhonetic().replace(" ", "").length() == 0;
+    }
 
     public long getId() {
 		return id;
@@ -58,12 +64,12 @@ public class Note {
 	public String getContent() {
 		if (isChange) {
 			StringBuffer buf = new StringBuffer();
-			if (fieldCount >= 3) {
+			if (getFields() >= 3) {
 				buf.append($(front)).append(US);
 				buf.append($(phonetic)).append(US);
 				buf.append($(back)).append(US);
 			}
-			if (fieldCount == 4) {
+			if (getFields() == 4) {
 				buf.append($(example)).append(US);
 			}
 			buf.deleteCharAt(buf.length() - 1);
@@ -83,6 +89,7 @@ public class Note {
 
 		String[] fields = content.split(US.toString());
 		int length = fields.length;
+		
 		if (length > 0) {
 			this.front = fields[0];
 		}

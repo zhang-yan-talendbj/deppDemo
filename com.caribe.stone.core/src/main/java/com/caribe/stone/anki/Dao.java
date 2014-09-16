@@ -75,6 +75,10 @@ public class Dao {
 				Note note = new Note();
 				note.setId(rs.getLong("id"));
 				note.setWord(rs.getString("sfld"));
+				
+				if(rs.getString("sfld").equals("gain")){
+					
+				}
 				note.setContent(rs.getString("flds"));
                 note.setDeckId(bean.getDeckId());
                 result.add(note);

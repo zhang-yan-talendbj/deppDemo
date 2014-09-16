@@ -33,10 +33,22 @@ public class AnkiHelp {
         CambridgeVoiceService voiceService = new CambridgeVoiceService();
         YouDaoVoiceService youDaoVoiceService = new YouDaoVoiceService();
         IcibaVoiceService icibaVoiceService = new IcibaVoiceService();
+        ExplainService explainService = new ExplainService();
 
         for (Note note : notes) {
             String mediaPath = settings.getMediaPath();
             if(note.getFront().indexOf(" ")<0)     {
+            	
+            	if(note.needToUpdateExplain()){
+            		String explain = explainService.getExplain(note.getWord());
+            		if(explain==null | explain.length()==0){
+            			System.out.println("----"+note.getWord());
+            			System.out.println(explain);
+            		}
+            		note.setBack(explain);
+            		dao.update(note);
+            	}
+            	
             if (note.needToUpdatePhonetic()) {
 
                 String phonetic = service.getPhonetic(note);
