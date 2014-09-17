@@ -32,16 +32,17 @@ public class Note {
     }
 
     public boolean needToUpdatePhonetic() {
-        return getFields() >= 3 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0 && hasntPhonetic();
+        return getFields() >= 1 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0 && hasntPhonetic();
     }
     public boolean needToUpdateExplain() {
-    	return getFields() >= 3 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0 && hasntPhonetic();
+    	return getFields() >= 1 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0 && hasntExplain();
     }
 
     public boolean hasntExplain() {
 		return getBack() == null || getBack().length() == 0 || getBack().replace(" ", "").length() == 0;
 	}
     public boolean hasntPhonetic() {
+//    	return true;
     	return getPhonetic() == null || getPhonetic().length() == 0 || getPhonetic().replace(" ", "").length() == 0;
     }
 

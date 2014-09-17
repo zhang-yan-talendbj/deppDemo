@@ -4,18 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
-import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
-import org.springframework.core.io.ClassPathResource;
 
 public class AnkiHelp {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
-
-        Properties pro = new Properties();
-        pro.load(new ClassPathResource(AnkiSettings.ANKI_PROPERTIES_PATH).getInputStream());
-		AnkiSettings settings = new AnkiSettings(pro);
+		String property=null; 
+		property= "c:/Users/yan.zhang/Documents/Anki/User 1";
+//    	property = "/Users/thinkdeeply/Documents/Anki/User 1";
+		AnkiSettings settings = new AnkiSettings(property);
 
 		DBUtils db = new DBUtils(settings);
 		Dao dao = new Dao(db);
@@ -40,6 +38,7 @@ public class AnkiHelp {
             if(note.getFront().indexOf(" ")<0)     {
             	
             	if(note.needToUpdateExplain()){
+            		
             		String explain = explainService.getExplain(note.getWord());
             		if(explain==null | explain.length()==0){
             			System.out.println("----"+note.getWord());

@@ -15,9 +15,10 @@ public class DBUtilsTest {
 
 	@Test
 	public void test() throws IOException, ClassNotFoundException, SQLException {
-		Properties pro = new Properties();
-		pro.load(new ClassPathResource(ANKI_PROPERTIES_PATH).getInputStream());
-		AnkiSettings settings = new AnkiSettings(pro);
+		String property=null; 
+		property= "c:/Users/yan.zhang/Documents/Anki/User 1";
+//    	property = "/Users/thinkdeeply/Documents/Anki/User 1";
+		AnkiSettings settings = new AnkiSettings(property);
 
 		DBUtils db = new DBUtils(settings);
 		Dao dao = new Dao(db);

@@ -18,7 +18,10 @@ public class AnkiSettingsTest {
         pro.setProperty( "anki.path","/Users/thinkdeeply/Documents/Anki/User 1");
 //        anki.path=/Users/thinkdeeply/Documents/Anki/User 1
 
-        AnkiSettings settings = new AnkiSettings(pro);
+        String property=null; 
+		property= "c:/Users/yan.zhang/Documents/Anki/User 1";
+//    	property = "/Users/thinkdeeply/Documents/Anki/User 1";
+		AnkiSettings settings = new AnkiSettings(property);
 
         assertEquals("/Users/thinkdeeply/Documents/Anki/User 1",settings.getAnkiPath());
         assertEquals("/Users/thinkdeeply/Documents/Anki/User 1/collection.anki2",settings.getJDBC_URL());

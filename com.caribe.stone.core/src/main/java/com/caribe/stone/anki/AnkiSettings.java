@@ -1,10 +1,6 @@
 package com.caribe.stone.anki;
 
-import org.springframework.core.io.ClassPathResource;
-
 import java.io.File;
-import java.io.IOException;
-import java.util.Properties;
 
 public class AnkiSettings {
 
@@ -14,10 +10,10 @@ public class AnkiSettings {
 	private String mediaPath;
 	private String JDBC_URL;
 
-    public AnkiSettings(Properties pro) {
-        this.ankiPath=pro.getProperty(ANKI_PATH);
-        this.JDBC_URL=pro.getProperty(ANKI_PATH) + "/collection.anki2";
-        this.mediaPath=pro.getProperty(ANKI_PATH) + "/collection.media/";
+    public AnkiSettings(String property) {
+		this.ankiPath=property;
+        this.JDBC_URL=property + "/collection.anki2";
+        this.mediaPath=property + "/collection.media/";
     }
 
     public String getAnkiPath() {
