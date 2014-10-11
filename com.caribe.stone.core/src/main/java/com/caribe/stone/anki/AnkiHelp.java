@@ -11,15 +11,16 @@ public class AnkiHelp {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		String property=null; 
-		property= "c:/Users/yan.zhang/Documents/Anki/User 1";
-//    	property = "/Users/thinkdeeply/Documents/Anki/User 1";
+//		property= "c:/Users/yan.zhang/Documents/Anki/User 1";
+    	property = "/Users/thinkdeeply/Documents/Anki/User 1";
+    	property = "/Users/thinkdeeply/Documents/Anki/Fiona";
 		AnkiSettings settings = new AnkiSettings(property);
 
 		DBUtils db = new DBUtils(settings);
 		Dao dao = new Dao(db);
 		QueryBean bean = new QueryBean();
-		bean.setDeckId(1L);
-//		bean.setDeckId(1395672679482L);
+//		bean.setDeckId(1L);
+//		bean.setDeckId(1394371108962L);
 //		bean.setDeckId(1L);//ESL
 		// 1395672679482 tmp
 		// 1394371108962L study

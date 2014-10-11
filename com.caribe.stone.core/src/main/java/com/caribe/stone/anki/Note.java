@@ -35,7 +35,8 @@ public class Note {
         return getFields() >= 1 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0 && hasntPhonetic();
     }
     public boolean needToUpdateExplain() {
-    	return getFields() >= 1 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0 && hasntExplain();
+        return false;
+//    	return getFields() >= 1 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0 && hasntExplain();
     }
 
     public boolean hasntExplain() {
