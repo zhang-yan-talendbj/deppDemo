@@ -45,8 +45,8 @@ public class Dao {
 			PreparedStatement psmt = null;
 
 			String sql = "update notes set flds= ?,sfld=? where id= ?";
-			System.out.println("updateCard SQL:" + sql);
-			System.out.println("param:" + note.getContent() + ",id:" + note.getId());
+//			System.out.println("updateCard SQL:" + sql);
+//			System.out.println("param:" + note.getContent() + ",id:" + note.getId());
 			try {
 				psmt = conn.prepareStatement(sql);
 				psmt.setString(1, note.getContent());
