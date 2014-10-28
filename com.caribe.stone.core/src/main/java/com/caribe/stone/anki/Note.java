@@ -14,40 +14,42 @@ public class Note {
 	private int fieldCount;
 
 	private static final Character US = '';
-    private Long deckId;
+	private Long deckId;
 
-    public Note(String word) {
+	public Note(String word) {
 		this.word = word;
 	}
 
 	public Note() {
 	}
 
-    public String getFilePath(String mediaPath) {
-        return mediaPath + getWord() + "-us" + ".mp3";
-    }
+	public String getFilePath(String mediaPath) {
+		return mediaPath + getWord() + "-us" + ".mp3";
+	}
 
-    public boolean needToAddVoice() {
-        return getFieldCount() >= 3 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0;
-    }
+	public boolean needToAddVoice() {
+		return getFieldCount() >= 3 && getWord().indexOf(" ") < 0 && getWord().indexOf("-") < 0;
+	}
 
-    public boolean needToUpdatePhonetic() {
-        return getFields() >= 1 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0 && hasntPhonetic();
-    }
-    public boolean needToUpdateExplain() {
-        return false;
-//    	return getFields() >= 1 && getWord().indexOf(" ")<0 && getWord().indexOf("-")<0 && hasntExplain();
-    }
+	public boolean needToUpdatePhonetic() {
+		return getFields() >= 1 && getWord().indexOf(" ") < 0 && getWord().indexOf("-") < 0 && hasntPhonetic();
+	}
 
-    public boolean hasntExplain() {
+	public boolean needToUpdateExplain() {
+		// return false;
+		return getFields() >= 1 && getWord().indexOf(" ") < 0 && getWord().indexOf("-") < 0 && hasntExplain();
+	}
+
+	public boolean hasntExplain() {
 		return getBack() == null || getBack().length() == 0 || getBack().replace(" ", "").length() == 0;
 	}
-    public boolean hasntPhonetic() {
-//    	return true;
-    	return getPhonetic() == null || getPhonetic().length() == 0 || getPhonetic().replace(" ", "").length() == 0;
-    }
 
-    public long getId() {
+	public boolean hasntPhonetic() {
+		// return true;
+		return getPhonetic() == null || getPhonetic().length() == 0 || getPhonetic().replace(" ", "").length() == 0;
+	}
+
+	public long getId() {
 		return id;
 	}
 
@@ -70,6 +72,8 @@ public class Note {
 				buf.append($(front)).append(US);
 				buf.append($(phonetic)).append(US);
 				buf.append($(back)).append(US);
+			}else{
+				System.out.println(this.front+"--------error-------");
 			}
 			if (getFields() == 4) {
 				buf.append($(example)).append(US);
@@ -91,7 +95,7 @@ public class Note {
 
 		String[] fields = content.split(US.toString());
 		int length = fields.length;
-		
+
 		if (length > 0) {
 			this.front = fields[0];
 		}
@@ -181,11 +185,24 @@ public class Note {
 		this.fieldCount = fieldCount;
 	}
 
-    public Long getDeckId() {
-        return deckId;
-    }
+	public Long getDeckId() {
+		return deckId;
+	}
 
-    public void setDeckId(Long deckId) {
-        this.deckId=deckId;
-    }
+	public void setDeckId(Long deckId) {
+		this.deckId = deckId;
+	}
+
+	public boolean needToUpdateIndustry() {
+		if (this.example == null || this.example.trim().length() == 0) {
+			return true;
+		}
+		return false;
+	}
+
+	public void expandExample(String industry) {
+		setChange(true);
+		StringBuffer buf = new StringBuffer(example==null?"":example);
+		example = buf.append(industry).toString();
+	}
 }

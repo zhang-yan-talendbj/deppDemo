@@ -15,13 +15,7 @@ public class IcibaVoiceService {
     }
 
     private File getWordKing(String word, String selecter, String path, String suffix) {
-        String url = "http://www.iciba.com/search?s=" + word;
-        Elements links = null;
-        try {
-            links = Jsoup.connect(url).userAgent("Mozilla").timeout(5000).get().select(selecter);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Elements links = getElement(word, selecter);
         String saveFile = path + word + suffix + ".mp3";
         if (links != null) {
             String attr = links.attr("onclick");
@@ -35,6 +29,19 @@ public class IcibaVoiceService {
         return null;
     }
 
+	private Elements getElement(String word, String selecter) {
+		String url = "http://www.iciba.com/search?s=" + word;
+        Elements links = null;
+        try {
+            links = Jsoup.connect(url).userAgent("Mozilla").timeout(5000).get().select(selecter);
+        } catch (IOException e) {
+           System.out.println("get element error:"+word);
+        }
+		return links;
+	}
+    
+    
+
     public  File getGAFromICB(String word, String mediaPath) {
         return getWordKing(word, "a.vCri_laba", mediaPath, "-ga");
     }
@@ -42,4 +49,12 @@ public class IcibaVoiceService {
     public  File getRPFromICB(String word, String mediaPath) {
         return getWordKing(word, "a.ico_sound[title=真人发音]", mediaPath, "-rp");
     }
+
+	public String getIndustry(String word) {
+		Elements element = getElement(word, "div.industry_box");
+		if(element!=null && element.size()>0){
+			return element.get(0).html();
+		}
+		return null;
+	}
 }

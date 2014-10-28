@@ -1,7 +1,6 @@
 package com.caribe.stone.anki;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -41,10 +40,13 @@ public class Dao {
 	}
 
 	public void update(Note note) {
-		if (note.isChange()) {
+		if (note.isChange()&&note.getFieldCount()>2) {
 			PreparedStatement psmt = null;
 
 			String sql = "update notes set flds= ?,sfld=? where id= ?";
+
+			System.out.println("Update "+note.getWord());
+
 //			System.out.println("updateCard SQL:" + sql);
 //			System.out.println("param:" + note.getContent() + ",id:" + note.getId());
 			try {
@@ -81,6 +83,7 @@ public class Dao {
 				}
 				note.setContent(rs.getString("flds"));
                 note.setDeckId(bean.getDeckId());
+                note.setChange(false);
                 result.add(note);
 			}
 		} catch (SQLException e) {
