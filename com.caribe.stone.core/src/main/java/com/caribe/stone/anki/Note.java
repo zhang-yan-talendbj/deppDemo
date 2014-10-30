@@ -4,6 +4,15 @@ public class Note {
 	private long id;
 	private String word;
 	private String content;
+	private String tags;
+
+	public String getTags() {
+		return tags;
+	}
+
+	public void setTags(String tags) {
+		this.tags = tags;
+	}
 
 	private boolean isChange = false;
 
@@ -196,6 +205,18 @@ public class Note {
 	public boolean needToUpdateIndustry() {
 		if (this.example == null || this.example.trim().length() == 0) {
 			return true;
+		}
+		if(tags!=null){
+			String[] split = tags.split(" ");
+			if(split!=null){
+				for (String tag : split) {
+					if("marked".equals(tag)){
+						this.back=null;
+						this.example=null;
+						return true;
+					}
+				}
+			}
 		}
 		return false;
 	}

@@ -66,7 +66,7 @@ public class Dao {
 		List<Note> result = new LinkedList<Note>();
 		try {
 			Statement stat = conn.createStatement();
-			StringBuffer buf = new StringBuffer("select id,sfld,flds from notes ");
+			StringBuffer buf = new StringBuffer("select id,sfld,flds,tags from notes ");
 			if (bean.getDeckId() != null) {
 				buf.append(" where id in (select nid from cards where did=").append(bean.getDeckId()).append(")");
 			}
@@ -78,11 +78,9 @@ public class Dao {
 				note.setId(rs.getLong("id"));
 				note.setWord(rs.getString("sfld"));
 				
-				if(rs.getString("sfld").equals("gain")){
-					
-				}
 				note.setContent(rs.getString("flds"));
                 note.setDeckId(bean.getDeckId());
+                note.setTags(rs.getString("tags"));
                 note.setChange(false);
                 result.add(note);
 			}
