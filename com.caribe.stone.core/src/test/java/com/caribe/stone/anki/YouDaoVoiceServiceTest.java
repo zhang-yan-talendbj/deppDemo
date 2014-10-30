@@ -12,6 +12,13 @@ public class YouDaoVoiceServiceTest {
 		String collins = service.getCollinsExplain("share");
 		assertNotNull(collins);
 	}
+	@Test
+	public void testWordNet() {
+		ExplainService service = new ExplainService();
+		String collins = service.getCollinsExplain("guestroom");
+		assertNotNull(collins);
+		System.out.println(collins);
+	}
 	
 	@Test
 	public void testName() throws Exception {

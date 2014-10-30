@@ -34,14 +34,14 @@ public class AnkiHelp {
 		YouDaoVoiceService youDaoVoiceService = new YouDaoVoiceService();
 		IcibaVoiceService icibaVoiceService = new IcibaVoiceService();
 		ExplainService explainService = new ExplainService();
-
+		int i=0;
 		for (Note note : notes) {
+//			System.out.println(i++);
 			String mediaPath = settings.getMediaPath();
-			if (note.getFront().indexOf(" ") < 0) {
-				
-				if(note.needToUpdateIndustry()){
-					String industry = icibaVoiceService.getIndustry(note.getWord());
-					note.expandExample(industry);
+			if (note.getFront().indexOf(" ") < 0 && note.getWord().indexOf("-")<0) {
+
+				if(note.needToUpdateIndustry(explainService)){
+					note.expandExample(icibaVoiceService);
 				}
 
 				if (note.needToUpdateExplain()) {

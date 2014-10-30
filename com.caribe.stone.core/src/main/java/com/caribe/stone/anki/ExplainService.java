@@ -37,11 +37,21 @@ public class ExplainService {
 		if (element == null || element.size() == 0) {
 			element = getYouDaoElement(word);
 		}
+		if (element == null || element.size() == 0) {
+			element = getWordNetElement(word);
+		}
 
 		if (element != null && element.size() > 0) {
 			return element.html();
 		}
 		return null;
+	}
+
+	public Elements getWordNetElement(String word) {
+		String url = "http://dict.youdao.com/search?le=eng&q="
+				+ word
+				+ "&keyfrom=dict.top";
+        return getElementsByURL("div#tEETrans", url);
 	}
 
 	private Elements getIcibaELement(String word) {
