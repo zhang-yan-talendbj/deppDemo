@@ -55,6 +55,6 @@ public class IcibaVoiceService {
 		if(element!=null && element.size()>0){
 			return element.get(0).html();
 		}
-		return null;
+		return " ";
 	}
 }

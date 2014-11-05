@@ -65,4 +65,14 @@ public class AnkiSettings {
 		File file = new File(getMediaPath() + note.getWord() + "-y-rp.mp3");
 		return file.exists();
 	}
+
+    public File getUS(Note note) {
+        File file = new File(getMediaPath() + note.getWord() + "-us.mp3");
+        return file;
+    }
+
+    public File getUK(Note note) {
+        File file = new File(getMediaPath() + note.getWord() + "-uk.mp3");
+        return file;
+    }
 }

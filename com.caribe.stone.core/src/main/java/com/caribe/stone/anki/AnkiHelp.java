@@ -11,8 +11,8 @@ public class AnkiHelp {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		String property = null;
-		property = "c:/Users/yan.zhang/Documents/Anki/User 1";
-		// property = "/Users/thinkdeeply/Documents/Anki/User 1";
+//		property = "c:/Users/yan.zhang/Documents/Anki/User 1";
+		property = "/Users/thinkdeeply/Documents/Anki/User 1";
 		// property = "/Users/thinkdeeply/Documents/Anki/Fiona";
 		AnkiSettings settings = new AnkiSettings(property);
 

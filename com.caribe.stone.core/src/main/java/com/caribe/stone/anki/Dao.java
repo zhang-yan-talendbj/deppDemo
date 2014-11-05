@@ -91,6 +91,26 @@ public class Dao {
 		return result;
 	}
 
+    public List<IdObject> getTodayCard() {
+        List<IdObject> result = new LinkedList<IdObject>();
+        try {
+            Statement stat = conn.createStatement();
+            StringBuffer buf = new StringBuffer("select max(id),cid from revlog group by cid");
+
+            System.out.println("Get all word SQL: " + buf);
+            stat.execute(buf.toString());
+            ResultSet rs = stat.getResultSet();
+            while (rs.next()) {
+                result.add(new IdObject(rs.getLong(1),rs.getLong(2)));
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
 	public void close() {
 		if (conn != null) {
 			try {
@@ -100,4 +120,25 @@ public class Dao {
 			}
 		}
 	}
+
+    public List<Note> execute(String s) {
+
+        List<Note> result = new LinkedList<Note>();
+        try {
+            Statement stat = conn.createStatement();
+            stat.execute(s);
+            ResultSet rs = stat.getResultSet();
+            while (rs.next()) {
+                Note note = new Note();
+                note.setWord(rs.getString("sfld"));
+
+                result.add(note);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+        }
+
 }

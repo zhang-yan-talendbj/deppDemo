@@ -40,6 +40,9 @@ public class ExplainService {
 		if (element == null || element.size() == 0) {
 			element = getWordNetElement(word);
 		}
+        if (element == null || element.size() == 0) {
+			element = getDirectionElement(word);
+		}
 
 		if (element != null && element.size() > 0) {
 			return element.html();
@@ -60,4 +63,10 @@ public class ExplainService {
 		Elements eles = getElementsByURL(selecter, url);
 		return eles;
 	}
+
+    public Elements getDirectionElement(String word) {
+        String url = "http://dictionary.reference.com/browse/"
+                + word    ;
+        return getElementsByURL("div.def-list", url);
+    }
 }

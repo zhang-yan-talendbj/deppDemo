@@ -206,7 +206,10 @@ public class Note {
 
 	public boolean needToUpdateIndustry( ExplainService explainService) {
 		this.explainService=explainService;
-		if (this.example == null || this.example.trim().length() == 0) {
+        if("null".equals(example)) {
+            this.example=null;
+        }
+		if (this.example == null || this.example.length() == 0) {
 			return true;
 		}
 		if(tags!=null){
@@ -222,15 +225,19 @@ public class Note {
 			}
 		}
 		
-//		return aa();
-		return false;
+		return aa();
+//		return false;
 	}
 
 	private boolean aa() {
+        if(back==null || back.trim().length()==0){
+            return true;
+        }
 		if (back != null && !back.startsWith("<div class=\"caption\">")) {
-			if (!back.startsWith("<div class=\"wt-container\">") && !back.startsWith("<div class=\"trans-container\">")) {
-				// System.out.println(note.getFront());
-				String collinsExplain = explainService.getCollinsExplain(word);
+			if (!back.startsWith("<div class=\"wt-container\">") && !back.startsWith("<div class=\"trans-container\">") && !back.startsWith("<section class=\"def-pbk\">")) {
+				// System.out.println(note.getFront());              <div class="trans-container">
+                System.out.println(word);
+                String collinsExplain = explainService.getCollinsExplain(word);
 				if (collinsExplain != null && collinsExplain.trim().length() > 0) {
 					setBack(collinsExplain);
 					setExample(null);
