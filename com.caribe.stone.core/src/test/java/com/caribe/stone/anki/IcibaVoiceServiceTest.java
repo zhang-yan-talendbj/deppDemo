@@ -4,6 +4,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import java.io.File;
+
 public class IcibaVoiceServiceTest {
 
 	@Test
@@ -23,5 +25,13 @@ public class IcibaVoiceServiceTest {
 		str = buf.toString();
 		assertEquals("abcZZZ", str);
 	}
+
+    @Test
+    public void downloadPhraseMp3(){
+        IcibaVoiceService service = new IcibaVoiceService();
+        String url = service.downloadPhraseMp3("turn off");
+
+
+    }
 
 }

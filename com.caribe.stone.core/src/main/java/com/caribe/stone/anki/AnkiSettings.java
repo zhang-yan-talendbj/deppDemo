@@ -41,11 +41,21 @@ public class AnkiSettings {
 		return file.exists();
 	}
 
+    public boolean containPhraseMp3(Note note) {
+		File file = new File(getMediaPath() + note.getWord() + ".mp3");
+		return file.exists();
+	}
+
+    public File getPhraseMp3(Note note) {
+        File file = new File(getMediaPath() + note.getWord() + "-phr.mp3");
+        return file;
+    }
+
 	public boolean containYoudao(Note note) {
 		File file = new File(getMediaPath() + note.getWord() + "-yd.mp3");
 		return file.exists();
 	}
-	
+
 	public boolean containGA(Note note) {
 		File file = new File(getMediaPath() + note.getWord() + "-ga.mp3");
 		return file.exists();

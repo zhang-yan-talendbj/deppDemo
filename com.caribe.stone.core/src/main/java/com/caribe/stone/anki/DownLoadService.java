@@ -24,6 +24,7 @@ public class DownLoadService {
             URL url = null;
             try {
                 url = new URL(httpUrl);
+                System.out.println(url);
             } catch (MalformedURLException e1) {
                 System.out.println("error:" + saveFile);
                 System.out.println(e1.getMessage());

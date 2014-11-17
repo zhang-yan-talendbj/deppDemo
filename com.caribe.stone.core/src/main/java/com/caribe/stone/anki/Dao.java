@@ -126,6 +126,7 @@ public class Dao {
         List<Note> result = new LinkedList<Note>();
         try {
             Statement stat = conn.createStatement();
+            System.out.println(conn);
             stat.execute(s);
             ResultSet rs = stat.getResultSet();
             while (rs.next()) {

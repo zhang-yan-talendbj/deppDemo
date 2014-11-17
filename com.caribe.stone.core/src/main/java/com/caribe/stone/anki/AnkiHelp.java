@@ -11,6 +11,7 @@ public class AnkiHelp {
 
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		String property = null;
+
 //		property = "c:/Users/yan.zhang/Documents/Anki/User 1";
 		property = "/Users/thinkdeeply/Documents/Anki/User 1";
 		// property = "/Users/thinkdeeply/Documents/Anki/Fiona";
@@ -46,7 +47,7 @@ public class AnkiHelp {
 
 				if (note.needToUpdateExplain()) {
 					String explain = explainService.getCollinsExplain(note.getWord());
-					if (explain == null | explain.length() == 0) {
+					if (explain == null || explain.length() == 0) {
 						System.out.println("----" + note.getWord());
 						System.out.println(explain);
 					}
@@ -110,7 +111,13 @@ public class AnkiHelp {
 						}
 					}
 				}
-			}
+			}  else{
+                File phraseMp3 = settings.getPhraseMp3(note);
+              if(phraseMp3==null || !phraseMp3.exists())   {
+                  DownLoadService.httpDownload(icibaVoiceService.downloadPhraseMp3(note.getWord()), phraseMp3.getAbsolutePath());
+                }
+
+            }
 		}
 
 		System.out.println("Over!");

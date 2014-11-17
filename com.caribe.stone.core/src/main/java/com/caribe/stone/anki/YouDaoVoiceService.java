@@ -1,5 +1,6 @@
 package com.caribe.stone.anki;
 
+import java.io.File;
 import java.io.IOException;
 
 import org.jsoup.Jsoup;
@@ -15,6 +16,10 @@ public class YouDaoVoiceService {
 
     public void downloadYoudaoVoice2(Note note, String saveFile) {
         DownLoadService.httpDownload("http://dict.youdao.com/dictvoice?audio=" + note.getWord() + "&type=2", saveFile);
+    }
+
+    public static void main(String[] args) {
+        DownLoadService.httpDownload("http://dict.youdao.com/dictvoice?audio=" + "conspicuous" + "&type=1", "aa.mp3");
     }
     
 }

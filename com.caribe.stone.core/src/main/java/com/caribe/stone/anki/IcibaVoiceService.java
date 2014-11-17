@@ -57,4 +57,18 @@ public class IcibaVoiceService {
 		}
 		return " ";
 	}
+
+    public String downloadPhraseMp3(String word) {
+        Elements element = getElement(word, "a.vCri_laba");
+        if(element==null|| element.isEmpty()){
+            element=getElement(word,"a.ico_sound");
+        }
+
+        String str = element.attr("onclick");
+        if(str!=null && str.indexOf("'")>0&&str.lastIndexOf("'")>0)  {
+            String mp3Url = str.substring(str.indexOf("'") + 1, str.lastIndexOf("'"));
+            return mp3Url;
+        }
+        return null;
+    }
 }

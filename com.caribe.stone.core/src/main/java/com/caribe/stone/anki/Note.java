@@ -225,8 +225,8 @@ public class Note {
 			}
 		}
 		
-		return aa();
-//		return false;
+//		return aa();
+		return false;
 	}
 
 	private boolean aa() {
