@@ -51,7 +51,7 @@ public class IcibaVoiceService {
     }
 
 	public String getIndustry(String word) {
-		Elements element = getElement(word, "div.industry_box");
+		Elements element = getElement(word, "div.vCigen");
 		if(element!=null && element.size()>0){
 			return element.get(0).html();
 		}

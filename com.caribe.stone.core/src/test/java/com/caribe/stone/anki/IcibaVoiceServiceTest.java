@@ -11,10 +11,11 @@ public class IcibaVoiceServiceTest {
 	@Test
 	public void test() {
 		IcibaVoiceService service = new IcibaVoiceService();
-		String industry = service.getIndustry("profession");
+		String industry = service.getIndustry("affect");
 		assertNotNull(industry);
 		System.out.println(industry.length());
-	}
+        System.out.println(industry);
+    }
 
 	@Test
 	public void test1() {

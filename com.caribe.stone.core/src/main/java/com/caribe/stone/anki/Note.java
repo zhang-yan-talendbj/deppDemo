@@ -205,6 +205,7 @@ public class Note {
 	}
 
 	public boolean needToUpdateIndustry( ExplainService explainService) {
+//        example=null;//TODO
 		this.explainService=explainService;
         if("null".equals(example)) {
             this.example=null;
